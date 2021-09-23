@@ -8,5 +8,5 @@ def main():
     graphs = [Graph(percent_adoptions=[5, 10, 20, 30, 40, 60, 80, 100],
                     adopt_policies=[ROVPPV2LitePolicy, ROVPolicy, ROVPPV1LitePolicy],
                     AttackCls=SubprefixHijack,
-                    num_trials=10)]
-    Simulator().run(graphs=graphs, graph_path="/home/jmf/graphs.tar.gz")
+                    num_trials=1)]
+    Simulator(debug=True).run(graphs=graphs, graph_path="/home/jmf/graphs.tar.gz")
