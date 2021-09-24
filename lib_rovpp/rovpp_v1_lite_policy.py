@@ -53,10 +53,11 @@ class ROVPPV1LitePolicy(ROVPolicy):
             # I know this is slightly slower
             # But it is negligable, esp. cause most atks will only have 2-3 prefixes
             for subprefix in policy_self._get_incoming_subprefixes(prefix):
-                if policy_self._recv_invalid_ann(subprefix):
+                recv_invalid, from_customer = policy_self._recv_invalid_ann(subprefix)
+                if recv_invalid:
                     # You only blackhole the subprefix 
-
-                    blackholes.append(policy_self._create_blackhole(self, ann, subprefix))
+                    blackholes.append(policy_self._create_blackhole(self, ann, subprefix,
+                                                                    from_customer))
                     break
 
         # Must do here or else we change dict as we iterate. Big no no
@@ -75,15 +76,24 @@ class ROVPPV1LitePolicy(ROVPolicy):
     def _recv_invalid_ann(policy_self, subprefix):
         """Returns True if there was an invalid announcement recieved for the subprefix"""
 
+        recv_hijack_from_customers = False
+        recv_invalid = False
         for ann in policy_self.incoming_anns[subprefix]:
             if ann.roa_validity == ROAValidity.INVALID:
-                return True
-        return False
+                recv_invalid = True
+                if ann.recv_relationship == Relationships.CUSTOMERS:
+                    recv_hijack_from_customers = True
+        return recv_invalid, recv_hijack_from_customers
 
-    def _create_blackhole(policy_self, self, ann, subprefix):
+    def _create_blackhole(policy_self, self, ann, subprefix, from_customer):
         """Creates a blackhole for that announcement"""
 
         # NOTE: later change this to _deep_copy_ann but with blackhole set to true
         # Since you will have a customer ann class
-        return Blackhole(prefix=subprefix, timestamp=ann.timestamp, as_path=(self.asn,),
-                         seed_asn=self.asn, roa_validity=ROAValidity.INVALID)
+        bhold = Blackhole(prefix=subprefix,
+                          timestamp=ann.timestamp,
+                          as_path=(self.asn,),
+                          seed_asn=None,
+                          roa_validity=ROAValidity.INVALID)
+        #bhold.recv_relationship = Relationships.CUSTOMERS if from_customer else Relationships.PEERS
+        return bhold
