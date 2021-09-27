@@ -1,25 +1,40 @@
 from copy import deepcopy
+from collections import defaultdict
 
 from ipaddress import ip_network
 
-from lib_bgp_simulator import BGPPolicy, IncomingAnns, ROAValidity, ROVPolicy, Relationships
+from lib_bgp_simulator import BGPPolicy, ROAValidity, ROVPolicy, Relationships
 
-from .blackhole import Blackhole
+# subnet_of is python 3.7, not supporrted by pypy yet 
+def subnet_of(self, other):
+    return self in list(other.subnets) + [other]
 
 
 class ROVPPV1LitePolicy(ROVPolicy):
 
     name = "ROV++V1 Lite"
 
-    def _policy_propagate(policy_self, self, propagate_to, send_rels, ann, as_obj):
+    def _policy_propagate(policy_self, self, propagate_to, send_rels, ann, *args):
         """Only propagate announcements that aren't blackholes"""
 
         # Policy handled this ann for propagation (and did nothing)
-        return isinstance(ann, Blackhole)
+        return ann.blackhole
 
     def process_incoming_anns(policy_self, self, recv_relationship, reset_q=True):
         """Process all announcements that were incoming from a specific rel"""
 
+        # NOTE: check if this is actually faster with a double for loop instead
+        prefix_subprefix_dict = policy_self._get_prefix_subprefixes()
+
+        # Must deep copy before holes are counted
+        for neighbor, prefix_ann_dict in policy_self.recv_q.items():
+            for prefix, ann_list in prefix_ann_dict.items():
+                copied_anns = [x.copy() for x in ann_list]
+                ann_list.clear()
+                ann_list.extend(copied_anns)
+
+        # Holes are invalid subprefixes from the same neighbor
+        policy_self._count_holes(prefix_subprefix_dict)
 
         super(ROVPPV1LitePolicy, policy_self).process_incoming_anns(self,
                                                                     recv_relationship,
@@ -28,17 +43,49 @@ class ROVPPV1LitePolicy(ROVPolicy):
         policy_self._get_and_assign_blackholes(self)
         policy_self._reset_q(reset_q)
 
+    def _get_prefix_subprefixes(policy_self):
+        prefixes = set([])
+        for ann in policy_self.recv_q.announcements:
+            prefixes.add(ann.prefix)
+        # Do this here for speed
+        prefixes = [ip_network(x) for x in prefixes]
 
-    def _new_ann_is_better(policy_self, self, deep_ann, shallow_ann, recv_relationship: Relationships):
+        for prefix in prefixes:
+            # Supported in python3.7, not by pypy yet
+            def subnet_of(other):
+                return str(prefix) in [str(x) for x in other.subnets()] + [str(other)]
+            prefix.subnet_of = subnet_of
+
+        prefix_subprefix_dict = {x: [] for x in prefixes}
+        for outer_prefix, subprefix_list in prefix_subprefix_dict.items():
+            for prefix in prefixes:
+                if prefix.subnet_of(outer_prefix):
+                    subprefix_list.append(str(prefix))
+        # Get rid of ip_network
+        return {str(k): v for k, v in prefix_subprefix_dict.items()}
+
+    def _count_holes(policy_self, prefix_subprefix_dict):
+        """For each ann, get the number of invalid subprefixes from same neighbor"""
+
+        for neighbor, prefix_ann_dict in policy_self.recv_q.items():
+            for prefix, subprefix_list in prefix_subprefix_dict.items():
+                anns = prefix_ann_dict.get(prefix, [])
+                for ann in anns:
+                    for subprefix in subprefix_list:
+                        subprefix_anns = prefix_ann_dict.get(subprefix)
+                        for subprefix_ann in subprefix_anns:
+                            if subprefix_ann is not None and subprefix_ann.roa_validity == ROAValidity.INVALID:
+                                ann.holes.append(subprefix_ann)
+
+    def _new_ann_is_better(policy_self, self, deep_ann, shallow_ann, recv_relationship: Relationships, processed=False):
         """Assigns the priority to an announcement according to Gao Rexford"""
-
 
         # If old ann is blackhole, override with valid ann
         # NOTE that shallow ann are always valid
-        if isinstance(deep_ann, Blackhole) and not isinstance(shallow_ann, Blackhole):
+        if deep_ann is None or (deep_ann.blackhole and not shallow_ann.blackhole):
             return True
 
-        return super(ROVPPV1LitePolicy, policy_self)._new_ann_is_better(self, deep_ann, shallow_ann, recv_relationship)
+        return super(ROVPPV1LitePolicy, policy_self)._new_ann_is_better(self, deep_ann, shallow_ann, recv_relationship, processed=processed)
 
 ##############
 # Blackholes #
@@ -47,53 +94,17 @@ class ROVPPV1LitePolicy(ROVPolicy):
     def _get_and_assign_blackholes(policy_self, self):
         """Gets blackholes and assigns them"""
 
-        blackholes = []
+        blackholes_dict = defaultdict(list)
         # Below this deals with getting holes and assigning blackholes
         for prefix, ann in policy_self.local_rib.items():
-            # I know this is slightly slower
-            # But it is negligable, esp. cause most atks will only have 2-3 prefixes
-            for subprefix in policy_self._get_incoming_subprefixes(prefix):
-                recv_invalid, from_customer = policy_self._recv_invalid_ann(subprefix)
-                if recv_invalid:
-                    # You only blackhole the subprefix 
-                    blackholes.append(policy_self._create_blackhole(self, ann, subprefix,
-                                                                    from_customer))
-                    break
+            for invalid_ann in ann.holes:
+                blackholes_dict[invalid_ann.prefix].append(invalid_ann)
 
-        # Must do here or else we change dict as we iterate. Big no no
-        for blackhole in blackholes:
-            policy_self.local_rib[blackhole.prefix] = blackhole
+        for prefix, blackhole_list in blackholes_dict.items():
+            best_blackhole = None
+            for blackhole in blackhole_list:
+                if policy_self_new_ann_is_better(self, best_blackhole, blackhole, None, processed=True):
+                    best_blackhole = blackhole
+            assert best_blackhole is not None, "List should never be length zero"
 
-    def _get_incoming_subprefixes(policy_self, og_prefix):
-        """Returns all prefixes in the local rib that are a subprefix of prefix"""
-
-        ip_network_og_prefix = ip_network(og_prefix)
-
-        for prefix in policy_self.incoming_anns:
-            if ip_network(prefix).subnet_of(ip_network_og_prefix):
-                yield prefix
-
-    def _recv_invalid_ann(policy_self, subprefix):
-        """Returns True if there was an invalid announcement recieved for the subprefix"""
-
-        recv_hijack_from_customers = False
-        recv_invalid = False
-        for ann in policy_self.incoming_anns[subprefix]:
-            if ann.roa_validity == ROAValidity.INVALID:
-                recv_invalid = True
-                if ann.recv_relationship == Relationships.CUSTOMERS:
-                    recv_hijack_from_customers = True
-        return recv_invalid, recv_hijack_from_customers
-
-    def _create_blackhole(policy_self, self, ann, subprefix, from_customer):
-        """Creates a blackhole for that announcement"""
-
-        # NOTE: later change this to _deep_copy_ann but with blackhole set to true
-        # Since you will have a customer ann class
-        bhold = Blackhole(prefix=subprefix,
-                          timestamp=ann.timestamp,
-                          as_path=(self.asn,),
-                          seed_asn=None,
-                          roa_validity=ROAValidity.INVALID)
-        #bhold.recv_relationship = Relationships.CUSTOMERS if from_customer else Relationships.PEERS
-        return bhold
+            policy_self.local_rib[best_blackhole.prefix] = best_blackhole.copy(blackhole=True, traceback_end=True)

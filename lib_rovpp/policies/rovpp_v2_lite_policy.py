@@ -2,9 +2,8 @@ from copy import deepcopy
 
 from ipaddress import ip_network
 
-from lib_bgp_simulator import BGPPolicy, IncomingAnns, ROAValidity, Relationships
+from lib_bgp_simulator import BGPPolicy, ROAValidity, Relationships
 
-from .blackhole import Blackhole
 from .rovpp_v1_lite_policy import ROVPPV1LitePolicy
 
 
@@ -19,7 +18,7 @@ class ROVPPV2LitePolicy(ROVPPV1LitePolicy):
         be sent only to customers
         """
 
-        if isinstance(ann, Blackhole):
+        if ann.blackhole:
             if (ann.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]
                 and propagate_to == Relationships.CUSTOMERS):
 

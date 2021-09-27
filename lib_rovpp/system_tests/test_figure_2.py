@@ -9,13 +9,13 @@ import pytest
 
 from lib_caida_collector import PeerLink, CustomerProviderLink as CPLink
 
-from ..enums import ASNs
-from .run_example import run_example
-from .hijack_local_rib import HijackLocalRib
-from ..simulator.attacks import SubprefixHijack
+#from ..enums import ASNs
+#from .run_example import run_example
+#from .hijack_local_rib import HijackLocalRib
+#from ..simulator.attacks import SubprefixHijack
 
-from ..engine.bgp_policy import BGPPolicy
-from ..engine.bgp_ribs_policy import BGPRIBSPolicy
+#from ..engine.bgp_policy import BGPPolicy
+#from ..engine.bgp_ribs_policy import BGPRIBSPolicy
 
 
 __author__ = "Justin Furuness"
@@ -26,8 +26,8 @@ __email__ = "jfuruness@gmail.com"
 __status__ = "Development"
 
 
-
-class Test_Figure_2(Graph_Tester):
+@pytest.mark.skip(reason="Reynaldo working on it")
+class Test_Figure_2:
     """Tests all example graphs within our paper."""
 
     def test_figure_2a(self):

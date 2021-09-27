@@ -1,4 +1,4 @@
-from lib_bgp_simulator import PrefixHijack, SubprefixHijack, UnnanouncedHijack
+from lib_bgp_simulator import PrefixHijack, SubprefixHijack, UnannouncedPrefixHijack
 
 from .rovpp_ann import ROVPPAnn
 
@@ -12,7 +12,7 @@ class ROVPPSubprefixHijack(SubprefixHijack):
 
     AnnCls = ROVPPAnn
 
-class ROVPPUnnanouncedPrefixHijack(UnnanouncedPrefixHijack):
+class ROVPPUnannouncedPrefixHijack(UnannouncedPrefixHijack):
     """Unannounced Prefix hijack with ROV++ ann class"""
 
     AnnCls = ROVPPAnn
