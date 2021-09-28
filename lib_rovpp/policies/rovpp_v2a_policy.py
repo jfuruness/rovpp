@@ -1,4 +1,4 @@
-from .rovpp_v2_lite_policy import ROVPPV2aLitePolicy
+from .rovpp_v2a_lite_policy import ROVPPV2aLitePolicy
 
 class ROVPPV2aPolicy(ROVPPV2aLitePolicy):
 
