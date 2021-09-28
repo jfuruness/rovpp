@@ -22,6 +22,6 @@ class ROVPPV2LitePolicy(ROVPPV1LitePolicy):
             if (ann.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]
                 and propagate_to == Relationships.CUSTOMERS):
 
-               as_obj.policy.incoming_anns[ann.prefix].append(ann)
+                policy_self._add_ann_to_q(self, as_obj, ann, propagate_to, send_rels)
 
             return True

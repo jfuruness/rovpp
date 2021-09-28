@@ -26,9 +26,9 @@ def _new_ann_is_better(policy_self, self, deep_ann, shallow_ann, recv_relationsh
 def _best_by_hole_size(policy_self, deep_ann, second_ann):
     """Best by hole size"""
 
-    if len(deep_ann.holes) > len(second_ann.hole_size):
+    if len(deep_ann.temp_holes) > len(second_ann.temp_holes):
         return True
-    elif len(deep_ann.holes) < len(second_ann.hole_size):
+    elif len(deep_ann.temp_holes) < len(second_ann.temp_holes):
         return False
     else:
         return None
