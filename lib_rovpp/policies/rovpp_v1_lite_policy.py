@@ -42,15 +42,6 @@ class ROVPPV1LitePolicy(ROVPolicy):
         # Move holes from temp_holes and resets q
         policy_self._reset_q(reset_q)
 
-    def _new_ann_is_better(policy_self, self, deep_ann, shallow_ann, recv_relationship: Relationships, processed=False):
-        """Assigns the priority to an announcement according to Gao Rexford"""
-
-        # If old ann is blackhole, override with valid ann
-        # NOTE that shallow ann are always valid
-        if deep_ann is None or (deep_ann.blackhole and not shallow_ann.blackhole):
-            return True
-
-        return super(ROVPPV1LitePolicy, policy_self)._new_ann_is_better(self, deep_ann, shallow_ann, recv_relationship, processed=processed)
 
 ##############
 # Blackholes #
