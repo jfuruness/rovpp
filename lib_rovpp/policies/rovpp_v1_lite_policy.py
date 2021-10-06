@@ -50,15 +50,15 @@ class ROVPPV1LitePolicy(ROVPolicy):
     def _get_and_assign_blackholes(policy_self, self, shallow_blackholes_dict, propagation_round):
         """Gets blackholes and assigns them"""
 
-        for prefix, blackhole_list in shallow_blackholes_dict.items():
-            best_blackhole = policy_self.local_rib.get(prefix)
+        # For any announcement we have that has blackholes
+        # TODO fix _info
+        for ann in policy_self.local_rib._info.values():
+            if hasattr(ann, "temp_holes"):
+                # For every hole/invalid_subprefix
+                for invalid_subprefix_ann in ann.temp_holes:
+                    assert isinstance(invalid_subprefix_ann, ROVPPAnn)
 
-            # We will never override a blackhole from a previous relationship
-            # But later rounds in propagation may have leftovers
-            if best_blackhole is None or propagation_round > 0:
-                assert len(blackhole_list) > 0, "List should not be zero"
-                for blackhole in blackhole_list:
-                    if policy_self._new_ann_is_better(self, best_blackhole, blackhole, None, processed=True):
-                        best_blackhole = blackhole
-                    
-                policy_self.local_rib[best_blackhole.prefix] = best_blackhole.copy(blackhole=True, traceback_end=True)
+                    # Make hole and add to RIB
+                    blackhole = invalid_subprefix_ann.copy(blackhole=True,
+                                                           traceback_end=True)
+                    self.local_rib.add_ann(blackhole)

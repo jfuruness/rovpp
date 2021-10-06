@@ -68,7 +68,7 @@ def run_example(peers=list(),
     if local_ribs:
         for as_obj in engine:
             print("ASN:", as_obj.asn)
-            for prefix, ann in as_obj.policy.local_rib.items():
+            for prefix, ann in as_obj.policy.local_rib.prefix_anns():
                 print(ann)
             if as_path_check: 
                 as_obj.policy.local_rib.assert_eq(local_ribs[as_obj.asn])
