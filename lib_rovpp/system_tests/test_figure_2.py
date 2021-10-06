@@ -95,8 +95,6 @@ def run_topology(attack_type, adopt_policy, ribs):
     
     # Create local ribs
     local_ribs = create_local_ribs(ribs)
-    print("Test print local ribs") # TODO : Delete after done debugging
-    print(local_ribs)
    
     # Run test checks
     run_example(peers=peers,
@@ -121,8 +119,6 @@ class Test_Figure_2:
         attack_type = ROVPPSubprefixHijack().announcements
         adopt_policy = ROVPolicy
 
-        # TODO : Review the ROVpp ASes 77 and 78
-        # TODO : What does the victim do with subprefix (is it origin)?
         exr_output = [{"asn": 44,
                        "prefix": subprefix_val,
                        "as_path": (44, attacker_asn),
@@ -175,7 +171,6 @@ class Test_Figure_2:
         run_topology(attack_type, adopt_policy, exr_output)
 
         
-    @pytest.mark.skip(reason="Reynaldo working on it")
     def test_figure_2b(self):
         # TODO : Why ROVpp ASes drop themselves from the path with the subprefix?
         exr_output = [{"asn": 44,
