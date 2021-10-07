@@ -18,7 +18,7 @@ def shallow_assert_equal_ribs(rib1, rib2):
     received_from_asn (i.e. one ASN deep into the as_path)
     """
     # Done this way to get specifics about what's different
-    for prefix, ann in rib1.items():
+    for prefix, ann in rib1.prefix_anns():
         rib2_ann = rib2[prefix]
         assert rib2_ann.prefix == ann.prefix, f"{rib2_ann}, {ann}"
         assert rib2_ann.origin == ann.origin, f"{rib2_ann}, {ann}"
@@ -28,7 +28,7 @@ def shallow_assert_equal_ribs(rib1, rib2):
             assert rib2_ann.as_path[1] == ann.as_path[1], f"{rib2_ann}, {ann}"
         assert rib2_ann.timestamp == ann.timestamp, f"{rib2_ann}, {ann}"
     for prefix, ann in rib2.items():
-        rib1_ann = rib1[prefix]
+        rib1_ann = rib1.get_ann(prefix)
         assert rib1_ann.prefix == ann.prefix, f"{rib1_ann}, {ann}"
         assert rib1_ann.origin == ann.origin, f"{rib1_ann}, {ann}"
         if rib1_ann.recv_relationship  == Relationships.ORIGIN:
@@ -68,9 +68,10 @@ def run_example(peers=list(),
     if local_ribs:
         for as_obj in engine:
             print("ASN:", as_obj.asn)
-            for prefix, ann in as_obj.policy.local_rib.items():
+            for prefix, ann in as_obj.policy.local_rib.prefix_anns():
                 print(ann)
             if as_path_check: 
-                as_obj.policy.local_rib.assert_eq(local_ribs[as_obj.asn])
+                as_obj.policy.local_rib == local_ribs[as_obj.asn]
             else:
                 shallow_assert_equal_ribs(as_obj.policy.local_rib, local_ribs[as_obj.asn])
+

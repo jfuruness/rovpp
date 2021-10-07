@@ -6,7 +6,6 @@ from lib_caida_collector import PeerLink, CustomerProviderLink as CPLink
 from .run_example import run_example
 
 from lib_bgp_simulator.enums import ASNs, Prefixes, Timestamps, ROAValidity, Relationships
-from lib_bgp_simulator.engine import LocalRib
 # from lib_bgp_simulator.announcement import Announcement
 from ..attacks.rovpp_ann import ROVPPAnn
 
@@ -60,10 +59,10 @@ def create_local_ribs(exr_output):
         # Create LocalRib items
         if ribs is None:
             # Create a new LocalRib
-            ribs = LocalRib({ann_prefix: ROVPPAnn(as_path=path,
-                                                  recv_relationship=relationship,
-                                                  **victim_or_attacker_kwargs[ann_prefix])
-                            }) 
+            ribs = dict({ann_prefix: ROVPPAnn(as_path=path,
+					      recv_relationship=relationship,
+					      **victim_or_attacker_kwargs[ann_prefix])
+			}) 
         else:
             # Add to existing LocalRib
             ribs[ann_prefix] = ROVPPAnn(as_path=path,

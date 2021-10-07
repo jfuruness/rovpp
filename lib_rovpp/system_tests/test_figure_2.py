@@ -13,7 +13,6 @@ from .run_example import run_example
 
 from lib_bgp_simulator.enums import ASNs, Prefixes, Timestamps, ROAValidity, Relationships
 #from lib_bgp_simulator.simulator.attacks import ROVPPSubprefixHijack
-from lib_bgp_simulator.engine import LocalRib
 from lib_bgp_simulator.engine.bgp_policy import BGPPolicy
 from lib_bgp_simulator.engine.bgp_ribs_policy import BGPRIBSPolicy
 # from lib_bgp_simulator.announcement import Announcement
@@ -170,7 +169,7 @@ class Test_Figure_2:
 
         run_topology(attack_type, adopt_policy, exr_output)
 
-        
+    @pytest.mark.skip    
     def test_figure_2b(self):
         # TODO : Why ROVpp ASes drop themselves from the path with the subprefix?
         exr_output = [{"asn": 44,
@@ -239,7 +238,7 @@ class Test_Figure_2:
                      adopt_policy=ROVPPV1Policy, 
                      ribs=exr_output)
 
-
+    @pytest.mark.skip
     def test_figure_2b_v1_lite(self):
         # Define the Local Ribs
         exr_output = [{"asn": 44,
