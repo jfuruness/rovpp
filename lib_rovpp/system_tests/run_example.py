@@ -8,7 +8,7 @@ from lib_bgp_simulator.engine.simulator_engine import SimulatorEngine
 # Functions
 #############################
 
-def shallow_assert_equal_ribs(rib1, rib2):
+def shallow_assert_equal_ribs(asn, raw_rib, expected_rib):
     """
     These checks are mostly from lib_bgp_simulator local_ribs.py assert_eq method.
     https://github.com/jfuruness/lib_bgp_simulator
@@ -19,21 +19,28 @@ def shallow_assert_equal_ribs(rib1, rib2):
     """
 
     # Done this way to get specifics about what's different
-    for prefix, ann in rib1.prefix_anns():
-        rib2_ann = rib2[prefix]
-        assert rib2_ann.prefix == ann.prefix, f"{rib2_ann}, {ann}"
-        #assert rib2_ann.origin == ann.origin, f"{rib2_ann}, {ann}"
-        assert rib2_ann.as_path[:2] == ann.as_path[:2], f"{rib2_ann}, {ann}  {ann.roa_validity} blackhole: {ann.blackhole}"
-        #assert rib2_ann.timestamp == ann.timestamp, f"{rib2_ann}, {ann}"
-    for prefix, ann in rib2.items():
-        rib1_ann = rib1.get_ann(prefix)
-        if rib1_ann is None:
-            assert False, f"Simulator doesn't have {ann} {rib1}"
+    for prefix, ann in raw_rib.prefix_anns():
+        expected_rib_ann = expected_rib.get(prefix, None)
+        if expected_rib_ann is None:
+            assert False, f"Simulator should not have {prefix} in ASN {asn}"
+        assert expected_rib_ann.prefix == ann.prefix, f"Expected: {expected_rib_ann}\n Raw: {ann}"
+        #assert expected_rib_ann.origin == ann.origin, f"Expected: {expected_rib_ann}\n Raw: {ann}"
+        for i in range(len((expected_rib_ann.as_path[:2]))):
+                assert ann.as_path[i] == expected_rib_ann.as_path[i], f"Expected: {expected_rib_ann}\n Raw: {ann}"
+        #assert expected_rib_ann.timestamp == ann.timestamp, f"Expected: {expected_rib_ann}\n Raw: {ann}"
+        assert expected_rib_ann.recv_relationship == ann.recv_relationship, f"Expected: {expected_rib_ann}\n Raw: {ann}"
+
+    for prefix, ann in expected_rib.items():
+        raw_rib_ann = raw_rib.get_ann(prefix)
+        if raw_rib_ann is None:
+            assert False, f"Simulator is missing {prefix} for ASN {asn}"
         else:
-            assert rib1_ann.prefix == ann.prefix, f"{rib1_ann}, {ann}"
-            #assert rib1_ann.origin == ann.origin, f"{rib1_ann}, {ann}"
-            assert rib1_ann.as_path[:2] == ann.as_path[:2], f"{rib1_ann}, {ann}"
-            #assert rib1_ann.timestamp == ann.timestamp, f"{rib1_ann}, {ann}"
+            assert raw_rib_ann.prefix == ann.prefix, f"Expected: {ann}\n Raw: {raw_rib_ann}"
+            #assert raw_rib_ann.origin == ann.origin, f"Expected: {ann}\n Raw: {raw_rib_ann}"
+            for i in range(len((ann.as_path[:2]))):
+                assert raw_rib_ann.as_path[i] == ann.as_path[i], f"Expected: {ann}\n Raw: {raw_rib_ann}"
+            #assert raw_rib_ann.timestamp == ann.timestamp, f"Expected: {ann}\n Raw: {raw_rib_ann}"
+            assert raw_rib_ann.recv_relationship == ann.recv_relationship, f"Expected: {ann}\n Raw: {raw_rib_ann}"
 
 
 #############################
@@ -71,5 +78,5 @@ def run_example(peers=list(),
             if as_path_check: 
                 as_obj.policy.local_rib == local_ribs[as_obj.asn]
             else:
-                shallow_assert_equal_ribs(as_obj.policy.local_rib, local_ribs[as_obj.asn])
+                shallow_assert_equal_ribs(as_obj.asn, as_obj.policy.local_rib, local_ribs[as_obj.asn])
 
