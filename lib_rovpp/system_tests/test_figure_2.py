@@ -88,7 +88,7 @@ def run_topology(attack_type, adopt_policy, ribs):
     adopting_ases = [77, 78]
     as_policies = dict()
     for bgp_as in bgp_ases:
-        as_policies[bgp_as] = BGPRIBSPolicy
+        as_policies[bgp_as] = BGPPolicy
     for adopting_as in adopting_ases:
         as_policies[adopting_as] = adopt_policy
     
@@ -190,25 +190,25 @@ class Test_Figure_2:
                        "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 77,
                        "prefix": subprefix_val,
-                       "as_path": (44, attacker_asn),
+                       "as_path": (77, 44, attacker_asn),
                        "recv_relationship": Relationships.PROVIDERS,
                        "blackhole": True},
                       {"asn": 78,
                        "prefix": prefix_val,
-                       "as_path": (78, 44, victim_asn),
+                       "as_path": (78, 88, 86, victim_asn),
                        "recv_relationship": Relationships.PROVIDERS},
-                      {"asn": 78,
-                       "prefix": subprefix_val,
-                       "as_path": (78, 88, 86, victim_asn) ,
-                       "recv_relationship": Relationships.PROVIDERS},
+                      #{"asn": 78,
+                      # "prefix": subprefix_val,
+                      # "as_path": (78, 88, 86, victim_asn) ,
+                      # "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 12,
                        "prefix": prefix_val,
                        "as_path": (12, 78, 44, victim_asn),
                        "recv_relationship": Relationships.PROVIDERS},
-                      {"asn": 12,
-                       "prefix": subprefix_val,
-                       "as_path": (12, 78, 88, 86, victim_asn),
-                       "recv_relationship": Relationships.PROVIDERS},
+                      #{"asn": 12,
+                      # "prefix": subprefix_val,
+                      # "as_path": (12, 78, 88, 86, victim_asn),
+                      # "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 88,
                        "prefix": prefix_val,
                        "as_path": (88, 86, victim_asn),
@@ -258,7 +258,7 @@ class Test_Figure_2:
                        "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 77,
                        "prefix": subprefix_val,
-                       "as_path": (44, attacker_asn),
+                       "as_path": (77, 44, attacker_asn),
                        "recv_relationship": Relationships.PROVIDERS,
                        "blackhole": True},
                       {"asn": 78,
@@ -267,7 +267,7 @@ class Test_Figure_2:
                        "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 78,
                        "prefix": subprefix_val,
-                       "as_path": (44, attacker_asn),
+                       "as_path": (78, 44, attacker_asn),
                        "recv_relationship": Relationships.PROVIDERS,
                        "blackhole": True},
                       {"asn": 12,

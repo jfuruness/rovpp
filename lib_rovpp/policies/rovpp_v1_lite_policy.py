@@ -35,8 +35,7 @@ class ROVPPV1LitePolicy(ROVPolicy):
                                                                     recv_relationship,
                                                                     reset_q=False)
 
-        policy_self._get_and_assign_blackholes(self, shallow_blackholes, propagation_round)
-
+        policy_self._get_and_assign_blackholes(self, shallow_blackholes, recv_relationship)
 
         attack.remove_temp_holes(policy_self)
         # Move holes from temp_holes and resets q
@@ -47,18 +46,26 @@ class ROVPPV1LitePolicy(ROVPolicy):
 # Blackholes #
 ##############
 
-    def _get_and_assign_blackholes(policy_self, self, shallow_blackholes_dict, propagation_round):
+    def _get_and_assign_blackholes(policy_self, self, shallow_blackholes_dict, recv_relationship):
         """Gets blackholes and assigns them"""
 
         # For any announcement we have that has blackholes
         # TODO fix _info
+
+        blackholes = []
         for ann in policy_self.local_rib._info.values():
             if hasattr(ann, "temp_holes"):
                 # For every hole/invalid_subprefix
                 for invalid_subprefix_ann in ann.temp_holes:
-                    assert isinstance(invalid_subprefix_ann, ROVPPAnn)
+                    #assert isinstance(invalid_subprefix_ann, ROVPPAnn)
 
                     # Make hole and add to RIB
-                    blackhole = invalid_subprefix_ann.copy(blackhole=True,
-                                                           traceback_end=True)
-                    self.local_rib.add_ann(blackhole)
+                    bhole = policy_self._deep_copy_ann(self,
+                                                       invalid_subprefix_ann,
+                                                       recv_relationship,
+                                                       blackhole=True,
+                                                       traceback_end=True)
+                    blackholes.append(bhole)
+        # must be done this way so dict doesn't change size during iteratoin
+        for blackhole in blackholes:
+            policy_self.local_rib.add_ann(blackhole)

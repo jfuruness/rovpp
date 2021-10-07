@@ -13,7 +13,9 @@ class ROVPPAnn(Announcement):
         # Subprefix includes itself
         # Invalid subprefixes from same neighbor
         self.holes = kwargs.pop("holes", [])
-        kwargs.pop("temp_holes", None)
+        temp_holes = kwargs.pop("temp_holes", None)
+        if temp_holes is not None:
+            self.temp_holes = temp_holes
 
         super(ROVPPAnn, self).__init__(*args, **kwargs)
 

@@ -36,7 +36,13 @@ class ROVPPSubprefixHijack(ROVPPAttack, SubprefixHijack):
             for victim_ann in victim_anns:
                 victim_ann.temp_holes.append(ann)
                 shallow_invalid_anns.append(ann)
-            
+
+        for ann in policy_self.recv_q._info[self.victim_prefix]:
+            # as path index 0 because this is a shallow announcement
+            # 0th in the path is the neighbor since we are pulling 
+            # from the neighbors local rib
+            ann.temp_holes = tuple(ann.temp_holes)
+           
         if shallow_invalid_anns:
             return {self.attacker_prefix: shallow_invalid_anns}
         else:
@@ -48,7 +54,7 @@ class ROVPPSubprefixHijack(ROVPPAttack, SubprefixHijack):
         victim_pref_ann = policy_self.local_rib.get_ann(self.victim_prefix)
         try:
             victim_pref_ann.holes = victim_pref_ann.temp_holes
-            delattr(victim_prefix_ann, "temp_holes")
+            delattr(victim_pref_ann, "temp_holes")
         # Victim ann can be None or have no holes
         except AttributeError:
             pass

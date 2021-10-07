@@ -17,6 +17,7 @@ def shallow_assert_equal_ribs(rib1, rib2):
     This version doesn't check the entire as_path, but rather just the 
     received_from_asn (i.e. one ASN deep into the as_path)
     """
+
     # Done this way to get specifics about what's different
     for prefix, ann in rib1.prefix_anns():
         rib2_ann = rib2[prefix]
@@ -30,7 +31,7 @@ def shallow_assert_equal_ribs(rib1, rib2):
     for prefix, ann in rib2.items():
         rib1_ann = rib1.get_ann(prefix)
         if rib1_ann is None:
-            assert False, f"Simulator doesn't have {ann}"
+            assert False, f"Simulator doesn't have {ann} {rib1}"
         else:
             assert rib1_ann.prefix == ann.prefix, f"{rib1_ann}, {ann}"
             assert rib1_ann.origin == ann.origin, f"{rib1_ann}, {ann}"
