@@ -4,4 +4,4 @@ class ROVPPV2aPolicy(ROVPPV2aLitePolicy):
 
     name = "ROV++V2a"
 
-    from .lite_converter import _new_ann_is_better, _best_by_hole_size
+    from .lite_converter import _new_ann_is_better, _new_hole_size_is_smaller
