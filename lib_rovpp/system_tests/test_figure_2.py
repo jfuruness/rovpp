@@ -169,7 +169,7 @@ class Test_Figure_2:
 
         run_topology(attack_type, adopt_policy, exr_output)
 
-    @pytest.mark.skip
+
     def test_figure_2b(self):
         # TODO : Why ROVpp ASes drop themselves from the path with the subprefix?
         exr_output = [{"asn": 44,
