@@ -59,10 +59,10 @@ def create_local_ribs(exr_output):
         # Create LocalRib items
         if ribs is None:
             # Create a new LocalRib
-            ribs = dict({ann_prefix: ROVPPAnn(as_path=path,
-					      recv_relationship=relationship,
-					      **victim_or_attacker_kwargs[ann_prefix])
-			}) 
+            ribs = {ann_prefix: ROVPPAnn(as_path=path,
+                                         recv_relationship=relationship,
+                                         **victim_or_attacker_kwargs[ann_prefix])
+                   }
         else:
             # Add to existing LocalRib
             ribs[ann_prefix] = ROVPPAnn(as_path=path,
