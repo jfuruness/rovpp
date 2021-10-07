@@ -22,24 +22,18 @@ def shallow_assert_equal_ribs(rib1, rib2):
     for prefix, ann in rib1.prefix_anns():
         rib2_ann = rib2[prefix]
         assert rib2_ann.prefix == ann.prefix, f"{rib2_ann}, {ann}"
-        assert rib2_ann.origin == ann.origin, f"{rib2_ann}, {ann}"
-        if rib2_ann.recv_relationship  == Relationships.ORIGIN:
-            assert rib2_ann.as_path[0] == ann.as_path[0], f"{rib2_ann}, {ann}"
-        else:
-            assert rib2_ann.as_path[1] == ann.as_path[1], f"{rib2_ann}, {ann}"
-        assert rib2_ann.timestamp == ann.timestamp, f"{rib2_ann}, {ann}"
+        #assert rib2_ann.origin == ann.origin, f"{rib2_ann}, {ann}"
+        assert rib2_ann.as_path[:2] == ann.as_path[:2], f"{rib2_ann}, {ann}  {ann.roa_validity} blackhole: {ann.blackhole}"
+        #assert rib2_ann.timestamp == ann.timestamp, f"{rib2_ann}, {ann}"
     for prefix, ann in rib2.items():
         rib1_ann = rib1.get_ann(prefix)
         if rib1_ann is None:
             assert False, f"Simulator doesn't have {ann} {rib1}"
         else:
             assert rib1_ann.prefix == ann.prefix, f"{rib1_ann}, {ann}"
-            assert rib1_ann.origin == ann.origin, f"{rib1_ann}, {ann}"
-            if rib1_ann.recv_relationship  == Relationships.ORIGIN:
-                assert rib1_ann.as_path[0] == ann.as_path[0], f"{rib1_ann}, {ann}"
-            else:
-                assert rib1_ann.as_path[1] == ann.as_path[1], f"{rib1_ann}, {ann}"
-            assert rib1_ann.timestamp == ann.timestamp, f"{rib1_ann}, {ann}"
+            #assert rib1_ann.origin == ann.origin, f"{rib1_ann}, {ann}"
+            assert rib1_ann.as_path[:2] == ann.as_path[:2], f"{rib1_ann}, {ann}"
+            #assert rib1_ann.timestamp == ann.timestamp, f"{rib1_ann}, {ann}"
 
 
 #############################
