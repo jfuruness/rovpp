@@ -83,7 +83,7 @@ def run_topology(attack_type, rov_adopting_ases, rovpp_adopt_policy, rovpp_adopt
         as_policies[bgp_as] = BGPRIBSPolicy
     for rov_adopting_as in rov_adopting_ases:
         as_policies[rov_adopting_as] = ROVPolicy
-    for adopting_as in rov_adopting_ases:
+    for adopting_as in rovpp_adopting_ases:
         as_policies[adopting_as] = rovpp_adopt_policy
     
     # Create local ribs
