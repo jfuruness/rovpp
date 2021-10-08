@@ -81,11 +81,14 @@ def run_topology(attack_type, rov_adopting_ases, rovpp_adopt_policy, rovpp_adopt
     as_policies = dict()
     for bgp_as in bgp_ases:
         as_policies[bgp_as] = BGPRIBSPolicy
+        print(f"AS: {bgp_as}, Policy: {as_policies[bgp_as]}")
     for rov_adopting_as in rov_adopting_ases:
         as_policies[rov_adopting_as] = ROVPolicy
+        print(f"AS: {rov_adopting_as}, Policy: {as_policies[rov_adopting_as]}")
     for adopting_as in rovpp_adopting_ases:
         as_policies[adopting_as] = rovpp_adopt_policy
-    
+        print(f"AS: {adopting_as}, Policy: {as_policies[adopting_as]}")
+
     # Create local ribs
     local_ribs = create_local_ribs(ribs)
 
@@ -108,11 +111,12 @@ class Test_Figure_3:
     """
     Tests all example graphs within our paper.
     """
-    def test_figure_3a(self):
+    @pytest.mark.parametrize("adopt_pol", [ROVPPV1Policy, ROVPPV1LitePolicy])
+    def test_figure_3a(self, adopt_pol):
         # Define Attack type and adoption policy
         attack_type = ROVPPSubprefixHijack().announcements
         rov_adopting_ases = [32, 33]
-        rovpp_adopt_policy = ROVPolicy
+        rovpp_adopt_policy = adopt_pol 
         rovpp_adopting_ases = [77]
 
         exr_output = [{"asn": 32,
@@ -173,7 +177,7 @@ class Test_Figure_3:
                       {"asn": 11,
                        "prefix": subprefix_val,
                        "origin": attacker_asn,
-                       "as_path": (11, 77),
+                       "as_path": (11, 55),
                        "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 55,
                        "prefix": subprefix_val,
@@ -202,16 +206,16 @@ class Test_Figure_3:
                        "recv_relationship": Relationships.ORIGIN},
                       {"asn": 77,
                        "prefix": subprefix_val,
-                       "origin": 64512,
+                       "origin": attacker_asn,
                        "as_path": (77, 44),
-                       "recv_relationship": Relationships.PROVIDERS},
+                       "recv_relationship": Relationships.PROVIDERS,
+                       "blackhole": True},
              ]
         run_topology(attack_type, rov_adopting_ases, rovpp_adopt_policy, rovpp_adopting_ases, exr_output)
 
 
     # TODO : When v3 is implemented add it to this test.
-    #@pytest.mark.parametrize("adopt_pol", [ROVPPV2Policy, ROVPPV2aPolicy])
-    @pytest.mark.parametrize("adopt_pol", [ROVPPV2Policy])
+    @pytest.mark.parametrize("adopt_pol", [ROVPPV2Policy, ROVPPV2aPolicy])
     def test_figure_3b(self, adopt_pol):
         # define attack type and adoption policy
         attack_type = ROVPPSubprefixHijack().announcements
@@ -276,9 +280,10 @@ class Test_Figure_3:
                        "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 11,
                        "prefix": subprefix_val,
-                       "origin": 64512,
+                       "origin": attacker_asn,
                        "as_path": (11, 77),
-                       "recv_relationship": Relationships.PROVIDERS},
+                       "recv_relationship": Relationships.PROVIDERS,
+                       "blackhole": True},
                       {"asn": 55,
                        "prefix": subprefix_val,
                        "origin": attacker_asn,
@@ -311,16 +316,12 @@ class Test_Figure_3:
                        "recv_relationship": Relationships.PROVIDERS,
                        "blackhole": True},
                       # 32 rejects the blackhole announcement as invalid
-                      #{"asn": 32,
-                      # "prefix": subprefix_val,
-                      # "origin": attacker_asn,
-                      # "as_path": (32, 11),
-                      # "recv_relationship": Relationships.PROVIDERS},
                       {"asn": 33,
                        "prefix": subprefix_val,
                        "origin": attacker_asn,
                        "as_path": (33, 11),
-                       "recv_relationship": Relationships.PROVIDERS},
+                       "recv_relationship": Relationships.PROVIDERS,
+                       "blackhole": True},
              ]
         run_topology(attack_type, rov_adopting_ases, rovpp_adopt_policy, rovpp_adopting_ases, exr_output)
 
