@@ -5,50 +5,47 @@ from ipaddress import ip_network
 
 from lib_bgp_simulator import BGPPolicy, ROAValidity, ROVPolicy, Relationships
 
-def _new_ann_is_better(policy_self,
-                       self,
-                       current_best_ann,
-                       current_best_ann_processed,
-                       new_ann,
-                       new_ann_processed,
-                       recv_relationship: Relationships):
+def _new_ann_better(policy_self,
+                    self,
+                    current_ann,
+                    current_processed,
+                    default_current_recv_rel,
+                    new_ann,
+                    new_processed,
+                    default_new_recv_rel):
     """Assigns the priority to an announcement according to Gao Rexford
 
     NOTE: processed is processed for second ann"""
 
-    assert self.asn not in new_ann.as_path, "Should have been removed in ann validation func"
-
-    new_rel_is_better = policy_self._new_relationship_is_better(current_best_ann,
-                                                                current_best_ann_processed,
-                                                                new_ann,
-                                                                new_ann_processed,
-                                                                recv_relationship)
-    if new_rel_is_better is not None:
-        return new_rel_is_better
+    new_rel_better = policy_self._new_rel_better(current_ann,
+                                                 current_processed,
+                                                 default_current_recv_rel,
+                                                 new_ann,
+                                                 new_processed,
+                                                 default_new_recv_rel)
+    if new_rel_better is not None:
+        return new_rel_better
     else:
-        best_by_hole_size = policy_self._new_hole_size_is_smaller(current_best_ann, new_ann)
-        if best_by_hole_size is not None:
-            return best_by_hole_size
+        new_holes_smaller = policy_self._new_holes_smaller(current_ann, new_ann)
+        if new_holes_smaller is not None:
+            return new_holes_smaller
         else:
-            return policy_self._new_as_path_ties_is_better(self,
-                                                           current_best_ann,
-                                                           current_best_ann_processed,
-                                                           new_ann,
-                                                           new_ann_processed)
+            return policy_self._new_as_path_ties_better(current_ann,
+                                                        current_ann_processed,
+                                                        new_ann,
+                                                        new_ann_processed)
 
 
-
-
-def _new_hole_size_is_smaller(policy_self, current_best_ann, new_ann):
+def _new_holes_smaller(policy_self, current_ann, new_ann):
     """Best by hole size"""
 
     # Holes aren't counted for this prefix
-    if not hasattr(current_best_ann, "temp_holes"):
+    if not hasattr(current_ann, "temp_holes"):
         return None
 
-    if len(current_best_ann.temp_holes) > len(new_ann.temp_holes):
+    if len(current_ann.temp_holes) > len(new_ann.temp_holes):
         return True
-    elif len(current_best_ann.temp_holes) < len(new_ann.temp_holes):
+    elif len(current_ann.temp_holes) < len(new_ann.temp_holes):
         return False
     else:
         return None
