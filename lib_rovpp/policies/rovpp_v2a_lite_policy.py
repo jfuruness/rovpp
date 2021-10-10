@@ -2,6 +2,8 @@ from .rovpp_v2_lite_policy import ROVPPV2LitePolicy
 
 class ROVPPV2aLitePolicy(ROVPPV2LitePolicy):
 
+    __slots__ = []
+
     name = "ROV++V2a Lite"
 
     def _policy_propagate(*args, **kwargs):

@@ -13,10 +13,10 @@ from .run_example import run_example
 
 from lib_bgp_simulator.enums import ASNs, Prefixes, Timestamps, ROAValidity, Relationships
 #from lib_bgp_simulator.simulator.attacks import ROVPPSubprefixHijack
-from lib_bgp_simulator.engine.bgp_policy import BGPPolicy
-from lib_bgp_simulator.engine.bgp_ribs_policy import BGPRIBSPolicy
+from lib_bgp_simulator import BGPAS
+from lib_bgp_simulator import BGPRIBsAS
 # from lib_bgp_simulator.announcement import Announcement
-from lib_bgp_simulator.engine.rov_policy import ROVPolicy
+from lib_bgp_simulator import ROVAS
 from ..policies.rovpp_v1_lite_policy import ROVPPV1LitePolicy
 from ..policies.rovpp_v1_policy import ROVPPV1Policy
 from ..attacks.rovpp_ann import ROVPPAnn
@@ -88,7 +88,7 @@ def run_topology(attack_type, adopt_policy, ribs):
     adopting_ases = [77, 78]
     as_policies = dict()
     for bgp_as in bgp_ases:
-        as_policies[bgp_as] = BGPPolicy
+        as_policies[bgp_as] = BGPAS
     for adopting_as in adopting_ases:
         as_policies[adopting_as] = adopt_policy
     
@@ -116,7 +116,7 @@ class Test_Figure_2:
         
         # Define Attack type and adoption policy
         attack_type = ROVPPSubprefixHijack().announcements
-        adopt_policy = ROVPolicy
+        adopt_policy = ROVAS
 
         exr_output = [{"asn": 44,
                        "prefix": subprefix_val,

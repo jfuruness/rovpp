@@ -12,10 +12,10 @@ from lib_caida_collector import PeerLink, CustomerProviderLink as CPLink
 from .run_example import run_example
 
 from lib_bgp_simulator.enums import ASNs, Prefixes, Timestamps, ROAValidity, Relationships
-from lib_bgp_simulator.engine import LocalRib
-from lib_bgp_simulator.engine.bgp_policy import BGPPolicy
-from lib_bgp_simulator.engine.bgp_ribs_policy import BGPRIBSPolicy
-from lib_bgp_simulator.engine.rov_policy import ROVPolicy
+from lib_bgp_simulator import LocalRib
+from lib_bgp_simulator import BGPAS
+from lib_bgp_simulator import BGPRIBsAS
+from lib_bgp_simulator import ROVAS
 from ..policies.rovpp_v1_lite_policy import ROVPPV1LitePolicy
 from ..policies.rovpp_v2_lite_policy import ROVPPV2LitePolicy
 from ..policies.rovpp_v2a_lite_policy import ROVPPV2aLitePolicy
@@ -80,10 +80,10 @@ def run_topology(attack_type, rov_adopting_ases, rovpp_adopt_policy, rovpp_adopt
     bgp_ases = [11, 54, 55, 44, attacker_asn, 56, victim_asn]
     as_policies = dict()
     for bgp_as in bgp_ases:
-        as_policies[bgp_as] = BGPRIBSPolicy
+        as_policies[bgp_as] = BGPRIBsAS
         print(f"AS: {bgp_as}, Policy: {as_policies[bgp_as]}")
     for rov_adopting_as in rov_adopting_ases:
-        as_policies[rov_adopting_as] = ROVPolicy
+        as_policies[rov_adopting_as] = ROVAS
         print(f"AS: {rov_adopting_as}, Policy: {as_policies[rov_adopting_as]}")
     for adopting_as in rovpp_adopting_ases:
         as_policies[adopting_as] = rovpp_adopt_policy

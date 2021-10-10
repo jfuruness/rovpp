@@ -3,24 +3,31 @@ from collections import defaultdict
 
 from ipaddress import ip_network
 
-from lib_bgp_simulator import BGPPolicy, ROAValidity, ROVPolicy, Relationships
+from lib_bgp_simulator import BGPAS, ROAValidity, ROVAS, Relationships
 
 # subnet_of is python 3.7, not supporrted by pypy yet 
 def subnet_of(self, other):
     return self in list(other.subnets) + [other]
 
 
-class ROVPPV1LitePolicy(ROVPolicy):
+class ROVPPV1LitePolicy(ROVAS):
 
     name = "ROV++V1 Lite"
 
-    def _policy_propagate(policy_self, self, propagate_to, send_rels, ann, *args):
+    __slots__ = []
+
+    def _policy_propagate(self, neighbor, ann, *args):
         """Only propagate announcements that aren't blackholes"""
 
         # Policy handled this ann for propagation (and did nothing)
         return ann.blackhole
 
-    def process_incoming_anns(policy_self, self, recv_relationship, propagation_round=None, attack=None, reset_q=True, **kwargs):
+    def process_incoming_anns(self,
+                              recv_relationship,
+                              propagation_round=None,
+                              attack=None,
+                              reset_q=True,
+                              **kwargs):
         """Process all announcements that were incoming from a specific rel"""
 
         # Holes are invalid subprefixes from the same neighbor
@@ -29,43 +36,44 @@ class ROVPPV1LitePolicy(ROVPolicy):
         # See ROVPP_v1_Lite_slow, it has like 5+ nested for loops
 
         # Modifies the temp_holes in shallow_anns and returns prefix: blackhole_list dict
-        shallow_blackholes = attack.count_holes(policy_self)
+        shallow_blackholes = attack.count_holes(self)
 
-        super(ROVPPV1LitePolicy, policy_self).process_incoming_anns(self,
-                                                                    recv_relationship,
-                                                                    reset_q=False)
+        super(ROVPPV1LitePolicy, self).process_incoming_anns(recv_relationship,
+                                                             propagation_round=propagation_round,
+                                                             attack=attack,
+                                                             reset_q=False,
+                                                             **kwargs)
 
-        policy_self._get_and_assign_blackholes(self, shallow_blackholes, recv_relationship)
+        self._get_and_assign_blackholes(shallow_blackholes, recv_relationship)
 
-        attack.remove_temp_holes(policy_self)
+        attack.remove_temp_holes(self)
         # Move holes from temp_holes and resets q
-        policy_self._reset_q(reset_q)
+        self._reset_q(reset_q)
 
 
 ##############
 # Blackholes #
 ##############
 
-    def _get_and_assign_blackholes(policy_self, self, shallow_blackholes_dict, recv_relationship):
+    def _get_and_assign_blackholes(self, shallow_blackholes_dict, recv_relationship):
         """Gets blackholes and assigns them"""
 
         # For any announcement we have that has blackholes
         # TODO fix _info
 
         blackholes = []
-        for ann in policy_self.local_rib._info.values():
+        for ann in self.local_rib._info.values():
             if hasattr(ann, "temp_holes"):
                 # For every hole/invalid_subprefix
                 for invalid_subprefix_ann in ann.temp_holes:
                     #assert isinstance(invalid_subprefix_ann, ROVPPAnn)
 
                     # Make hole and add to RIB
-                    bhole = policy_self._deep_copy_ann(self,
-                                                       invalid_subprefix_ann,
-                                                       recv_relationship,
-                                                       blackhole=True,
-                                                       traceback_end=True)
+                    bhole = self._deep_copy_ann(invalid_subprefix_ann,
+                                                recv_relationship,
+                                                blackhole=True,
+                                                traceback_end=True)
                     blackholes.append(bhole)
         # must be done this way so dict doesn't change size during iteratoin
         for blackhole in blackholes:
-            policy_self.local_rib.add_ann(blackhole)
+            self.local_rib.add_ann(blackhole)

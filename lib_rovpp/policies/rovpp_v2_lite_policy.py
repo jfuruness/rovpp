@@ -2,16 +2,18 @@ from copy import deepcopy
 
 from ipaddress import ip_network
 
-from lib_bgp_simulator import BGPPolicy, ROAValidity, Relationships
+from lib_bgp_simulator import ROAValidity, Relationships
 
 from .rovpp_v1_lite_policy import ROVPPV1LitePolicy
 
 
 class ROVPPV2LitePolicy(ROVPPV1LitePolicy):
 
+    __slots__ = []
+
     name = "ROV++V2 Lite"
 
-    def _policy_propagate(policy_self, self, propagate_to, send_rels, ann, as_obj):
+    def _policy_propagate(self, neighbor, ann, propagate_to, send_rels):
         """Deals with blackhole propagation
 
         If ann is a blackhole, it must be recv from peers/providers and must
@@ -22,6 +24,6 @@ class ROVPPV2LitePolicy(ROVPPV1LitePolicy):
             if (ann.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]
                 and propagate_to == Relationships.CUSTOMERS):
 
-                policy_self._add_ann_to_q(self, as_obj, ann, propagate_to, send_rels)
+                self._process_outgoing_ann(neighbor, ann, propagate_to, send_rels)
 
             return True

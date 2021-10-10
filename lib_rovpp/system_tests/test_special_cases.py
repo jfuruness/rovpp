@@ -13,9 +13,9 @@ from .run_example import run_example
 
 from lib_bgp_simulator.enums import ASNs, Prefixes, Timestamps, ROAValidity, Relationships
 from lib_bgp_simulator.engine import LocalRib
-from lib_bgp_simulator.engine.bgp_policy import BGPPolicy
-from lib_bgp_simulator.engine.bgp_ribs_policy import BGPRIBSPolicy
-from lib_bgp_simulator.engine.rov_policy import ROVPolicy
+from lib_bgp_simulator import BGPAS
+from lib_bgp_simulator import BGPRIBsAS
+from lib_bgp_simulator import ROVAS
 from ..policies.rovpp_v1_lite_policy import ROVPPV1LitePolicy
 from ..policies.rovpp_v2_lite_policy import ROVPPV2LitePolicy
 from ..policies.rovpp_v2a_lite_policy import ROVPPV2aLitePolicy
@@ -96,7 +96,7 @@ class Test_Special_Cases:
         adopting_ases = [55, 44]
         as_policies = dict()
         for bgp_as in bgp_ases:
-            as_policies[bgp_as] = BGPPolicy
+            as_policies[bgp_as] = BGPAS
         for adopting_as in adopting_ases:
             as_policies[adopting_as] = adopt_pol
         
@@ -148,7 +148,7 @@ class Test_Special_Cases:
         adopting_ases = [55]
         as_policies = dict()
         for bgp_as in bgp_ases:
-            as_policies[bgp_as] = BGPPolicy
+            as_policies[bgp_as] = BGPAS
         for adopting_as in adopting_ases:
             as_policies[adopting_as] = adopt_pol
         
