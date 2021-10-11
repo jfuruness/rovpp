@@ -1,6 +1,8 @@
 from collections import defaultdict
 
-from lib_bgp_simulator import PrefixHijack, SubprefixHijack, UnannouncedPrefixHijack
+
+from lib_bgp_simulator import PrefixHijack, SubprefixHijack, NonRoutedPrefixHijack
+from lib_bgp_simulator import SuperprefixPrefixHijack, NonRoutedSuperprefixHijack
 
 from .rovpp_attack import ROVPPAttack
 
@@ -8,14 +10,6 @@ from .rovpp_attack import ROVPPAttack
 # NOTE: Any ROV++ atk that has more than two announcements will break hole counting mechanism
 # This must be fixed for later
 
-
-class ROVPPPrefixHijack(ROVPPAttack, PrefixHijack):
-    """Prefix hijack with ROV++ ann class"""
-
-    def count_holes(*args, **kwargs):
-        pass
-    def remove_temp_holes(*args, **kwargs):
-        pass
 
 class ROVPPSubprefixHijack(ROVPPAttack, SubprefixHijack):
     """Subprefix hijack with ROV++ ann class"""
@@ -60,10 +54,28 @@ class ROVPPSubprefixHijack(ROVPPAttack, SubprefixHijack):
         for ann in policy_self._recv_q._info[self.victim_prefix]:
             ann.temp_holes = None
 
-class ROVPPUnannouncedPrefixHijack(ROVPPAttack, UnannouncedPrefixHijack):
-    """Unannounced Prefix hijack with ROV++ ann class"""
-
+class NoSubprefixesROVPPAttack(ROVPPAttack):
     def count_holes(*args, **kwargs):
         pass
     def remove_temp_holes(*args, **kwargs):
         pass
+
+class ROVPPPrefixHijack(NoSubprefixesROVPPAttack, PrefixHijack):
+    """Prefix hijack with ROV++ ann class"""
+
+    pass
+
+class ROVPPNonRoutedPrefixHijack(NoSubprefixesROVPPAttack, NonRoutedPrefixHijack):
+    """NonRouted Prefix hijack with ROV++ ann class"""
+
+    pass
+
+class ROVPPNonRoutedSuperprefixHijack(ROVPPAttack, NonRoutedSuperprefixHijack):
+    """NonRouted Prefix hijack with ROV++ ann class"""
+
+    pass
+
+class ROVPPSuperprefixPrefixHijack(ROVPPAttack, SuperprefixPrefixHijack):
+    """NonRouted Prefix hijack with ROV++ ann class"""
+
+    pass
