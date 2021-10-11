@@ -62,18 +62,18 @@ class ROVPPV1LitePolicy(ROVAS):
         # TODO fix _info
 
         blackholes = []
-        for ann in self.local_rib._info.values():
-            if hasattr(ann, "temp_holes"):
+        for ann in self._local_rib._info.values():
+            if ann.temp_holes is not None:
                 # For every hole/invalid_subprefix
                 for invalid_subprefix_ann in ann.temp_holes:
                     #assert isinstance(invalid_subprefix_ann, ROVPPAnn)
 
                     # Make hole and add to RIB
-                    bhole = self._deep_copy_ann(invalid_subprefix_ann,
-                                                recv_relationship,
-                                                blackhole=True,
-                                                traceback_end=True)
+                    bhole = self._copy_and_process(invalid_subprefix_ann,
+                                                   recv_relationship,
+                                                   blackhole=True,
+                                                   traceback_end=True)
                     blackholes.append(bhole)
         # must be done this way so dict doesn't change size during iteratoin
         for blackhole in blackholes:
-            self.local_rib.add_ann(blackhole)
+            self._local_rib.add_ann(blackhole)

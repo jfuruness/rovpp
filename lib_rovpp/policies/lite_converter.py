@@ -30,16 +30,16 @@ def _new_ann_better(self,
             return new_holes_smaller
         else:
             return self._new_as_path_ties_better(current_ann,
-                                                 current_ann_processed,
+                                                 current_processed,
                                                  new_ann,
-                                                 new_ann_processed)
+                                                 new_processed)
 
 
 def _new_holes_smaller(self, current_ann, new_ann):
     """Best by hole size"""
 
     # Holes aren't counted for this prefix
-    if not hasattr(current_ann, "temp_holes"):
+    if current_ann.temp_holes is None:
         return None
 
     if len(current_ann.temp_holes) > len(new_ann.temp_holes):
