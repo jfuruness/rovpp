@@ -30,11 +30,21 @@ subprefix_val = Prefixes.SUBPREFIX.value
 vic_kwargs = {"prefix": prefix_val,
               "timestamp": Timestamps.VICTIM.value,
               "seed_asn": None,
-              "roa_validity": ROAValidity.VALID}
+              "roa_validity": ROAValidity.VALID,
+              "withdraw": False,
+              "traceback_end": False,
+              "holes": None,
+              "blackhole": False,
+              "temp_holes": None}
 atk_kwargs = {"prefix": subprefix_val,
               "timestamp": Timestamps.ATTACKER.value,
               "seed_asn": None,
-              "roa_validity": ROAValidity.INVALID}
+              "roa_validity": ROAValidity.INVALID,
+              "withdraw": False,
+              "traceback_end": False,
+              "holes": None,
+              "blackhole": False,
+              "temp_holes": None}
 
 victim_or_attacker_kwargs = {
     prefix_val    : vic_kwargs,

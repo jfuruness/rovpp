@@ -1,7 +1,7 @@
 from collections import defaultdict
 
-from lib_bgp_simulator import PrefixHijack, SubprefixHijack, UnannouncedPrefixHijack
-
+#from lib_bgp_simulator import PrefixHijack, SubprefixHijack, UnannouncedPrefixHijack
+from lib_bgp_simulator import PrefixHijack, SubprefixHijack, NonRoutedPrefixHijack
 from .rovpp_attack import ROVPPAttack
 
 
@@ -60,8 +60,8 @@ class ROVPPSubprefixHijack(ROVPPAttack, SubprefixHijack):
         for ann in policy_self._recv_q._info[self.victim_prefix]:
             ann.temp_holes = None
 
-class ROVPPUnannouncedPrefixHijack(ROVPPAttack, UnannouncedPrefixHijack):
-    """Unannounced Prefix hijack with ROV++ ann class"""
+class ROVPPNonRoutedPrefixHijack(ROVPPAttack, NonRoutedPrefixHijack):
+    """NonRouted Prefix hijack with ROV++ ann class"""
 
     def count_holes(*args, **kwargs):
         pass

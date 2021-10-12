@@ -77,10 +77,10 @@ def run_example(peers=list(),
     if local_ribs:
         for as_obj in engine:
             print("ASN:", as_obj.asn)
-            for prefix, ann in as_obj.local_rib.prefix_anns():
+            for prefix, ann in as_obj._local_rib.prefix_anns():
                 print(ann)
             if as_path_check: 
-                as_obj.local_rib == local_ribs[as_obj.asn]
+                as_obj._local_rib == local_ribs[as_obj.asn]
             else:
-                shallow_assert_equal_ribs(as_obj.asn, as_obj.local_rib, local_ribs[as_obj.asn])
+                shallow_assert_equal_ribs(as_obj.asn, as_obj._local_rib, local_ribs[as_obj.asn])
 
