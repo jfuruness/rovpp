@@ -56,6 +56,7 @@ def run_example(peers=list(),
                 as_policies=dict(),
                 announcements=list(),
                 local_ribs=dict(),
+                outcomes=dict(),
                 BaseASCls=BGPAS,
                 attack_obj=None,
                 as_path_check=False):
@@ -88,3 +89,5 @@ def run_example(peers=list(),
                 as_obj._local_rib == local_ribs[as_obj.asn]
             else:
                 shallow_assert_equal_ribs(as_obj.asn, as_obj._local_rib, local_ribs[as_obj.asn])
+    if outcomes:
+        pass
