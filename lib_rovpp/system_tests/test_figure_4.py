@@ -185,7 +185,7 @@ class Test_Figure_4:
         run_topology(attack_type, adopt_policy, exr_output)
 
 
-    @pytest.mark.skip(reason="Ready for v3 testing once v3 is ready")        
+    @pytest.mark.xfail(reason="Ready for v3 testing once v3 is ready")        
     def test_figure_4b(self):
         # Define Attack type and adoption policy
         attack_type = ROVPPSubprefixHijack()
