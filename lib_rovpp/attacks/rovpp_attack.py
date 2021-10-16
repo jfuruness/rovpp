@@ -5,13 +5,13 @@ from .rovpp_ann import ROVPPAnn
 class ROVPPAttack:
     AnnCls = ROVPPAnn
 
-    def __init__(self, *args, **kwargs):
-        super(ROVPPAttack, self).__init__(*args,
-                                          preventive=False,
+    def _get_announcements(self, **extra_ann_kwargs):
+        return super()._get_announcements(preventive=False,
+                                          attacker_on_route=False,
                                           blackhole=False,
                                           temp_holes=None,
                                           holes=[],
-                                          **kwargs)
+                                          **extra_ann_kwargs)
 
     @abstractmethod    
     def count_holes(self, policy_self):

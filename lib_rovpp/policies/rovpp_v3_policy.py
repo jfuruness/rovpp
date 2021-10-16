@@ -1,4 +1,4 @@
-from lib_bgp_simulator import BGPRIBsAS, Prefixes
+from lib_bgp_simulator import BGPRIBsAS, Prefixes, ROAValidity, Relationships, SubprefixHijack
 
 from .rovpp_v2_policy import ROVPPV2Policy
 
@@ -25,16 +25,18 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
         """
 
         if ann.blackhole:
-            return ROVPPV2Policy._policy_propagate(self, *args, **kwargs)
+            return ROVPPV2Policy._policy_propagate(self, neighbor, ann, propagate_to, send_rels)
         # NOTE that preventive is the subprefix. The valid route isn't considered preventive
         elif ann.preventive:
             # Same logic as V2. Don't override because V2 uses this lol
-            if _send_competing_hijack_allowed(ann, propagate_to):
+            if self._send_competing_hijack_allowed(ann, propagate_to):
+                #input("\n" * 3 + "allowed to be sent" + "\n" * 3)
                 # Make sure you don't send to a neighbor that sent a valid route
                 # NOTE: that includes neighbors that sent valid route and subprefix
                 # imo these two if statements make this policy almost never occur
                 safe_route_prefix = Prefixes.PREFIX.value
                 if not self._neighbor_sent_valid_ann(neighbor, safe_route_prefix):
+                    #input("\n" * 3 + "wow, I am not doing nothing" + "\n" * 3)
                     self._process_outgoing_ann(neighbor, ann, propagate_to, send_rels)
                 #else:
                 #    # Send that neighbor a blackhole??????????
@@ -48,7 +50,7 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
     def _neighbor_sent_valid_ann(self, neighbor, safe_route_prefix):
         neighbor_info = self._ribs_in.get_unprocessed_ann_recv_rel(neighbor.asn,
                                                                    safe_route_prefix)
-        return neighbor_info is None
+        return neighbor_info is not None
 
     def process_incoming_anns(self,
                               recv_relationship,
@@ -77,11 +79,12 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
                                         reset_q=False,
                                         **kwargs)
 
-        self._get_and_assign_preventives(shallow_blackholes, recv_relationship)
+        if shallow_blackholes:
+            self._get_and_assign_preventives(shallow_blackholes, recv_relationship)
 
-        subprefix_ann = self._local_rib.get_ann(Prefixes.SUBPREFIX.value)
-        if getattr(subprefix_ann, "preventive", False) is False:
-            self._get_and_assign_blackholes(shallow_blackholes, recv_relationship)
+            subprefix_ann = self._local_rib.get_ann(Prefixes.SUBPREFIX.value)
+            if getattr(subprefix_ann, "preventive", False) is False:
+                self._get_and_assign_blackholes(shallow_blackholes, recv_relationship)
     
         engine_input.remove_temp_holes(self)
         # Move holes from temp_holes and resets q 
@@ -105,7 +108,7 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
 
         # Safe route conditions
         if (victim_ann is not None
-            and len(victim_ann.temp_holes) == 0
+            and (victim_ann.temp_holes is None or len(victim_ann.temp_holes) == 0)
             and victim_ann.attacker_on_route == False):
 
             # Must do this here, since we don't want to create preventives we won't send
@@ -118,12 +121,12 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
                                                  roa_validity=ROAValidity.INVALID,
                                                  preventive=True)
 
-                self._local_rib.add_ann(preventive_ann.prefix, preventive_ann)
+                self._local_rib.add_ann(preventive_ann)
 
     def _recv_hijack_from_peer_provider(self, unprocessed_invalid_subprefix_anns):
         # Must check that we got a hijack from a peer/provider
         for unprocessed_ann in unprocessed_invalid_subprefix_anns:
-            _, subprefix_recv_rel = self._ribs_in.get_unprocessed_ann(unprocessed_ann.as_path[0],
+            _, subprefix_recv_rel = self._ribs_in.get_unprocessed_ann_recv_rel(unprocessed_ann.as_path[0],
                                                                       unprocessed_ann.prefix)
             if subprefix_recv_rel in [Relationships.PEERS, Relationships.PROVIDERS]:
                 return True
