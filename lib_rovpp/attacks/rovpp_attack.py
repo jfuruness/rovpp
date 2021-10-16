@@ -6,7 +6,12 @@ class ROVPPAttack:
     AnnCls = ROVPPAnn
 
     def __init__(self, *args, **kwargs):
-        super(ROVPPAttack, self).__init__(*args, blackhole=False, temp_holes=None, holes=[],**kwargs)
+        super(ROVPPAttack, self).__init__(*args,
+                                          preventive=False,
+                                          blackhole=False,
+                                          temp_holes=None,
+                                          holes=[],
+                                          **kwargs)
 
     @abstractmethod    
     def count_holes(self, policy_self):

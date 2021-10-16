@@ -21,9 +21,10 @@ class ROVPPV2LitePolicy(ROVPPV1LitePolicy):
         """
 
         if ann.blackhole:
-            if (ann.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]
-                and propagate_to == Relationships.CUSTOMERS):
-
+            if _send_competing_hijack_allowed(ann, propagate_to):
                 self._process_outgoing_ann(neighbor, ann, propagate_to, send_rels)
-
             return True
+
+    def _send_competing_hijacked_allowed(self, ann, propagate_to):
+        return (ann.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]
+                and propagate_to == Relationships.CUSTOMERS)
