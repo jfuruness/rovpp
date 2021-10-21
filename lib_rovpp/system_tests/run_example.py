@@ -77,7 +77,7 @@ def run_example(peers=list(),
     print((start-datetime.now()).total_seconds())
     if local_ribs:
         for as_obj in engine:
-            print("ASN:", as_obj.asn)
+            print("ASN: {0} ({1})".format(as_obj.asn, as_obj.name))
             print("computed local rib:")
             for prefix, ann in as_obj._local_rib.prefix_anns():
                 print(ann)
