@@ -25,6 +25,7 @@ victim_asn = ASNs.VICTIM.value
 attacker_asn = ASNs.ATTACKER.value
 prefix_val = Prefixes.PREFIX.value 
 subprefix_val = Prefixes.SUBPREFIX.value
+superprefix_val = Prefixes.SUPERPREFIX.value
 
 # Define Attacker and victim
 vic_kwargs = {"prefix": prefix_val,
@@ -45,10 +46,21 @@ atk_kwargs = {"prefix": subprefix_val,
               "holes": None,
               "blackhole": False,
               "temp_holes": None}
+atk_superprefix_kwargs = {"prefix": superprefix_val,
+              "timestamp": Timestamps.ATTACKER.value,
+              "seed_asn": None,
+              "roa_validity": ROAValidity.INVALID,
+              "withdraw": False,
+              "traceback_end": False,
+              "holes": None,
+              "blackhole": False,
+              "temp_holes": None}
+
 
 victim_or_attacker_kwargs = {
-    prefix_val    : vic_kwargs,
-    subprefix_val : atk_kwargs
+    prefix_val      : vic_kwargs,
+    subprefix_val   : atk_kwargs,
+    superprefix_val : atk_superprefix_kwargs
 }
 
 
@@ -66,18 +78,19 @@ def create_local_ribs(exr_output):
         relationship = exr_output[i]["recv_relationship"]
         is_blackhole = exr_output[i]["blackhole"] if "blackhole" in exr_output[i] else False
         ribs = local_ribs[asn] if asn in local_ribs else None
+        kwargs_added = True if "kwargs" in exr_output else False
         # Create LocalRib items
         if ribs is None:
             # Create a new LocalRib
             ribs = {ann_prefix: ROVPPAnn(as_path=path,
                                          recv_relationship=relationship,
-                                         **victim_or_attacker_kwargs[ann_prefix])
+                                         **exr_output[i].get("kwargs", victim_or_attacker_kwargs[ann_prefix]))
                    }
         else:
             # Add to existing LocalRib
             ribs[ann_prefix] = ROVPPAnn(as_path=path,
                                         recv_relationship=relationship,
-                                        **victim_or_attacker_kwargs[ann_prefix])
+                                        **exr_output[i].get("kwargs", victim_or_attacker_kwargs[ann_prefix]))
         # Update local_ribs
         local_ribs[asn] = ribs
 
