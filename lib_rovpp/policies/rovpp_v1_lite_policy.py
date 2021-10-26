@@ -25,7 +25,7 @@ class ROVPPV1LitePolicy(ROVAS):
     def process_incoming_anns(self,
                               recv_relationship,
                               propagation_round=None,
-                              attack=None,
+                              engine_input=None,
                               reset_q=True,
                               **kwargs):
         """Process all announcements that were incoming from a specific rel"""
@@ -36,17 +36,17 @@ class ROVPPV1LitePolicy(ROVAS):
         # See ROVPP_v1_Lite_slow, it has like 5+ nested for loops
 
         # Modifies the temp_holes in shallow_anns and returns prefix: blackhole_list dict
-        shallow_blackholes = attack.count_holes(self)
+        shallow_blackholes = engine_input.count_holes(self)
 
         super(ROVPPV1LitePolicy, self).process_incoming_anns(recv_relationship,
                                                              propagation_round=propagation_round,
-                                                             attack=attack,
+                                                             engine_input=engine_input,
                                                              reset_q=False,
                                                              **kwargs)
 
         self._get_and_assign_blackholes(shallow_blackholes, recv_relationship)
 
-        attack.remove_temp_holes(self)
+        engine_input.remove_temp_holes(self)
         # Move holes from temp_holes and resets q
         self._reset_q(reset_q)
 

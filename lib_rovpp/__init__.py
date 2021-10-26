@@ -9,3 +9,4 @@ from .policies import ROVPPV2aLitePolicy
 from .policies import ROVPPV1Policy
 from .policies import ROVPPV2Policy
 from .policies import ROVPPV2aPolicy
+from .policies import ROVPPV3Policy
