@@ -29,7 +29,6 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3'],
     entry_points={
-        'console_scripts': 'lib_rovpp = lib_rovpp.__main__:main'
     },
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],

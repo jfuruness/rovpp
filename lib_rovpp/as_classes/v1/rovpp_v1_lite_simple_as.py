@@ -3,16 +3,12 @@ from collections import defaultdict
 
 from ipaddress import ip_network
 
-from lib_bgp_simulator import BGPAS, ROAValidity, ROVAS, Relationships
-
-# subnet_of is python 3.7, not supporrted by pypy yet 
-def subnet_of(self, other):
-    return self in list(other.subnets) + [other]
+from lib_bgp_simulator import ROAValidity, ROVSimpleAS, Relationships
 
 
-class ROVPPV1LitePolicy(ROVAS):
+class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
-    name = "ROV++V1 Lite"
+    name = "ROV++V1 Lite Simple"
 
     __slots__ = []
 
@@ -62,7 +58,7 @@ class ROVPPV1LitePolicy(ROVAS):
         # TODO fix _info
 
         blackholes = []
-        for ann in self._local_rib._info.values():
+        for prefix, ann in self._local_rib.prefix_anns():
             if ann.temp_holes is not None:
                 # For every hole/invalid_subprefix
                 for invalid_subprefix_ann in ann.temp_holes:
