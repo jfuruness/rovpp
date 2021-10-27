@@ -49,7 +49,7 @@ subprefix_val = Prefixes.SUBPREFIX.value
 # Tests
 #######################################
 
-
+@pytest.mark.skip(reason="Must be converted")
 class Test_Subprefix_hijack:
 
     # TODO : Add v3 to this once implemented
