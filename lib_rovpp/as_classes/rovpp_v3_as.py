@@ -1,8 +1,9 @@
-from lib_bgp_simulator import BGPRIBsAS, Prefixes, ROAValidity, Relationships, SubprefixHijack
+from lib_bgp_simulator import BGPAS, Prefixes, ROAValidity, Relationships
 
-from .rovpp_v2_policy import ROVPPV2Policy
+from .v2 import ROVPPV2SimpleAS
+from ..engine_input import ROVPPSubprefixHijack
 
-class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
+class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
     """If a customer announces a valid route, don't send preventive
 
         If you send a preventive, must add attacker on route flag to the valid route
@@ -13,7 +14,7 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
 
     name = "ROV++V3"
 
-    __slots__ = []
+    __slots__ = tuple()
 
     def _policy_propagate(self, neighbor, ann, propagate_to, send_rels):
         """Special cases for propagation handled by the V3 policy
@@ -25,7 +26,7 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
         """
 
         if ann.blackhole:
-            return ROVPPV2Policy._policy_propagate(self, neighbor, ann, propagate_to, send_rels)
+            return ROVPPV2SimpleAS._policy_propagate(self, neighbor, ann, propagate_to, send_rels)
         # NOTE that preventive is the subprefix. The valid route isn't considered preventive
         elif ann.preventive:
             # Same logic as V2. Don't override because V2 uses this lol
@@ -62,7 +63,7 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
 
         err = ("This entire policy hardcoded for a victim prefix and attacker subprefix"
                " Not going to make this dynamic because this is a useless policy")
-        assert isinstance(engine_input, SubprefixHijack), err
+        assert isinstance(engine_input, ROVPPSubprefixHijack), err
 
         # Holes are invalid subprefixes from the same neighbor
         # We do this here so that we can optimize it
@@ -72,12 +73,12 @@ class ROVPPV3Policy(BGPRIBsAS, ROVPPV2Policy):
         # Modifies the temp_holes in shallow_anns and returns prefix: blackhole_list dict
         shallow_blackholes = engine_input.count_holes(self)
 
-        BGPRIBsAS.process_incoming_anns(self,
-                                        recv_relationship,
-                                        propagation_round=propagation_round,
-                                        engine_input=engine_input,
-                                        reset_q=False,
-                                        **kwargs)
+        BGPAS.process_incoming_anns(self,
+                                    recv_relationship,
+                                    propagation_round=propagation_round,
+                                    engine_input=engine_input,
+                                    reset_q=False,
+                                    **kwargs)
 
         if shallow_blackholes:
             self._get_and_assign_preventives(shallow_blackholes, recv_relationship)

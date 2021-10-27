@@ -34,7 +34,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         # Modifies the temp_holes in shallow_anns and returns prefix: blackhole_list dict
         shallow_blackholes = engine_input.count_holes(self)
 
-        super(ROVPPV1LitePolicy, self).process_incoming_anns(recv_relationship,
+        super(ROVPPV1LiteSimpleAS, self).process_incoming_anns(recv_relationship,
                                                              propagation_round=propagation_round,
                                                              engine_input=engine_input,
                                                              reset_q=False,

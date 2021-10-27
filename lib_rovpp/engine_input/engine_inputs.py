@@ -3,7 +3,7 @@ from collections import defaultdict
 from lib_bgp_simulator import PrefixHijack, SubprefixHijack, NonRoutedPrefixHijack
 from lib_bgp_simulator import SuperprefixPrefixHijack, NonRoutedSuperprefixHijack
 
-from .rovpp_attack import ROVPPEngineInput
+from .rovpp_engine_input import ROVPPEngineInput
 
 
 class ROVPPPrefixHijack(ROVPPEngineInput, PrefixHijack):
