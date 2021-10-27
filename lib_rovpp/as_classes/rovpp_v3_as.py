@@ -86,7 +86,7 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
             subprefix_ann = self._local_rib.get_ann(Prefixes.SUBPREFIX.value)
             if getattr(subprefix_ann, "preventive", False) is False:
                 self._get_and_assign_blackholes(shallow_blackholes, recv_relationship)
-    
+
         engine_input.remove_temp_holes(self)
         # Move holes from temp_holes and resets q 
         self._reset_q(reset_q)
@@ -127,9 +127,9 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
     def _recv_hijack_from_peer_provider(self, unprocessed_invalid_subprefix_anns):
         # Must check that we got a hijack from a peer/provider
         for unprocessed_ann in unprocessed_invalid_subprefix_anns:
-            _, subprefix_recv_rel = self._ribs_in.get_unprocessed_ann_recv_rel(unprocessed_ann.as_path[0],
+            ann_info = self._ribs_in.get_unprocessed_ann_recv_rel(unprocessed_ann.as_path[0],
                                                                       unprocessed_ann.prefix)
-            if subprefix_recv_rel in [Relationships.PEERS, Relationships.PROVIDERS]:
+            if ann_info.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]:
                 return True
 
         return False

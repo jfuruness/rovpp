@@ -52,13 +52,13 @@ subprefix_val = Prefixes.SUBPREFIX.value
 def run_topology(attack_type, adopt_policy, ribs):
     r"""v3 example with ROV++v2
 
-          /44\
-        53 |  attacker_asn
-       /   |   \ 
-      /    | 87 \ 
+          /44\\
+        53 |  \attacker_asn
+       /   |   \
+      /    | 87 \
      54    |/  \ \
       \    33   victim_asn
-       \  /       
+       \  /
         22
     """
 
@@ -83,7 +83,7 @@ def run_topology(attack_type, adopt_policy, ribs):
         as_policies[bgp_as] = BGPAS
     for adopting_as in adopting_ases:
         as_policies[adopting_as] = adopt_policy
-    
+
     # Create local ribs
     local_ribs = create_local_ribs(ribs)
 
