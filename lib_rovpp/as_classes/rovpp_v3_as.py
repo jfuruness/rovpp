@@ -26,6 +26,7 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
         """
 
         if ann.blackhole:
+            print("Is this calling the correct process_outgoing_ann_funcs?????")
             return ROVPPV2SimpleAS._policy_propagate(self, neighbor, ann, propagate_to, send_rels)
         # NOTE that preventive is the subprefix. The valid route isn't considered preventive
         elif ann.preventive:
@@ -110,7 +111,8 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
         # Safe route conditions
         if (victim_ann is not None
             and (victim_ann.temp_holes is None or len(victim_ann.temp_holes) == 0)
-            and victim_ann.attacker_on_route == False):
+            and (victim_ann.holes is None or len(getattr(victim_ann, "holes", [])) == 0)
+            and victim_ann.attacker_on_route is False):
 
             # Must do this here, since we don't want to create preventives we won't send
             # Because we should instead create blackholes for that case
