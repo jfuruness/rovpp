@@ -15,7 +15,7 @@ class BaseSuperPrefixPrefix01Tester(BaseGraphSystemTester):
     BaseASCls = BGPSimpleAS
     EngineInputCls = ROVPPSuperprefixPrefixHijack
     base_dir = Path(__file__).parent
-    adopting_asns = (2, )  # Do I need to add the victim here?
+    adopting_asns = (2, )
 
 
 class Test020SupreprefixPrefix01(BaseSuperPrefixPrefix01Tester):
