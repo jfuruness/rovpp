@@ -30,6 +30,3 @@ class Test027SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
 class Test028SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
     AdoptASCls = ROVPPV2aSimpleAS
 
-class Test029SupreprefixPrefix01(BaseSuperPrefixPrefix02Tester):
-    AdoptASCls = ROVPPV3AS
-
