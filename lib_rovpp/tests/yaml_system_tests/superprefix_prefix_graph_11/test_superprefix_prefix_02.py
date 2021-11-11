@@ -18,15 +18,15 @@ class BaseSuperPrefixPrefix02Tester(BaseGraphSystemTester):
     adopting_asns = (5, 6, 1, 11, 12)
 
 
-class Test025SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
+class Test024SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
     AdoptASCls = ROVSimpleAS
 
-class Test026SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
+class Test025SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
     AdoptASCls = ROVPPV1SimpleAS
 
-class Test027SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
+class Test026SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
     AdoptASCls = ROVPPV2SimpleAS
 
-class Test028SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
+class Test027SupreprefixPrefix02(BaseSuperPrefixPrefix02Tester):
     AdoptASCls = ROVPPV2aSimpleAS
 
