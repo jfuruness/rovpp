@@ -38,7 +38,6 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
                 # imo these two if statements make this policy almost never occur
                 safe_route_prefix = Prefixes.PREFIX.value
                 if not self._neighbor_sent_valid_ann(neighbor, safe_route_prefix):
-                    #input("\n" * 3 + "wow, I am not doing nothing" + "\n" * 3)
                     self._process_outgoing_ann(neighbor, ann, propagate_to, send_rels)
                 #else:
                 #    # Send that neighbor a blackhole??????????
@@ -52,6 +51,7 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
     def _neighbor_sent_valid_ann(self, neighbor, safe_route_prefix):
         neighbor_info = self._ribs_in.get_unprocessed_ann_recv_rel(neighbor.asn,
                                                                    safe_route_prefix)
+        
         return neighbor_info is not None
 
     def process_incoming_anns(self,
@@ -108,16 +108,35 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
         # Check if we have a safe alternate (no holes, not attacker on route)
         victim_ann = self._local_rib.get_ann(Prefixes.PREFIX.value)
 
+        # Attacker is on the route
+        if (victim_ann is not None
+            and ((getattr(victim_ann, "temp_holes") is not None and (len(getattr(victim_ann, "temp_holes", [])) > 0))
+                 or((getattr(victim_ann, "holes") is not None and len(getattr(victim_ann, "holes", [])) > 0)))):
+            victim_ann.attacker_on_route = True
+
+
+
         # Safe route conditions
         if (victim_ann is not None
             and (victim_ann.temp_holes is None or len(victim_ann.temp_holes) == 0)
             and (victim_ann.holes is None or len(getattr(victim_ann, "holes", [])) == 0)
             and victim_ann.attacker_on_route is False):
 
+            ########
+            # In v2, if we recieve hijacks from peers/providers, and a valid route,
+            # We connect to the valid route and do nothing
+            # In V3 however, we send preventives when v2 would do nothing
+            # This causes a problem when V3 has a hidden blackhole
+            # In v2, when this occurs, valid ann would have a good chance of competing and winning
+            # In v3 however, we subprefix hijack it, making preventives beat valid announcements
+            # But because it is a hidden blackhole it routes back to another V3 and gets dropped
+            #Jk, this must not have had the attacker on route flag for victim
+
             # Must do this here, since we don't want to create preventives we won't send
             # Because we should instead create blackholes for that case
             if self._recv_hijack_from_peer_provider(unprocessed_invalid_subprefix_anns):
-                # TODO Change the local rib ann to have attacker on route flag
+                # This covers the case when victim_ann has no holes
+                # But we are sending a preventive
                 victim_ann.attacker_on_route = True
                 # TODO Create the preventive ann and store that in local rib
                 preventive_ann = victim_ann.copy(prefix=Prefixes.SUBPREFIX.value,
@@ -130,7 +149,7 @@ class ROVPPV3AS(BGPAS, ROVPPV2SimpleAS):
         # Must check that we got a hijack from a peer/provider
         for unprocessed_ann in unprocessed_invalid_subprefix_anns:
             ann_info = self._ribs_in.get_unprocessed_ann_recv_rel(unprocessed_ann.as_path[0],
-                                                                      unprocessed_ann.prefix)
+                                                                  unprocessed_ann.prefix)
             if ann_info.recv_relationship in [Relationships.PEERS, Relationships.PROVIDERS]:
                 return True
 
