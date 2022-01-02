@@ -1,16 +1,19 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseGraphSystemTester, BGPSimpleAS, ROVSimpleAS, Graph012
+from lib_bgp_simulator import BaseGraphSystemTester
+from lib_bgp_simulator import BGPSimpleAS
+from lib_bgp_simulator import ROVSimpleAS
+from lib_bgp_simulator import Graph012
 
+from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS
 from ....as_classes import ROVPPV2SimpleAS
 from ....as_classes import ROVPPV2aSimpleAS
-from ....as_classes import ROVPPV3AS
 
 from ....engine_input import ROVPPSuperprefixPrefixHijack
 
 
-class BaseSuperPrefixPrefix04Tester(BaseGraphSystemTester):
+class BaseSuperPrefixPrefix04Tester(Unstable, BaseGraphSystemTester):
     GraphInfoCls = Graph012
     BaseASCls = BGPSimpleAS
     EngineInputCls = ROVPPSuperprefixPrefixHijack
@@ -18,15 +21,17 @@ class BaseSuperPrefixPrefix04Tester(BaseGraphSystemTester):
     adopting_asns = (2, 4)
 
 
-class Test032SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
+class Test045SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
     AdoptASCls = ROVSimpleAS
 
-class Test033SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
+
+class Test046SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
     AdoptASCls = ROVPPV1SimpleAS
 
-class Test034SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
+
+class Test047SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
     AdoptASCls = ROVPPV2SimpleAS
 
-class Test035SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
-    AdoptASCls = ROVPPV2aSimpleAS
 
+class Test048SupreprefixPrefix04(BaseSuperPrefixPrefix04Tester):
+    AdoptASCls = ROVPPV2aSimpleAS

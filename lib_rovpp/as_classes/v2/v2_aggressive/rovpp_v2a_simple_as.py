@@ -1,12 +1,9 @@
-from ..v2_base import ROVPPV2SimpleAS
+from .rovpp_v2a_lite_simple_as import ROVPPV2aLiteSimpleAS
+from ...non_lite import NonLite
 
-class ROVPPV2aSimpleAS(ROVPPV2SimpleAS):
 
-    __slots__ = []
+class ROVPPV2aSimpleAS(NonLite, ROVPPV2aLiteSimpleAS):
+
+    __slots__ = tuple()
 
     name = "ROV++V2a Simple"
-
-    def _policy_propagate(*args, **kwargs):
-        """Do nothing. Send blackholes according to export policy"""
-
-        return False

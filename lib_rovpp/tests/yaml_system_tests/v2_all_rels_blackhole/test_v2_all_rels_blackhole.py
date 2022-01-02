@@ -2,7 +2,7 @@ from pathlib import Path
 
 from lib_bgp_simulator import BaseGraphSystemTester, BGPSimpleAS, Graph008
 
-
+from ..unstable import Unstable
 from ....as_classes import ROVPPV2SimpleAS
 from ....as_classes import ROVPPV2aSimpleAS
 from ....as_classes import ROVPPV2LiteSimpleAS
@@ -11,7 +11,7 @@ from ....as_classes import ROVPPV2aLiteSimpleAS
 from ....engine_input import ROVPPSubprefixHijack
 
 
-class BaseROVPPV2CustomerBlackholeTester(BaseGraphSystemTester):
+class BaseROVPPV2CustomerBlackholeTester(Unstable, BaseGraphSystemTester):
     GraphInfoCls = Graph008
     BaseASCls = BGPSimpleAS
     EngineInputCls = ROVPPSubprefixHijack
@@ -19,14 +19,17 @@ class BaseROVPPV2CustomerBlackholeTester(BaseGraphSystemTester):
     adopting_asns = (1,)
 
 
-class Test014V2CustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
+class Test071V2CustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
     AdoptASCls = ROVPPV2SimpleAS
 
-class Test015V2LiteCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
+
+class Test072V2LiteCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
     AdoptASCls = ROVPPV2LiteSimpleAS
 
-class Test016V2aCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
+
+class Test073V2aCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
     AdoptASCls = ROVPPV2aSimpleAS
 
-class Test017V2aLiteCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
+
+class Test074V2aLiteCustomerBlackhole(BaseROVPPV2CustomerBlackholeTester):
     AdoptASCls = ROVPPV2aLiteSimpleAS
