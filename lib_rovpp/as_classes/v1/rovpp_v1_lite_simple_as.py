@@ -38,7 +38,10 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
         holes: Dict[Ann, Tuple[Ann]] = self._get_ann_to_holes_dict(
             engine_input)
-
+        if self.asn == 7:
+            print("TEST")
+            input(self._local_rib._info)
+            input(self._recv_q._info)
         # With this solution, by changing the Gao Rexford, I can actually just
         # process __normally__ and drop nothing, since all invalids are
         # replaced with blackholes in copy and process
