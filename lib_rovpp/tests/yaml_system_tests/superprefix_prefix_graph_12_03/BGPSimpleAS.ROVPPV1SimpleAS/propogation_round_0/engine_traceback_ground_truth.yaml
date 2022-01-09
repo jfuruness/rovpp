@@ -8,8 +8,8 @@
   name: VICTIM_SUCCESS
   value: 1
 4: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 5: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0
@@ -26,8 +26,8 @@
   name: VICTIM_SUCCESS
   value: 1
 10: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 11: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2

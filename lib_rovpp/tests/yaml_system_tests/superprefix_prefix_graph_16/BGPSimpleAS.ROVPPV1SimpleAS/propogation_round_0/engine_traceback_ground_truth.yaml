@@ -1,15 +1,15 @@
 1: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 2: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 3: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 4: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 5: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0
@@ -17,8 +17,8 @@
   name: ATTACKER_SUCCESS
   value: 0
 7: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 8: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0
@@ -26,14 +26,14 @@
   name: ATTACKER_SUCCESS
   value: 0
 10: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 11: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0
 12: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 13: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0
@@ -47,8 +47,8 @@
   name: ATTACKER_SUCCESS
   value: 0
 17: !simulator_codec/Outcomes
-  name: ATTACKER_SUCCESS
-  value: 0
+  name: DISCONNECTED
+  value: 2
 18: !simulator_codec/Outcomes
   name: ATTACKER_SUCCESS
   value: 0

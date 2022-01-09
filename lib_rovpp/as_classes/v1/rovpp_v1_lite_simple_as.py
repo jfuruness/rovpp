@@ -38,14 +38,6 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
         holes: Dict[Ann, Tuple[Ann]] = self._get_ann_to_holes_dict(
             engine_input)
-        if self.asn == 7:
-            print("TEST")
-            input(self._local_rib._info)
-            input(self._recv_q._info)
-        # With this solution, by changing the Gao Rexford, I can actually just
-        # process __normally__ and drop nothing, since all invalids are
-        # replaced with blackholes in copy and process
-        # Must rewrite this to include holes in many different places
         super(ROVPPV1LiteSimpleAS, self).process_incoming_anns(
             from_rel,
             *args,
@@ -54,7 +46,6 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             reset_q=False,
             holes=holes,
             **kwargs)
-
         self._add_blackholes(holes, from_rel)
 
         # It's possible that we had a previously valid prefix
@@ -89,8 +80,6 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                                 and sub_ann.as_path[0] == ann.as_path[0]):
                             ann_holes.append(sub_ann)
                 holes[ann] = tuple(ann_holes)
-        #print(self.asn)
-        #input(holes)
         return holes
 
     def _add_blackholes(self, holes, from_rel):
@@ -108,7 +97,14 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
                 if (existing_local_rib_subprefix_ann is None
                     or (existing_local_rib_subprefix_ann.invalid_by_roa
-                        and not existing_local_rib_subprefix_ann.preventive)):
+                        and not existing_local_rib_subprefix_ann.preventive
+                        # Without this line
+                        # The same local rib Ann will try to create another
+                        # blackhole for each from_rel
+                        # But we don't want it to recreate
+                        # And for single round prop, a future valid ann won't
+                        # override the current valid ann due to gao rexford
+                        and not existing_local_rib_subprefix_ann.blackhole)):
                     # If another entry exists, remove it
                     # if self._local_rib.get_ann(unprocessed_hole_ann.prefix):
                         # Remove current ann and replace with blackhole
@@ -142,3 +138,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         extra_kwargs["holes"] = holes[ann]
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
             ann, recv_relationship, **extra_kwargs)
+
+    def _process_outgoing_ann(self, neighbor, ann, *args, **kwargs):
+        super(ROVPPV1LiteSimpleAS, self)._process_outgoing_ann(
+            neighbor, ann.copy(holes=tuple()), *args, **kwargs)
