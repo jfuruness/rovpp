@@ -22,18 +22,17 @@ from .engine_input import ROVPPPrefixHijack
 
 
 default_kwargs = {"percent_adoptions": [0, 5, 10, 20, 30, 40, 60, 80, 100],
-                  "num_trials": 10}
+                  "num_trials": 100}
 
 non_lite_policies =(ROVPPV1SimpleAS,
                     ROVPPV2SimpleAS,
-                    ROVPPV2aSimpleAS,
-                    ROVPPV3AS)
+                    ROVPPV2aSimpleAS)
 
 rov_non_lite_rovpp = (ROVAS,) + non_lite_policies
 
 
 def run_sim(graph, path):
-    sim = Simulator(parse_cpus=6)
+    sim = Simulator(parse_cpus=9)
 
     sim.run(graphs=[graph], graph_path=path, mp_method=MPMethod.MP)
 
@@ -47,11 +46,17 @@ def main():
                 ROVPPNonRoutedSuperprefixHijack,
                 ROVPPSuperprefixPrefixHijack,
                 ROVPPPrefixHijack]:
+        if atk == ROVPPSubprefixHijack:
+            pols = rov_non_lite_rovpp + (ROVPPV3AS,)
+        else:
+            pols = rov_non_lite_rovpp
         kwargs = {"EngineInputCls": atk, **default_kwargs}
-        graph = Graph(adopt_as_classes=rov_non_lite_rovpp, **kwargs)
+        graph = Graph(adopt_as_classes=pols, **kwargs)
 
         run_sim(graph, Path(f"/home/anon/{atk.__name__}_graphs.tar.gz"))
         print(f"Completed {atk}")
+        print("Ending early")
+        return
 
     kwargs = {"EngineInputCls": ROVPPSubprefixHijack, **default_kwargs}
     graph = Graph(adopt_as_classes=[ROVPPV1LiteSimpleAS, ROVPPV1SimpleAS],
