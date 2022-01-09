@@ -308,27 +308,6 @@
       timestamp: 0
       traceback_end: false
       withdraw: false
-    1.2.3.0/24: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 6
-      - 2
-      - 7
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      communities: !!python/tuple []
-      holes: !!python/tuple []
-      prefix: 1.2.3.0/24
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: 777
-      roa_valid_length: false
-      seed_asn: null
-      timestamp: 1
-      traceback_end: true
-      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 6
   customer_cone_size: 7
@@ -419,28 +398,6 @@
       roa_valid_length: true
       seed_asn: null
       timestamp: 0
-      traceback_end: false
-      withdraw: false
-    1.2.3.0/24: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 8
-      - 6
-      - 2
-      - 7
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      communities: !!python/tuple []
-      holes: !!python/tuple []
-      prefix: 1.2.3.0/24
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: 777
-      roa_valid_length: false
-      seed_asn: null
-      timestamp: 1
       traceback_end: false
       withdraw: false
   _recv_q: !yamlable/RecvQueue {}
@@ -1219,29 +1176,6 @@
       roa_valid_length: true
       seed_asn: 777
       timestamp: 0
-      traceback_end: false
-      withdraw: false
-    1.2.3.0/24: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 777
-      - 8
-      - 6
-      - 2
-      - 7
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      communities: !!python/tuple []
-      holes: !!python/tuple []
-      prefix: 1.2.3.0/24
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: 777
-      roa_valid_length: false
-      seed_asn: null
-      timestamp: 1
       traceback_end: false
       withdraw: false
   _recv_q: !yamlable/RecvQueue {}

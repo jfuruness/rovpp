@@ -13,11 +13,11 @@ class BaseROVPPFig4Tester(Unstable, BaseGraphSystemTester):
     BaseASCls = BGPAS
     EngineInputCls = ROVPPSubprefixHijack
     base_dir = Path(__file__).parent
-    adopting_asns = [5]
+    adopting_asns = [5, 8, 10, 15]
 
 
-class Test009Fig2V2(BaseROVPPFig4Tester):
-    AdoptASCls = ROVPPV2SimpleAS
+#class Test009Fig2V2(BaseROVPPFig4Tester):
+#    AdoptASCls = ROVPPV2SimpleAS
 
 
 class Test010Fig2V3(BaseROVPPFig4Tester):

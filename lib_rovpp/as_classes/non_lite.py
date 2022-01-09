@@ -74,6 +74,9 @@ class NonLite:
             return True
         elif new_ann.blackhole and not current_ann.blackhole:
             return False
+        # Preventives > blackholes
+        elif new_ann.preventive and current_ann.blackhole:
+            return True
         else:
             return None
 

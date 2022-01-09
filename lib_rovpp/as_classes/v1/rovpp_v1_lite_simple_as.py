@@ -80,18 +80,21 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             for ann in ann_list:
                 ann_holes = []
                 for subprefix in engineinput.prefix_subprefix_dict[ann.prefix]:
-                    for sub_ann_list in self._recv_q.get_ann_list(subprefix):
-                        for sub_ann in sub_ann_list:
-                            # Holes are only from same neighbor
-                            if (sub_ann.invalid_by_roa
-                                    and sub_ann.as_path[0] == ann.as_path[0]):
-                                ann_holes.append(sub_ann)
+                    for sub_ann in self._recv_q.get_ann_list(subprefix):
+                        # Holes are only from same neighbor
+                        if (sub_ann.invalid_by_roa
+                                and sub_ann.as_path[0] == ann.as_path[0]):
+                            ann_holes.append(sub_ann)
                 holes[ann] = tuple(ann_holes)
+        #print(self.asn)
+        #input(holes)
         return holes
 
     def _add_blackholes(self, holes, from_rel):
         """Manipulates local RIB by adding blackholes and dropping invalid"""
 
+
+        blackholes_to_add = []
         # For each ann in local RIB:
         for _, ann in self._local_rib.prefix_anns():
             # For each hole in ann: (holes are invalid subprefixes)
@@ -101,16 +104,24 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     unprocessed_hole_ann.prefix)
 
                 if (existing_local_rib_subprefix_ann is None
-                        or existing_local_rib_subprefix_ann.invalid_by_roa):
-                    # Remove current ann and replace with blackhole
-                    self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
+                    or (existing_local_rib_subprefix_ann.invalid_by_roa
+                        and not existing_local_rib_subprefix_ann.preventive)):
+                    # If another entry exists, remove it
+                    # if self._local_rib.get_ann(unprocessed_hole_ann.prefix):
+                        # Remove current ann and replace with blackhole
+                    #     self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
                     # Create the blackhole
                     blackhole = self._copy_and_process(unprocessed_hole_ann,
                                                        from_rel,
+                                                       holes=holes,
                                                        blackhole=True,
                                                        traceback_end=True)
-                    # Add the blackhole
-                    self._local_rib.add_ann(blackhole)
+
+                    blackholes_to_add.append(blackhole)
+        # Do this here to avoid changing dict size
+        for blackhole in blackholes_to_add:
+            # Add the blackhole
+            self._local_rib.add_ann(blackhole)
             # Do nothing - ann should already be a blackhole
             assert ((ann.blackhole and ann.invalid_by_roa)
                     or not ann.invalid_by_roa)
