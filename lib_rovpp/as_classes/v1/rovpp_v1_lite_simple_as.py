@@ -1,12 +1,12 @@
 from typing import Dict, Optional, Tuple
 
 from lib_bgp_simulator import Announcement as Ann
-from lib_bgp_simulator import BGPSimpleAS
+from lib_bgp_simulator import ROVSimpleAS
 from lib_bgp_simulator import EngineInput
 from lib_bgp_simulator import Relationships
 
 
-class ROVPPV1LiteSimpleAS(BGPSimpleAS):
+class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
     name = "ROV++V1 Lite Simple"
 
@@ -52,7 +52,7 @@ class ROVPPV1LiteSimpleAS(BGPSimpleAS):
             holes=holes,
             **kwargs)
 
-        self._add_blackholes(from_rel)
+        self._add_blackholes(holes, from_rel)
 
         # It's possible that we had a previously valid prefix
         # Then later recieved a subprefix that was invalid
@@ -82,12 +82,14 @@ class ROVPPV1LiteSimpleAS(BGPSimpleAS):
                 for subprefix in engineinput.prefix_subprefix_dict[ann.prefix]:
                     for sub_ann_list in self._recv_q.get_ann_list(subprefix):
                         for sub_ann in sub_ann_list:
-                            if sub_ann.invalid_by_roa:
+                            # Holes are only from same neighbor
+                            if (sub_ann.invalid_by_roa
+                                    and sub_ann.as_path[0] == ann.as_path[0]):
                                 ann_holes.append(sub_ann)
                 holes[ann] = tuple(ann_holes)
         return holes
 
-    def _add_blackholes(self, from_rel):
+    def _add_blackholes(self, holes, from_rel):
         """Manipulates local RIB by adding blackholes and dropping invalid"""
 
         # For each ann in local RIB:
@@ -104,7 +106,9 @@ class ROVPPV1LiteSimpleAS(BGPSimpleAS):
                     self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
                     # Create the blackhole
                     blackhole = self._copy_and_process(unprocessed_hole_ann,
-                                                       from_rel)
+                                                       from_rel,
+                                                       blackhole=True,
+                                                       traceback_end=True)
                     # Add the blackhole
                     self._local_rib.add_ann(blackhole)
             # Do nothing - ann should already be a blackhole
@@ -118,9 +122,9 @@ class ROVPPV1LiteSimpleAS(BGPSimpleAS):
                           **extra_kwargs):
         """Deep copies ann and modifies attrs"""
 
-        if ann.invalid_by_roa and not ann.preventive:
-            extra_kwargs["blackhole"] = True
-            extra_kwargs["traceback_end"] = True
+        # if ann.invalid_by_roa and not ann.preventive:
+        #     extra_kwargs["blackhole"] = True
+        #     extra_kwargs["traceback_end"] = True
         extra_kwargs["holes"] = holes[ann]
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
             ann, recv_relationship, **extra_kwargs)
