@@ -1,0 +1,1 @@
+from .rovpp_v2_shorten_lite_simple_as import ROVPPV2ShortenLiteSimpleAS
