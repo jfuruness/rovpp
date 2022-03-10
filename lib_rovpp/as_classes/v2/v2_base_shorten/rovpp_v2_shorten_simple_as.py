@@ -1,13 +1,13 @@
 from lib_bgp_simulator import Relationships
 
-from ..v2_base import ROVPPV2LiteSimpleAS
+from ..v2_base import ROVPPV2SimpleAS
 
 
-class ROVPPV2ShortenLiteSimpleAS(ROVPPV2LiteSimpleAS):
+class ROVPPV2ShortenSimpleAS(ROVPPV2SimpleAS):
 
     __slots__ = tuple()
 
-    name = "ROV++V2 Shorten Lite Simple"
+    name = "ROV++V2 Shorten Simple"
 
 
     def _copy_and_process(self,
@@ -24,5 +24,5 @@ class ROVPPV2ShortenLiteSimpleAS(ROVPPV2LiteSimpleAS):
         # These anns will be blackholes
         if ann.invalid_by_roa and not ann.preventive:
             extra_kwargs["as_path"] = tuple([ann.as_path[-1]])
-        return super(ROVPPV2ShortenLiteSimpleAS, self)._copy_and_process(
+        return super(ROVPPV2ShortenSimpleAS, self)._copy_and_process(
                      ann, recv_relationship, holes=holes, **extra_kwargs)

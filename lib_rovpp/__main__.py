@@ -7,11 +7,13 @@ from lib_bgp_simulator import Graph, Simulator, ROVAS, MPMethod
 from .as_classes import ROVPPV1LiteSimpleAS
 from .as_classes import ROVPPV2LiteSimpleAS
 from .as_classes import ROVPPV2aLiteSimpleAS
+from .as_classes import ROVPPV2ShortenLiteSimpleAS
 
 # NON LITE
 from .as_classes import ROVPPV1SimpleAS
 from .as_classes import ROVPPV2SimpleAS
 from .as_classes import ROVPPV2aSimpleAS
+from .as_classes import ROVPPV2ShortenSimpleAS
 from .as_classes import ROVPPV3AS
 
 # Attacks
@@ -26,13 +28,15 @@ default_kwargs = {"percent_adoptions": [0, 5, 10, 20, 30, 40, 60, 80, 100],
 
 non_lite_policies =(ROVPPV1SimpleAS,
                     ROVPPV2SimpleAS,
-                    ROVPPV2aSimpleAS)
+                    ROVPPV2aSimpleAS,
+                    ROVPPV2ShortenSimpleAS,
+                    )
 
 rov_non_lite_rovpp = (ROVAS,) + non_lite_policies
 
 
 def run_sim(graph, path):
-    sim = Simulator(parse_cpus=9)
+    sim = Simulator(parse_cpus=11)
 
     sim.run(graphs=[graph], graph_path=path, mp_method=MPMethod.MP)
 
