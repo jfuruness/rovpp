@@ -29,7 +29,7 @@ default_kwargs = {"percent_adoptions": [0, 5, 10, 20, 30, 40, 60, 80, 100],
 non_lite_policies =(ROVPPV1SimpleAS,
                     ROVPPV2SimpleAS,
                     ROVPPV2aSimpleAS,
-                    ROVPPV2ShortenSimpleAS,
+                    # ROVPPV2ShortenSimpleAS,
                     )
 
 rov_non_lite_rovpp = (ROVAS,) + non_lite_policies
