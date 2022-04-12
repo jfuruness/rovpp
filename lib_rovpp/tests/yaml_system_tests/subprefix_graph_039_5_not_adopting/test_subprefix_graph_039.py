@@ -15,21 +15,21 @@ class BaseSubprefixGraph039Tester(Unstable, BaseGraphSystemTester):
     BaseASCls = BGPSimpleAS
     EngineInputCls = ROVPPSubprefixHijack
     base_dir = Path(__file__).parent
-    adopting_asns = (enums.ASNs.VICTIM.value, 33,)
+    adopting_asns = (33,)
 
 
-class Test130(BaseSubprefixGraph039Tester):
+class Test134(BaseSubprefixGraph039Tester):
     AdoptASCls = ROVPPV1SimpleAS
 
 
-class Test131(BaseSubprefixGraph039Tester):
+class Test135(BaseSubprefixGraph039Tester):
     AdoptASCls = ROVPPV2SimpleAS
 
 
-class Test132(BaseSubprefixGraph039Tester):
+class Test136(BaseSubprefixGraph039Tester):
     AdoptASCls = ROVPPV1LiteSimpleAS
 
 
-class Test133(BaseSubprefixGraph039Tester):
+class Test137(BaseSubprefixGraph039Tester):
     AdoptASCls = ROVPPV2LiteSimpleAS
 
