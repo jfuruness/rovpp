@@ -1,12 +1,11 @@
 !yamlable/SimulatorEngine
-1: !yamlable/ROVPPV2SimpleAS
+1: !yamlable/ROVPPV1LiteSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -41,9 +40,8 @@
       as_path: !!python/tuple
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -79,9 +77,8 @@
       - 7
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -116,9 +113,8 @@
       - 8
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -215,7 +211,7 @@
   propagation_rank: 4
   providers: !!python/tuple
   - 135
-33: !yamlable/ROVPPV2SimpleAS
+33: !yamlable/ROVPPV1LiteSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple

@@ -4,10 +4,8 @@ from lib_bgp_simulator import BaseGraphSystemTester, BGPSimpleAS, Graph038
 from lib_bgp_simulator import enums
 
 from ..unstable import Unstable
-from ....as_classes import ROVPPV1SimpleAS
-from ....as_classes import ROVPPV2SimpleAS
-from ....as_classes import ROVPPV2aLiteSimpleAS
-from ....as_classes import ROVPPV2aSimpleAS
+from ....as_classes import ROVPPV1SimpleAS, ROVPPV1LiteSimpleAS
+from ....as_classes import ROVPPV2SimpleAS, ROVPPV2LiteSimpleAS
 
 from ....engine_input import ROVPPSubprefixHijack
 
@@ -25,5 +23,9 @@ class Test126(BaseSubprefixGraph038Tester):
 
 
 class Test127(BaseSubprefixGraph038Tester):
+    AdoptASCls = ROVPPV1LiteSimpleAS
+
+
+class Test128(BaseSubprefixGraph038Tester):
     AdoptASCls = ROVPPV2SimpleAS
 
