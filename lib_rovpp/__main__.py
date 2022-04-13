@@ -21,6 +21,8 @@ from .engine_input import ROVPPSubprefixHijack
 from .engine_input import ROVPPNonRoutedSuperprefixHijack
 from .engine_input import ROVPPSuperprefixPrefixHijack
 from .engine_input import ROVPPPrefixHijack
+from .engine_input import ROVPPNonRoutedPrefixHijack
+from .engine_input import ROVPPNonRoutedSuperprefixPrefixHijack
 
 
 default_kwargs = {"percent_adoptions": [0, 5, 10, 20, 30, 40, 60, 80, 100],
@@ -46,10 +48,12 @@ def main():
     assert isinstance(input("Turn asserts off for speed?"), str)
 
     # Get's all of the general graphs for all types of attacks
-    for atk in [ROVPPSubprefixHijack,
-                ROVPPNonRoutedSuperprefixHijack,
-                ROVPPSuperprefixPrefixHijack,
-                ROVPPPrefixHijack]:
+    #for atk in [ROVPPSubprefixHijack,
+    #            ROVPPNonRoutedSuperprefixHijack,
+    #            ROVPPSuperprefixPrefixHijack,
+    #            ROVPPPrefixHijack]:
+    for atk in [ROVPPNonRoutedPrefixHijack,
+                ROVPPNonRoutedSuperprefixPrefixHijack]:
         if atk == ROVPPSubprefixHijack:
             pols = rov_non_lite_rovpp + (ROVPPV3AS,)
         else:

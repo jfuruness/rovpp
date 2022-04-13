@@ -3,6 +3,7 @@ from lib_bgp_simulator import SubprefixHijack
 from lib_bgp_simulator import NonRoutedPrefixHijack
 from lib_bgp_simulator import SuperprefixPrefixHijack
 from lib_bgp_simulator import NonRoutedSuperprefixHijack
+from lib_bgp_simulator import NonRoutedSuperprefixPrefixHijack
 
 from .rovpp_engine_input import ROVPPEngineInput
 
@@ -24,6 +25,11 @@ class ROVPPNonRoutedSuperprefixHijack(ROVPPEngineInput,
 
 
 class ROVPPSuperprefixPrefixHijack(ROVPPEngineInput, SuperprefixPrefixHijack):
+    pass
+
+
+class ROVPPNonRoutedSuperprefixPrefixHijack(
+        ROVPPEngineInput, NonRoutedSuperprefixPrefixHijack):
     pass
 
 
