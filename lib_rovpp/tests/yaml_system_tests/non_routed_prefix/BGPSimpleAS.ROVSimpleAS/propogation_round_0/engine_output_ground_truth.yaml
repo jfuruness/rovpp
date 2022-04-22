@@ -31,7 +31,7 @@
   peers: !!python/tuple []
   propagation_rank: 2
   providers: !!python/tuple []
-2: !yamlable/ROVPPV1SimpleAS
+2: !yamlable/ROVSimpleAS
   _local_rib: !yamlable/LocalRIB {}
   _recv_q: !yamlable/RecvQueue {}
   asn: 2
