@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseNonRoutedPrefixTester, BGPSimpleAS, Graph006
+from lib_bgp_simulator import BaseNonRoutedPrefixTester, BGPSimpleAS, ROVSimpleAS, Graph006
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS
@@ -17,12 +17,16 @@ class BaseROVPPNonRoutedPrefixTester(Unstable, BaseNonRoutedPrefixTester):
 
 
 class Test011NonRoutedPrefixV1(BaseROVPPNonRoutedPrefixTester):
+    AdoptASCls = ROVSimpleAS
+
+
+class Test012NonRoutedPrefixV1(BaseROVPPNonRoutedPrefixTester):
     AdoptASCls = ROVPPV1SimpleAS
 
 
-class Test012NonRoutedPrefixV2(BaseROVPPNonRoutedPrefixTester):
+class Test013NonRoutedPrefixV2(BaseROVPPNonRoutedPrefixTester):
     AdoptASCls = ROVPPV2SimpleAS
 
 
-class Test013NonRoutedPrefixV2a(BaseROVPPNonRoutedPrefixTester):
+class Test014NonRoutedPrefixV2a(BaseROVPPNonRoutedPrefixTester):
     AdoptASCls = ROVPPV2aSimpleAS
