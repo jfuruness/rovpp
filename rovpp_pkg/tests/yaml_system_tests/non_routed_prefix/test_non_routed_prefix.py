@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseNonRoutedPrefixTester, BGPSimpleAS, Graph006
+from bgp_simulator_pkg import BaseNonRoutedPrefixTester, BGPSimpleAS, Graph006
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from lib_bgp_simulator import BaseFig2Tester, BGPSimpleAS
+from bgp_simulator_pkg import BaseFig2Tester, BGPSimpleAS
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1LiteSimpleAS

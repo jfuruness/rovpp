@@ -1,6 +1,6 @@
 import dataclasses
 
-from lib_bgp_simulator import Announcement
+from bgp_simulator_pkg import Announcement
 
 
 @dataclasses.dataclass(eq=False, unsafe_hash=True)

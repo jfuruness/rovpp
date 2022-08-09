@@ -1,4 +1,4 @@
-from lib_bgp_simulator import BGPAS, Prefixes, Relationships, ROVAS
+from bgp_simulator_pkg import BGPAS, Prefixes, Relationships, ROVAS
 
 from .non_lite import NonLite
 from .v2 import ROVPPV2SimpleAS
@@ -14,20 +14,21 @@ class ROVNoDropPrev(NonLite, BGPAS):
             return False
         else:
             return BGPAS._valid_ann(self, ann, *args, **kwargs)
-
     def _copy_and_process(self,
                           ann,
                           recv_relationship,
-                          holes=None,
-                          **extra_kwargs):
+                          overwrite_default_kwargs=None):
         """Deep copies ann and modifies attrs"""
 
-        # if ann.invalid_by_roa and not ann.preventive:
-        #     extra_kwargs["blackhole"] = True
-        #     extra_kwargs["traceback_end"] = True
-        extra_kwargs["holes"] = holes[ann]
+        if overwrite_default_kwargs:
+            overwrite_default_kwargs["holes"] = holes[ann]
+        else:
+            overwrite_default_kwargs = {"holes": holes[ann]}
+
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
-            ann, recv_relationship, **extra_kwargs)
+            ann,
+            recv_relationship,
+            overwrite_default_kwargs=overwrite_default_kwargs)
 
 
 class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
@@ -114,14 +115,14 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
                "because this is a useless policy")
         assert isinstance(engine_input, ROVPPSubprefixHijack), err
 
-        
+
 
         # Holes are invalid subprefixes from the same neighbor
         # We do this here so that we can optimize it
         # Or else it is much too slow to have a generalized version
         # See ROVPP_v1_Lite_slow, it has like 5+ nested for loops
 
-        holes = self._get_ann_to_holes_dict(engine_input)
+        self.temp_holes = self._get_ann_to_holes_dict(engine_input)
 
         ROVNoDropPrev.process_incoming_anns(
             self,
@@ -131,12 +132,18 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
             holes=holes,
             reset_q=False,
             **kwargs)
-        self._get_and_assign_preventives(holes, recv_relationship)
+        self._get_and_assign_preventives(self.temp_holes, recv_relationship)
 
-        self._add_blackholes(holes, recv_relationship)
+        self._add_blackholes(self.temp_holes, recv_relationship)
 
         # Move holes from temp_holes and resets q
         self._reset_q(reset_q)
+
+    def _reset_q(self, reset_q: bool):
+        if reset_q:
+            self.temp_holes = dict()
+        super(ROVPPV1LiteSimpleAS, self)._reset_q(reset_q)
+
 
     def _get_and_assign_preventives(self, holes, recv_relationship):
         """
@@ -199,13 +206,15 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
     def _copy_and_process(self,
                           ann,
                           recv_relationship,
-                          holes=None,
-                          **extra_kwargs):
+                          overwrite_default_kwargs=None):
         """Deep copies ann and modifies attrs"""
 
-        # if ann.invalid_by_roa and not ann.preventive:
-        #     extra_kwargs["blackhole"] = True
-        #     extra_kwargs["traceback_end"] = True
-        extra_kwargs["holes"] = holes[ann]
-        return BGPAS._copy_and_process(self,
-            ann, recv_relationship, **extra_kwargs)
+        if overwrite_default_kwargs:
+            overwrite_default_kwargs["holes"] = holes[ann]
+        else:
+            overwrite_default_kwargs = {"holes": holes[ann]}
+
+        return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
+            ann,
+            recv_relationship,
+            overwrite_default_kwargs=overwrite_default_kwargs)

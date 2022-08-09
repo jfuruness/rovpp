@@ -1,4 +1,4 @@
-from lib_bgp_simulator import Relationships
+from bgp_simulator_pkg import Relationships
 
 from ..v2_base import ROVPPV2SimpleAS
 

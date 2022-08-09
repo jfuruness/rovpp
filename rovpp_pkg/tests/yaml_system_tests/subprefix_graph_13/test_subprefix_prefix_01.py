@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseGraphSystemTester
-from lib_bgp_simulator import BGPSimpleAS
-from lib_bgp_simulator import ROVSimpleAS
-from lib_bgp_simulator import Graph013
+from bgp_simulator_pkg import BaseGraphSystemTester
+from bgp_simulator_pkg import BGPSimpleAS
+from bgp_simulator_pkg import ROVSimpleAS
+from bgp_simulator_pkg import Graph013
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS

@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseNonRoutedSuperprefixTester
-from lib_bgp_simulator import BGPSimpleAS
-from lib_bgp_simulator import Graph006
+from bgp_simulator_pkg import BaseNonRoutedSuperprefixTester
+from bgp_simulator_pkg import BGPSimpleAS
+from bgp_simulator_pkg import Graph006
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS

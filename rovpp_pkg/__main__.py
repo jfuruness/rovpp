@@ -1,13 +1,19 @@
 from datetime import datetime
 from pathlib import Path
 
-from lib_bgp_simulator import Graph, Simulator, ROVAS, MPMethod
+from bgp_simulator_pkg import ROVSimpleAS
+from bgp_simulator_pkg import Simulation
+from bgp_simulator_pkg import Subgraph
+
+# Hijacks
+from bgp_simulator_pkg import SubprefixHijack
+from bgp_simulator_pkg import NonRoutedSuperprefixHijack
+from bgp_simulator_pkg import SuperprefixPrefixHijack
+from bgp_simulator_pkg import PrefixHijack
+from bgp_simulator_pkg import NonRoutedPrefixHijack
 
 # LITE
 from .as_classes import ROVPPV1LiteSimpleAS
-from .as_classes import ROVPPV2LiteSimpleAS
-from .as_classes import ROVPPV2aLiteSimpleAS
-from .as_classes import ROVPPV2ShortenLiteSimpleAS
 
 # NON LITE
 from .as_classes import ROVPPV1SimpleAS
@@ -16,62 +22,72 @@ from .as_classes import ROVPPV2aSimpleAS
 from .as_classes import ROVPPV2ShortenSimpleAS
 from .as_classes import ROVPPV3AS
 
-# Attacks
-from .engine_input import ROVPPSubprefixHijack
-from .engine_input import ROVPPNonRoutedSuperprefixHijack
-from .engine_input import ROVPPSuperprefixPrefixHijack
-from .engine_input import ROVPPPrefixHijack
-from .engine_input import ROVPPNonRoutedPrefixHijack
-from .engine_input import ROVPPNonRoutedSuperprefixPrefixHijack
+from .rovpp_ann import ROVPPAnn
 
 
-default_kwargs = {"percent_adoptions": [0, 5, 10, 20, 30, 40, 60, 80, 100],
-                  "num_trials": 1000}
-
-non_lite_policies =(ROVPPV1SimpleAS,
-                    ROVPPV2SimpleAS,
-                    ROVPPV2aSimpleAS,
-                    # ROVPPV2ShortenSimpleAS,
-                    )
-
-rov_non_lite_rovpp = (ROVAS,) + non_lite_policies
+BASE_PATH = Path("~/Desktop/graphs/").expanduser()
 
 
-def run_sim(graph, path):
-    sim = Simulator(parse_cpus=6)
+def get_default_kwargs():
+    return {"percent_adoptions": [0, .5, .1, .2, .3, .4, .6, .8, 1],
+            "num_trials": 1000,
+            "subgraphs": [Cls() for Cls in Subgraph.subclasses],
+            "parse_cpus": 6}
 
-    sim.run(graphs=[graph], graph_path=path, mp_method=MPMethod.MP)
+
+ROV_NON_LITE_ROVPP = (ROVSimpleAS,
+                      ROVPPV1SimpleAS,
+                      ROVPPV2SimpleAS,
+                      ROVPPV2aSimpleAS,
+                      ROVPPV2ShortenSimpleAS)
 
 
 def main():
 
     assert isinstance(input("Turn asserts off for speed?"), str)
 
-    # Get's all of the general graphs for all types of attacks
-    #for atk in [ROVPPSubprefixHijack,
-    #            ROVPPNonRoutedSuperprefixHijack,
-    #            ROVPPSuperprefixPrefixHijack,
-    #            ROVPPPrefixHijack]:
-    for atk in [ROVPPNonRoutedPrefixHijack,
-                ROVPPNonRoutedSuperprefixPrefixHijack]:
-        if atk == ROVPPSubprefixHijack:
-            pols = rov_non_lite_rovpp + (ROVPPV3AS,)
-        else:
-            pols = rov_non_lite_rovpp
-        kwargs = {"EngineInputCls": atk, **default_kwargs}
-        graph = Graph(adopt_as_classes=pols, **kwargs)
+    sims = [Simulation(scenarios=(SubprefixHijack(AdoptASCls=Cls,
+                                                  AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS)),
+                       output_path=BASE_PATH / "subprefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(NonRoutedSuperprefixHijack(AdoptASCls=Cls,
+                                                             AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP),
+                       output_path=BASE_PATH / "non_routed_superprefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(SuperprefixPrefixHijack(AdoptASCls=Cls,
+                                                          AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP),
+                       output_path=BASE_PATH / "superprefix_prefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(PrefixHijack(AdoptASCls=Cls,
+                                               AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP),
+                       output_path=BASE_PATH / "prefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(NonRoutedPrefixHijack(AdoptASCls=Cls,
+                                                        AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP),
+                       output_path=BASE_PATH / "non_routed_prefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(NonRoutedSuperprefixHijack(AdoptASCls=Cls,
+                                                             AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP),
+                       output_path=BASE_PATH / "non_routed_superprefix_prefix",
+                       **get_default_kwargs()),
+            Simulation(scenarios=(SubprefixHijack(AdoptASCls=Cls,
+                                                  AnnCls=ROVPPAnn)
+                                  for Cls in (ROVPPV1SimpleAS,
+                                              ROVPPV1LiteSimpleAS)),
+                       output_path=BASE_PATH / "lite_vs_non_lite",
+                       **get_default_kwargs())]
 
+    for sim in sims:
         start = datetime.now()
-        run_sim(graph, Path(f"/home/anon/{atk.__name__}_graphs.tar.gz"))
-        print(f"Completed {atk}")
-        print((datetime.now() - start).total_seconds())
-        #print("Ending early")
-        #return
+        sim.run()
+        print(f"{sim.output_path} {(datetime.now() - start).total_seconds()}")
 
-    kwargs = {"EngineInputCls": ROVPPSubprefixHijack, **default_kwargs}
-    graph = Graph(adopt_as_classes=[ROVPPV1LiteSimpleAS, ROVPPV1SimpleAS],
-                  **kwargs)
-    run_sim(graph, Path("/home/anon/v1_lite_vs_non_lite_graphs.tar.gz"))
 
 if __name__ == "__main__":
     start = datetime.now()

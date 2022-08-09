@@ -1,14 +1,14 @@
 from typing import Optional
 
-from lib_bgp_simulator import Announcement as Ann
-from lib_bgp_simulator import BGPSimpleAS
-from lib_bgp_simulator import Relationships
+from bgp_simulator_pkg import Announcement as Ann
+from bgp_simulator_pkg import BGPSimpleAS
+from bgp_simulator_pkg import Relationships
 
 
 class NonLite:
     """Do nothing for new holes better funcs (Lite)"""
 
-    __slots__ = tuple()
+    __slots__ = ()
 
     def _new_ann_better(self,
                         current_ann: Optional[Ann],
@@ -17,8 +17,7 @@ class NonLite:
                         new_ann: Ann,
                         new_processed: Relationships,
                         default_new_recv_rel: Relationships,
-                        # NOTE: this is set to holes dict
-                        holes=None) -> Optional[bool]:
+                        ) -> Optional[bool]:
         """Must include this here since we blackhole prefixes now
 
         This does the same thing as the original func
@@ -44,8 +43,7 @@ class NonLite:
                     current_ann,
                     current_processed,
                     new_ann,
-                    new_processed,
-                    holes)
+                    new_processed)
                 if new_holes_better is not None:
                     return new_holes_better
                 else:
@@ -84,8 +82,7 @@ class NonLite:
                           current_ann,
                           current_ann_processed,
                           new_ann,
-                          new_ann_processed,
-                          holes):
+                          new_ann_processed):
         """Returns new ann has less holes, or None if =="""
 
         # Could do this using int(processed) but so unreadable
@@ -94,13 +91,13 @@ class NonLite:
         if new_ann_processed:
             new_holes = len(new_ann.holes)
         else:
-            new_holes = len(holes[new_ann])
+            new_holes = len(self.holes[new_ann])
 
         # Holes for current announcement
         if current_ann_processed:
             current_holes = len(current_ann.holes)
         else:
-            current_holes = len(holes[current_ann])
+            current_holes = len(self.holes[current_ann])
 
         if new_holes < current_holes:
             return True

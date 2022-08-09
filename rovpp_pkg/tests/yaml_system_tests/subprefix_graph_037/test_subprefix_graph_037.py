@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseGraphSystemTester, ROVSimpleAS, BGPSimpleAS, Graph037
-from lib_bgp_simulator import enums
+from bgp_simulator_pkg import BaseGraphSystemTester, ROVSimpleAS, BGPSimpleAS, Graph037
+from bgp_simulator_pkg import enums
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV1SimpleAS

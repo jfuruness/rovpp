@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lib_bgp_simulator import BaseGraphSystemTester, BGPSimpleAS, Graph007
+from bgp_simulator_pkg import BaseGraphSystemTester, BGPSimpleAS, Graph007
 
 from ..unstable import Unstable
 from ....as_classes import ROVPPV2SimpleAS
