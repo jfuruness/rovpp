@@ -1,0 +1,5 @@
+git+https://github.com/jfuruness/bgp_simulator_pkg.git
+pytest==7.1.2
+PyYAML==6.0
+tqdm==4.64.0
+yamlable==1.1.1
