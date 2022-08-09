@@ -41,11 +41,11 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         self.temp_holes: Dict[Ann, Tuple[Ann]] = self._get_ann_to_holes_dict(
             scenario)
         super(ROVPPV1LiteSimpleAS, self).process_incoming_anns(
-            from_rel,
+            from_rel=from_rel,
             propagation_round=propagation_round,
             scenario=scenario,
             reset_q=False)
-        self._add_blackholes(self.holes, from_rel)
+        self._add_blackholes(self.temp_holes, from_rel)
 
         # It's possible that we had a previously valid prefix
         # Then later recieved a subprefix that was invalid
@@ -77,7 +77,8 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         for _, ann_list in self._recv_q.prefix_anns():
             for ann in ann_list:
                 ann_holes = []
-                for subprefix in engineinput.prefix_subprefix_dict[ann.prefix]:
+                for subprefix in engineinput.ordered_prefix_subprefix_dict[
+                        ann.prefix]:
                     for sub_ann in self._recv_q.get_ann_list(subprefix):
                         # Holes are only from same neighbor
                         if (sub_ann.invalid_by_roa
@@ -113,11 +114,12 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     #    # Remove current ann and replace with blackhole
                     #     self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
                     # Create the blackhole
-                    blackhole = self._copy_and_process(unprocessed_hole_ann,
-                                                       from_rel,
-                                                       holes=holes,
-                                                       blackhole=True,
-                                                       traceback_end=True)
+                    blackhole = self._copy_and_process(
+                        unprocessed_hole_ann,
+                        from_rel,
+                        overwrite_default_kwargs={"holes": holes,
+                                                  "blackhole": True,
+                                                  "traceback_end": True})
 
                     blackholes_to_add.append(blackhole)
         # Do this here to avoid changing dict size
@@ -145,5 +147,6 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             overwrite_default_kwargs=overwrite_default_kwargs)
 
     def _process_outgoing_ann(self, neighbor, ann, *args, **kwargs):
+        no_holes_ann = ann.copy(overwrite_default_kwargs={"holes": ()})
         super(ROVPPV1LiteSimpleAS, self)._process_outgoing_ann(
-            neighbor, ann.copy(holes=()), *args, **kwargs)
+            neighbor, no_holes_ann, *args, **kwargs)

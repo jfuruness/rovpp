@@ -1,19 +1,22 @@
 from bgp_simulator_pkg import BGPAS, Prefixes, Relationships, ROVAS
+from bgp_simulator_pkg import Scenario, SubprefixHijack
 
 from .non_lite import NonLite
 from .v2 import ROVPPV2SimpleAS
-from ..engine_input import ROVPPSubprefixHijack
+from .v1 import ROVPPV1LiteSimpleAS
 
 
 # Hard coding this because screw it
 # This is not how I normally code I assure you
 class ROVNoDropPrev(NonLite, BGPAS):
     name = "ROV that deals with preventives"
+
     def _valid_ann(self, ann, *args, **kwargs) -> bool:
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
             return BGPAS._valid_ann(self, ann, *args, **kwargs)
+
     def _copy_and_process(self,
                           ann,
                           recv_relationship,
@@ -21,9 +24,9 @@ class ROVNoDropPrev(NonLite, BGPAS):
         """Deep copies ann and modifies attrs"""
 
         if overwrite_default_kwargs:
-            overwrite_default_kwargs["holes"] = holes[ann]
+            overwrite_default_kwargs["holes"] = self.temp_holes[ann]
         else:
-            overwrite_default_kwargs = {"holes": holes[ann]}
+            overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
 
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
             ann,
@@ -58,7 +61,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         if ann.blackhole:
             # For now do V1
             # return True
-            #Is this calling the proper func??
+            # Is this calling the proper func??
             return ROVPPV2SimpleAS._policy_propagate(self,
                                                      neighbor,
                                                      ann,
@@ -101,40 +104,35 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         return neighbor_info is not None
 
     def process_incoming_anns(self,
-                              recv_relationship,
-                              propagation_round=None,
-                              engine_input=None,
-                              reset_q=True,
-                              **kwargs):
+                              *,
+                              from_rel: Relationships,
+                              propagation_round: int,
+                              scenario: "Scenario",
+                              reset_q: bool = True):
         """Process all announcements that were incoming from a specific rel"""
-
 
         err = ("This entire policy hardcoded for a victim prefix "
                "and attacker subprefix"
                " Not going to make this dynamic "
                "because this is a useless policy")
-        assert isinstance(engine_input, ROVPPSubprefixHijack), err
-
-
+        assert isinstance(scenario, SubprefixHijack), err
 
         # Holes are invalid subprefixes from the same neighbor
         # We do this here so that we can optimize it
         # Or else it is much too slow to have a generalized version
         # See ROVPP_v1_Lite_slow, it has like 5+ nested for loops
 
-        self.temp_holes = self._get_ann_to_holes_dict(engine_input)
+        self.temp_holes = self._get_ann_to_holes_dict(scenario)
 
         ROVNoDropPrev.process_incoming_anns(
             self,
-            recv_relationship,
+            from_rel=from_rel,
             propagation_round=propagation_round,
-            engine_input=engine_input,
-            holes=holes,
-            reset_q=False,
-            **kwargs)
-        self._get_and_assign_preventives(self.temp_holes, recv_relationship)
+            scenario=scenario,
+            reset_q=False)
+        self._get_and_assign_preventives(self.temp_holes, from_rel)
 
-        self._add_blackholes(self.temp_holes, recv_relationship)
+        self._add_blackholes(self.temp_holes, from_rel)
 
         # Move holes from temp_holes and resets q
         self._reset_q(reset_q)
@@ -143,7 +141,6 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         if reset_q:
             self.temp_holes = dict()
         super(ROVPPV1LiteSimpleAS, self)._reset_q(reset_q)
-
 
     def _get_and_assign_preventives(self, holes, recv_relationship):
         """
@@ -210,9 +207,9 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         """Deep copies ann and modifies attrs"""
 
         if overwrite_default_kwargs:
-            overwrite_default_kwargs["holes"] = holes[ann]
+            overwrite_default_kwargs["holes"] = self.temp_holes[ann]
         else:
-            overwrite_default_kwargs = {"holes": holes[ann]}
+            overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
 
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
             ann,

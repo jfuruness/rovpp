@@ -29,10 +29,10 @@ BASE_PATH = Path("~/Desktop/graphs/").expanduser()
 
 
 def get_default_kwargs():
-    return {"percent_adoptions": [0, .5, .1, .2, .3, .4, .6, .8, 1],
-            "num_trials": 1000,
-            "subgraphs": [Cls() for Cls in Subgraph.subclasses],
-            "parse_cpus": 6}
+    return {"percent_adoptions": [.5],#[0, .5, .1, .2, .3, .4, .6, .8, 1],
+            "num_trials": 1,
+            "subgraphs": [Cls() for Cls in Subgraph.subclasses if Cls.name],
+            "parse_cpus": 1}
 
 
 ROV_NON_LITE_ROVPP = (ROVSimpleAS,
@@ -44,42 +44,43 @@ ROV_NON_LITE_ROVPP = (ROVSimpleAS,
 
 def main():
 
-    assert isinstance(input("Turn asserts off for speed?"), str)
+    # assert isinstance(input("Turn asserts off for speed?"), str)
 
-    sims = [Simulation(scenarios=(SubprefixHijack(AdoptASCls=Cls,
+    sims = [Simulation(scenarios=[SubprefixHijack(AdoptASCls=Cls,
                                                   AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS)),
+                                  for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                                  ],
                        output_path=BASE_PATH / "subprefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(NonRoutedSuperprefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[NonRoutedSuperprefixHijack(AdoptASCls=Cls,
                                                              AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP),
+                                  for Cls in ROV_NON_LITE_ROVPP],
                        output_path=BASE_PATH / "non_routed_superprefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(SuperprefixPrefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[SuperprefixPrefixHijack(AdoptASCls=Cls,
                                                           AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP),
+                                  for Cls in ROV_NON_LITE_ROVPP],
                        output_path=BASE_PATH / "superprefix_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(PrefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[PrefixHijack(AdoptASCls=Cls,
                                                AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP),
+                                  for Cls in ROV_NON_LITE_ROVPP],
                        output_path=BASE_PATH / "prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(NonRoutedPrefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[NonRoutedPrefixHijack(AdoptASCls=Cls,
                                                         AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP),
+                                  for Cls in ROV_NON_LITE_ROVPP],
                        output_path=BASE_PATH / "non_routed_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(NonRoutedSuperprefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[NonRoutedSuperprefixHijack(AdoptASCls=Cls,
                                                              AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP),
+                                  for Cls in ROV_NON_LITE_ROVPP],
                        output_path=BASE_PATH / "non_routed_superprefix_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=(SubprefixHijack(AdoptASCls=Cls,
+            Simulation(scenarios=[SubprefixHijack(AdoptASCls=Cls,
                                                   AnnCls=ROVPPAnn)
                                   for Cls in (ROVPPV1SimpleAS,
-                                              ROVPPV1LiteSimpleAS)),
+                                              ROVPPV1LiteSimpleAS)],
                        output_path=BASE_PATH / "lite_vs_non_lite",
                        **get_default_kwargs())]
 

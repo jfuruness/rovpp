@@ -91,13 +91,13 @@ class NonLite:
         if new_ann_processed:
             new_holes = len(new_ann.holes)
         else:
-            new_holes = len(self.holes[new_ann])
+            new_holes = len(self.temp_holes[new_ann])
 
         # Holes for current announcement
         if current_ann_processed:
             current_holes = len(current_ann.holes)
         else:
-            current_holes = len(self.holes[current_ann])
+            current_holes = len(self.temp_holes[current_ann])
 
         if new_holes < current_holes:
             return True

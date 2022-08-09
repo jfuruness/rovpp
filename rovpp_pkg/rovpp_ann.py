@@ -1,13 +1,21 @@
-import dataclasses
-
 from bgp_simulator_pkg import Announcement
 
 
-@dataclasses.dataclass(eq=False, unsafe_hash=True)
 class ROVPPAnn(Announcement):
+
     __slots__ = ("holes", "blackhole", "preventive", "attacker_on_route")
 
-    holes: tuple
-    blackhole: bool
-    preventive: bool
-    attacker_on_route: bool
+    def __init__(self,
+                 *args,
+                 holes=(),
+                 blackhole: bool = False,
+                 preventive: bool = False,
+                 attacker_on_route: bool = False,
+                 **kwargs):
+        super().__init__(*args, **kwargs)
+        self.holes = holes
+        self.blackhole: bool = blackhole
+        # V3 only
+        self.preventive: bool = preventive
+        # V3 only
+        self.attacker_on_route: bool = attacker_on_route
