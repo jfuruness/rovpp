@@ -6,6 +6,7 @@ from bgp_simulator_pkg import EngineTester
 from bgp_simulator_pkg import EngineTestConfig
 
 from .system_tests import Config035
+from .system_tests import Config036
 
 @pytest.mark.engine
 class TestEngine:
@@ -15,7 +16,8 @@ class TestEngine:
     """
 
     @pytest.mark.parametrize("conf",
-                             [Config035])
+                             [Config035,
+                              Config036])
     def test_engine(self, conf: EngineTestConfig, overwrite: bool):
         """Performs a system test on the engine
 
