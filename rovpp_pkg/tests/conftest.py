@@ -4,6 +4,7 @@ import pytest
 
 from bgp_simulator_pkg import pytest_addoption as bgp_simulator_addoption
 
+
 # https://stackoverflow.com/a/40673918/8903959
 @pytest.fixture(scope="session", autouse=True)
 def open_pdf(view):
@@ -15,7 +16,7 @@ def open_pdf(view):
     if view:
         # https://stackoverflow.com/q/19453338/8903959
         dir_ = Path(__file__).parent / "system_tests"
-        path = dir_ / "system_test_outputs" / "aggregated_diagrams.pdf"
+        path = dir_ / "engine_test_outputs" / "aggregated_diagrams.pdf"
         subprocess.call(["xdg-open", str(path)])
 
 

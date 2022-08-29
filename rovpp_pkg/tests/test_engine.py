@@ -5,8 +5,9 @@ import pytest
 from bgp_simulator_pkg import EngineTester
 from bgp_simulator_pkg import EngineTestConfig
 
-from .system_tests import Config035
-from .system_tests import Config036
+from .engine_tests import Config035
+from .engine_tests import Config036
+
 
 @pytest.mark.engine
 class TestEngine:
@@ -32,4 +33,4 @@ class TestEngine:
     def base_dir(self) -> Path:
         """Returns test output dir"""
 
-        return Path(__file__).parent / "system_test_outputs"
+        return Path(__file__).parent / "engine_test_outputs"
