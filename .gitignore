@@ -1,4 +1,6 @@
 # Test generates these automatically
+rovpp_pkg/tests/engine_tests/engine_test_outputs/aggregated_diagrams.pdf
+*.pdf
 *.gv
 *.gv.pdf
 *.png

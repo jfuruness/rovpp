@@ -13,13 +13,14 @@ def open_pdf(view):
     # Teardown stuff (open PDF for viewing)
     if view:
         # https://stackoverflow.com/q/19453338/8903959
-        dir_ = Path(__file__).parent / "system_tests"
+        dir_ = Path(__file__).parent / "engine_tests"
         path = dir_ / "engine_test_outputs" / "aggregated_diagrams.pdf"
         subprocess.call(["xdg-open", str(path)])
 
 
 @pytest.fixture(scope="session")
 def view(pytestconfig):
+    print("HI")
     return pytestconfig.getoption("view")
 
 
