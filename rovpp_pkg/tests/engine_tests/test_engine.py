@@ -5,8 +5,8 @@ import pytest
 from bgp_simulator_pkg import EngineTester
 from bgp_simulator_pkg import EngineTestConfig
 
-from .engine_tests import Config035
-from .engine_tests import Config036
+from .engine_test_configs import Config035
+from .engine_test_configs import Config036
 
 
 @pytest.mark.engine

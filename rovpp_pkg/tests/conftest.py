@@ -2,8 +2,6 @@ from pathlib import Path
 import subprocess
 import pytest
 
-from bgp_simulator_pkg import pytest_addoption as bgp_simulator_addoption
-
 
 # https://stackoverflow.com/a/40673918/8903959
 @pytest.fixture(scope="session", autouse=True)
@@ -29,7 +27,7 @@ def view(pytestconfig):
 def overwrite(pytestconfig):
     return pytestconfig.getoption("overwrite")
 
-
 # https://stackoverflow.com/a/66597438/8903959
 def pytest_addoption(parser):
-    bgp_simulator_addoption(parser)
+    parser.addoption("--view", action="store_true", default=False)
+    parser.addoption("--overwrite", action="store_true", default=False)

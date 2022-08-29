@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from bgp_simulator_pkg import Announcement as Ann
+from bgp_simulator_pkg.simulation_engine.announcement import Announcement as Ann
 from bgp_simulator_pkg import ROVSimpleAS
 from bgp_simulator_pkg import Relationships
 from bgp_simulator_pkg import Scenario
@@ -67,7 +67,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             self.temp_holes = dict()
         super(ROVPPV1LiteSimpleAS, self)._reset_q(reset_q)
 
-    def _get_ann_to_holes_dict(self, engineinput):
+    def _get_ann_to_holes_dict(self, scenario):
         """Gets announcements to a typle of Ann holes
 
         Holes are subprefix hijacks
@@ -77,7 +77,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         for _, ann_list in self._recv_q.prefix_anns():
             for ann in ann_list:
                 ann_holes = []
-                for subprefix in engineinput.ordered_prefix_subprefix_dict[
+                for subprefix in scenario.ordered_prefix_subprefix_dict[
                         ann.prefix]:
                     for sub_ann in self._recv_q.get_ann_list(subprefix):
                         # Holes are only from same neighbor
