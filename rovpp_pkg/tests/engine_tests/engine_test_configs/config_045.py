@@ -9,21 +9,20 @@ from bgp_simulator_pkg import BGPSimpleAS
 from bgp_simulator_pkg import ASNs
 from bgp_simulator_pkg import SubprefixHijack
 
-from rovpp_pkg import ROVPPV1LiteSimpleAS
+from rovpp_pkg import ROVPPV3AS
 from rovpp_pkg import ROVPPAnn
 
 
-class Config036(EngineTestConfig):
+class Config045(EngineTestConfig):
     """Contains config options to run a test"""
 
-    name = "036"
-    desc = "Subprefix Hijack from fig 2 in paper with ROV++ v1 lite adopting."
+    name = "045"
+    desc = "Subprefix Hijack to test ROV++ v3."
     scenario = SubprefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                victim_asns={ASNs.VICTIM.value},
-                               AdoptASCls=ROVPPV1LiteSimpleAS,
+                               AdoptASCls=ROVPPV3AS,
                                BaseASCls=BGPSimpleAS,
                                AnnCls=ROVPPAnn)
-    graph = graphs.Graph003()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {3: ROVPPV1LiteSimpleAS,
-                                                    4: ROVPPV1LiteSimpleAS}
+    graph = graphs.Graph005()
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {5: ROVPPV3AS}
     propagation_rounds = 1
