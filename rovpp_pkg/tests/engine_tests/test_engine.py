@@ -28,6 +28,23 @@ from .engine_test_configs import Config054
 from .engine_test_configs import Config055
 from .engine_test_configs import Config056
 from .engine_test_configs import Config057
+from .engine_test_configs import Config058
+from .engine_test_configs import Config059
+from .engine_test_configs import Config060
+from .engine_test_configs import Config061
+from .engine_test_configs import Config062
+from .engine_test_configs import Config063
+from .engine_test_configs import Config064
+from .engine_test_configs import Config065
+from .engine_test_configs import Config066
+from .engine_test_configs import Config067
+from .engine_test_configs import Config068
+from .engine_test_configs import Config069
+from .engine_test_configs import Config070
+from .engine_test_configs import Config071
+from .engine_test_configs import Config072
+from .engine_test_configs import Config073
+from .engine_test_configs import Config074
 
 
 @pytest.mark.engine
@@ -60,7 +77,24 @@ class TestEngine:
                               Config054,
                               Config055,
                               Config056,
-                              Config057])
+                              Config057,
+                              Config058,
+                              Config059,
+                              Config060,
+                              Config061,
+                              Config062,
+                              Config063,
+                              Config064,
+                              Config065,
+                              Config066,
+                              Config067,
+                              Config068,
+                              Config069,
+                              Config070,
+                              Config071,
+                              Config072,
+                              Config073,
+                              Config074])
     def test_engine(self, conf: EngineTestConfig, overwrite: bool):
         """Performs a system test on the engine
 
