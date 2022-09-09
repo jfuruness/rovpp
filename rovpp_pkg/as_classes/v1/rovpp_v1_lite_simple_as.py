@@ -168,6 +168,12 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                                                     "traceback_end": True
                                                })
                 blackholes_to_add.append(bhole)
+            # Add this new prefix to the dict for traceback
+            # Keys must also be in order omg
+            scenario.ordered_prefix_subprefix_dict = {
+                "1.2.0.0/16": [],
+                "1.0.0.0/8": ["1.2.0.0/16"],
+            }
 
         # Do this here to avoid changing dict size
         for blackhole in blackholes_to_add:
