@@ -132,7 +132,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
             reset_q=False)
         self._get_and_assign_preventives(self.temp_holes, from_rel)
 
-        self._add_blackholes(self.temp_holes, from_rel)
+        self._add_blackholes(self.temp_holes, from_rel, scenario)
 
         # Move holes from temp_holes and resets q
         self._reset_q(reset_q)

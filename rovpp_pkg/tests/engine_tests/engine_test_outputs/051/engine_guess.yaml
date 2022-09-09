@@ -31,7 +31,26 @@
   propagation_rank: 2
   providers: !!python/tuple []
 2: !yamlable/ROVPPV1SimpleAS
-  _local_rib: !yamlable/LocalRIB {}
+  _local_rib: !yamlable/LocalRIB
+    1.2.0.0/16: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 2
+      - 1
+      - 666
+      attacker_on_route: false
+      blackhole: true
+      holes: []
+      prefix: 1.2.0.0/16
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 0
+      roa_valid_length: true
+      seed_asn: null
+      timestamp: 1
+      traceback_end: true
+      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 2
   customer_cone_size: 1

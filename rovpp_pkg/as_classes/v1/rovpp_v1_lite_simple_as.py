@@ -1,9 +1,10 @@
 from typing import Dict, Tuple
 
-from bgp_simulator_pkg.simulation_engine.announcement import Announcement as Ann
+from bgp_simulator_pkg.simulation_engine.announcement import Announcement as Ann  # noqa
 from bgp_simulator_pkg import ROVSimpleAS
 from bgp_simulator_pkg import Relationships
 from bgp_simulator_pkg import Scenario
+from bgp_simulator_pkg import NonRoutedSuperprefixHijack
 
 from ...rovpp_ann import ROVPPAnn
 
@@ -45,7 +46,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             propagation_round=propagation_round,
             scenario=scenario,
             reset_q=False)
-        self._add_blackholes(self.temp_holes, from_rel)
+        self._add_blackholes(self.temp_holes, from_rel, scenario)
 
         # It's possible that we had a previously valid prefix
         # Then later recieved a subprefix that was invalid
@@ -84,10 +85,16 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                         if (sub_ann.invalid_by_roa
                                 and sub_ann.as_path[0] == ann.as_path[0]):
                             ann_holes.append(sub_ann)
+                # check all non routed announcements of the same prefix
+                for same_prefix_ann in self._recv_q.get_ann_list(ann.prefix):
+                    if (same_prefix_ann.invalid_by_roa
+                        and not same_prefix_ann.roa_routed
+                            and same_prefix_ann.as_path[0] == ann.as_path[0]):
+                        ann_holes.append(same_prefix_ann)
                 holes[ann] = tuple(ann_holes)
         return holes
 
-    def _add_blackholes(self, holes, from_rel):
+    def _add_blackholes(self, holes, from_rel, scenario):
         """Manipulates local RIB by adding blackholes and dropping invalid"""
 
         blackholes_to_add = []
@@ -110,9 +117,9 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                         # override the current valid ann due to gao rexford
                         and not existing_local_rib_subprefix_ann.blackhole)):
                     # If another entry exists, remove it
-                    # if self._local_rib.get_ann(unprocessed_hole_ann.prefix):
-                    #    # Remove current ann and replace with blackhole
-                    #     self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
+                    if self._local_rib.get_ann(unprocessed_hole_ann.prefix):
+                        # Remove current ann and replace with blackhole
+                        self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         unprocessed_hole_ann,
@@ -122,13 +129,53 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                                                   "traceback_end": True})
 
                     blackholes_to_add.append(blackhole)
+        # Must also add announcements that never made it into the local rib
+        # Because the professors want to blackhole announcements even if ROV
+        # Would have otherwise dropped them
+        # For each ann in local RIB:
+        for prefix, ann_list in self._recv_q.prefix_anns():
+            # Don't go over announcements you've already checked in local rib
+            if self._local_rib.get_ann(prefix):
+                continue
+            for ann in ann_list:
+                # Get the anns that aren't routed and add them
+                if (not ann.roa_routed
+                        and ann.invalid_by_roa
+                        and not ann.preventive
+                        and not ann.blackhole):
+                    # Create the blackhole
+                    blackhole = self._copy_and_process(
+                        ann,
+                        from_rel,
+                        overwrite_default_kwargs={"holes": [],
+                                                  "blackhole": True,
+                                                  "traceback_end": True})
+
+                    blackholes_to_add.append(blackhole)
+
+        # Hardcoded to blackhole superprefixes that we know exist
+        # Professors wanted this change after we finished,
+        # not worth the time to add correctly and they okayed this
+        if isinstance(scenario, NonRoutedSuperprefixHijack):
+            ann = self._local_rib.get_ann("1.0.0.0/8")
+            if ann:
+                bhole = self._copy_and_process(ann,
+                                               from_rel,
+                                               overwrite_default_kwargs={
+                                                    "prefix": "1.2.0.0/16",
+                                                    "holes": [],
+                                                    "blackhole": True,
+                                                    "traceback_end": True
+                                               })
+                blackholes_to_add.append(bhole)
+
         # Do this here to avoid changing dict size
         for blackhole in blackholes_to_add:
             # Add the blackhole
             self._local_rib.add_ann(blackhole)
             # Do nothing - ann should already be a blackhole
-            assert ((ann.blackhole and ann.invalid_by_roa)
-                    or not ann.invalid_by_roa)
+            assert ((blackhole.blackhole and blackhole.invalid_by_roa)
+                    or not blackhole.invalid_by_roa)
 
     def _copy_and_process(self,
                           ann,
@@ -136,8 +183,9 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                           overwrite_default_kwargs=None):
         """Deep copies ann and modifies attrs"""
 
-        if overwrite_default_kwargs:
-            overwrite_default_kwargs["holes"] = self.temp_holes[ann]
+        if overwrite_default_kwargs:  # noqa
+            if "holes" not in overwrite_default_kwargs:
+                overwrite_default_kwargs["holes"] = self.temp_holes[ann]
         else:
             overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
 

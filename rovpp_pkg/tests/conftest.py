@@ -20,7 +20,6 @@ def open_pdf(view):
 
 @pytest.fixture(scope="session")
 def view(pytestconfig):
-    print("HI")
     return pytestconfig.getoption("view")
 
 

@@ -22,7 +22,7 @@
           name: CUSTOMERS
           value: 3
         roa_origin: 777
-        roa_valid_length: true
+        roa_valid_length: false
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -45,14 +45,70 @@
       - 666
       attacker_on_route: false
       blackhole: true
-      holes: !!python/tuple []
+      holes:
+        ? !yamlable/ROVPPAnn
+          as_path: !!python/tuple
+          - 4
+          - 666
+          attacker_on_route: false
+          blackhole: false
+          holes: !!python/tuple []
+          prefix: 1.2.3.0/24
+          preventive: false
+          recv_relationship: !simulator_codec/Relationships
+            name: CUSTOMERS
+            value: 3
+          roa_origin: 777
+          roa_valid_length: false
+          seed_asn: null
+          timestamp: 1
+          traceback_end: false
+          withdraw: false
+        : !!python/tuple []
+        ? !yamlable/ROVPPAnn
+          as_path: !!python/tuple
+          - 4
+          - 777
+          attacker_on_route: false
+          blackhole: false
+          holes: !!python/tuple []
+          prefix: 1.2.0.0/16
+          preventive: false
+          recv_relationship: !simulator_codec/Relationships
+            name: CUSTOMERS
+            value: 3
+          roa_origin: 777
+          roa_valid_length: true
+          seed_asn: null
+          timestamp: 0
+          traceback_end: false
+          withdraw: false
+        : !!python/tuple
+        - !yamlable/ROVPPAnn
+          as_path: !!python/tuple
+          - 4
+          - 666
+          attacker_on_route: false
+          blackhole: false
+          holes: !!python/tuple []
+          prefix: 1.2.3.0/24
+          preventive: false
+          recv_relationship: !simulator_codec/Relationships
+            name: CUSTOMERS
+            value: 3
+          roa_origin: 777
+          roa_valid_length: false
+          seed_asn: null
+          timestamp: 1
+          traceback_end: false
+          withdraw: false
       prefix: 1.2.3.0/24
       preventive: false
       recv_relationship: !simulator_codec/Relationships
         name: CUSTOMERS
         value: 3
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -167,7 +223,7 @@
         name: CUSTOMERS
         value: 3
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -250,7 +306,7 @@
         name: ORIGIN
         value: 4
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: 666
       timestamp: 1
       traceback_end: false
@@ -298,7 +354,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
