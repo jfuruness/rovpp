@@ -32,7 +32,7 @@
         name: CUSTOMERS
         value: 3
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -105,7 +105,7 @@
           name: CUSTOMERS
           value: 3
         roa_origin: 777
-        roa_valid_length: false
+        roa_valid_length: true
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -142,7 +142,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -180,7 +180,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -191,7 +191,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -230,7 +230,7 @@
           name: CUSTOMERS
           value: 3
         roa_origin: 777
-        roa_valid_length: false
+        roa_valid_length: true
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -267,7 +267,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -305,7 +305,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -336,7 +336,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -481,7 +481,7 @@
         name: ORIGIN
         value: 4
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: 666
       timestamp: 1
       traceback_end: false
@@ -529,7 +529,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: false

@@ -24,5 +24,8 @@ class Config045(EngineTestConfig):
                                BaseASCls=BGPSimpleAS,
                                AnnCls=ROVPPAnn)
     graph = graphs.Graph005()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {5: ROVPPV3AS}
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {5: ROVPPV3AS,
+                                                    8: ROVPPV3AS,
+                                                    10: ROVPPV3AS,
+                                                    15: ROVPPV3AS}
     propagation_rounds = 1
