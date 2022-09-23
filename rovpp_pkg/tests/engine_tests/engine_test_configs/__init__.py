@@ -38,6 +38,10 @@ from .config_071 import Config071
 from .config_072 import Config072
 from .config_073 import Config073
 from .config_074 import Config074
+from .config_075 import Config075
+from .config_076 import Config076
+from .config_077 import Config077
+from .config_078 import Config078
 
 
 
@@ -80,4 +84,9 @@ __all__ = ["Config035",
            "Config071",
            "Config072",
            "Config073",
-           "Config074"]
+           "Config074",
+           "Config075",
+           "Config076",
+           "Config077",
+           "Config078"
+           ]
