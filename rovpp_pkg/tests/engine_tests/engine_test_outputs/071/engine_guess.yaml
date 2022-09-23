@@ -4,9 +4,8 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -40,9 +39,8 @@
       as_path: !!python/tuple
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -77,9 +75,8 @@
       - 7
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -113,9 +110,8 @@
       - 8
       - 6
       - 1
-      - 11
-      - 12
-      - 135
+      - 33
+      - 34
       - 777
       attacker_on_route: false
       blackhole: false
@@ -232,7 +228,7 @@
           name: PEERS
           value: 2
         roa_origin: 777
-        roa_valid_length: false
+        roa_valid_length: true
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -269,7 +265,7 @@
             name: PEERS
             value: 2
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -307,7 +303,7 @@
             name: PEERS
             value: 2
           roa_origin: 777
-          roa_valid_length: false
+          roa_valid_length: true
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -318,7 +314,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -368,7 +364,7 @@
         name: PEERS
         value: 2
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -433,7 +429,7 @@
         name: ORIGIN
         value: 4
       roa_origin: 777
-      roa_valid_length: false
+      roa_valid_length: true
       seed_asn: 666
       timestamp: 1
       traceback_end: false
