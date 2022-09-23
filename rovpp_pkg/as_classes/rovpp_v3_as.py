@@ -161,7 +161,8 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
 
         # Attacker is on the route
         if victim_ann is not None and len(victim_ann.holes) > 0:
-            self._local_rib.add_ann(victim_ann.copy(attacker_on_route=True))
+            self._local_rib.add_ann(victim_ann.copy(
+                overwrite_default_kwargs={"attacker_on_route": True}))
         # Safe route - ths condition plus not the two conditions above
         elif victim_ann is not None and victim_ann.attacker_on_route is False:
             # Must do this here, since we don't want to create
