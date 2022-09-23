@@ -42,6 +42,18 @@ from .config_075 import Config075
 from .config_076 import Config076
 from .config_077 import Config077
 from .config_078 import Config078
+from .config_079 import Config079
+from .config_080 import Config080
+from .config_081 import Config081
+from .config_082 import Config082
+from .config_083 import Config083
+from .config_084 import Config084
+from .config_085 import Config085
+from .config_086 import Config086
+from .config_087 import Config087
+from .config_088 import Config088
+from .config_089 import Config089
+from .config_090 import Config090
 
 
 
@@ -88,5 +100,17 @@ __all__ = ["Config035",
            "Config075",
            "Config076",
            "Config077",
-           "Config078"
+           "Config078",
+           "Config079",
+           "Config080",
+           "Config081",
+           "Config082",
+           "Config083",
+           "Config084",
+           "Config085",
+           "Config086",
+           "Config087",
+           "Config088",
+           "Config089",
+           "Config090",
            ]
