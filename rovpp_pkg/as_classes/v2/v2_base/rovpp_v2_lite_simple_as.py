@@ -26,6 +26,7 @@ class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
 
     def _send_competing_hijack_allowed(self, ann, propagate_to):
         return (ann.recv_relationship in [Relationships.PEERS,
-                                          Relationships.PROVIDERS]
+                                          Relationships.PROVIDERS,
+                                          Relationships.ORIGIN,]
                 and propagate_to == Relationships.CUSTOMERS
                 and (not ann.roa_valid_length or not ann.roa_routed))

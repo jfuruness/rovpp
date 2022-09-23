@@ -33,7 +33,7 @@
         name: CUSTOMERS
         value: 3
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -87,7 +87,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -141,7 +141,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -181,7 +181,7 @@
           name: CUSTOMERS
           value: 3
         roa_origin: 777
-        roa_valid_length: true
+        roa_valid_length: false
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -218,7 +218,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -257,7 +257,7 @@
             name: CUSTOMERS
             value: 3
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -268,7 +268,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -318,7 +318,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -360,12 +360,11 @@
     1.2.3.0/24: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 6
-      - 3
-      - 2
+      - 4
       - 1
       - 666
       attacker_on_route: false
-      blackhole: false
+      blackhole: true
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -373,7 +372,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -441,12 +440,11 @@
       - !yamlable/ROVPPAnn
         as_path: !!python/tuple
         - 6
-        - 3
-        - 2
+        - 4
         - 1
         - 666
         attacker_on_route: false
-        blackhole: false
+        blackhole: true
         holes: !!python/tuple []
         prefix: 1.2.3.0/24
         preventive: false
@@ -454,7 +452,7 @@
           name: PROVIDERS
           value: 1
         roa_origin: 777
-        roa_valid_length: true
+        roa_valid_length: false
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -474,8 +472,7 @@
       as_path: !!python/tuple
       - 8
       - 6
-      - 3
-      - 2
+      - 4
       - 1
       - 666
       attacker_on_route: false
@@ -484,12 +481,11 @@
         ? !yamlable/ROVPPAnn
           as_path: !!python/tuple
           - 6
-          - 3
-          - 2
+          - 4
           - 1
           - 666
           attacker_on_route: false
-          blackhole: false
+          blackhole: true
           holes: !!python/tuple []
           prefix: 1.2.3.0/24
           preventive: false
@@ -497,7 +493,7 @@
             name: PROVIDERS
             value: 1
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -528,12 +524,11 @@
         - !yamlable/ROVPPAnn
           as_path: !!python/tuple
           - 6
-          - 3
-          - 2
+          - 4
           - 1
           - 666
           attacker_on_route: false
-          blackhole: false
+          blackhole: true
           holes: !!python/tuple []
           prefix: 1.2.3.0/24
           preventive: false
@@ -541,7 +536,7 @@
             name: PROVIDERS
             value: 1
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -552,7 +547,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -601,7 +596,7 @@
         name: ORIGIN
         value: 4
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: 666
       timestamp: 1
       traceback_end: false
@@ -650,7 +645,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
