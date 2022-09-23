@@ -1,4 +1,5 @@
 from datetime import datetime
+from multiprocessing import cpu_count
 from pathlib import Path
 
 from bgp_simulator_pkg import ROVSimpleAS
@@ -29,17 +30,17 @@ BASE_PATH = Path("~/Desktop/graphs/").expanduser()
 
 
 def get_default_kwargs():
-    return {"percent_adoptions": [.5],#[0, .5, .1, .2, .3, .4, .6, .8, 1],
-            "num_trials": 1,
+    return {"percent_adoptions": [0, .5, .1, .2, .3, .4, .6, .8, 1],
+            "num_trials": 100,
             "subgraphs": [Cls() for Cls in Subgraph.subclasses if Cls.name],
-            "parse_cpus": 1}
+            "parse_cpus": cpu_count() // 2}
 
 
 ROV_NON_LITE_ROVPP = (ROVSimpleAS,
                       ROVPPV1SimpleAS,
                       ROVPPV2SimpleAS,
-                      ROVPPV2aSimpleAS,
-                      ROVPPV2ShortenSimpleAS)
+                      ROVPPV2aSimpleAS,)
+                      #ROVPPV2ShortenSimpleAS)
 
 
 def main():
