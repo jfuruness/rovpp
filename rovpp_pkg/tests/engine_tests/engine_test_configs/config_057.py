@@ -17,10 +17,7 @@ class Config057(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "057"
-    desc = "Superprefix hijack on a non-routed prefix. Here adopting AS 2 " \
-           "is adopting ROV++ v2a, and should send a blackhole ann for " \
-           "the non-routed prefix, but accept the superprefix. It " \
-           "will disconnect itself and its customer."
+    desc = "Superprefix hijack on a non-routed prefix with v2a."
     scenario = NonRoutedSuperprefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                           victim_asns={ASNs.VICTIM.value},
                                           AdoptASCls=ROVPPV2aSimpleAS,

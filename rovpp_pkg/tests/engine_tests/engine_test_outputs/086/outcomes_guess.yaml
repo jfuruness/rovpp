@@ -16,6 +16,9 @@
 6: !simulator_codec/Outcomes
   name: DISCONNECTED
   value: 2
+7: !simulator_codec/Outcomes
+  name: DISCONNECTED
+  value: 2
 8: !simulator_codec/Outcomes
   name: DISCONNECTED
   value: 2

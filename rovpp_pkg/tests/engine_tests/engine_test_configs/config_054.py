@@ -17,9 +17,7 @@ class Config054(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "054"
-    desc = "Superprefix hijack on a non-routed prefix. Here adopting AS 2 " \
-           "is adopting ROV, and should drop the non-routed prefix, " \
-           "but accept the superprefix. It and its customer will be hijacked."
+    desc = "Superprefix hijack on a non-routed prefix with ROV."
     scenario = NonRoutedSuperprefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                           victim_asns={ASNs.VICTIM.value},
                                           AdoptASCls=ROVSimpleAS,

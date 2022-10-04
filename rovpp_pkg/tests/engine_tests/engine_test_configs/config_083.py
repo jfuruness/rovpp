@@ -24,7 +24,7 @@ class Config083(EngineTestConfig):
                                           AdoptASCls=ROVSimpleAS,
                                           BaseASCls=BGPSimpleAS,
                                           AnnCls=ROVPPAnn)
-    graph = graphs.Graph050()
+    graph = graphs.Graph048()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {3: ROVSimpleAS,
                                                     4: ROVSimpleAS,
                                                     6: ROVSimpleAS}
