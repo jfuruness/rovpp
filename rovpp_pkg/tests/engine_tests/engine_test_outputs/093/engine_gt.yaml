@@ -132,8 +132,8 @@
       prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PEERS
-        value: 2
+        name: CUSTOMERS
+        value: 3
       roa_origin: null
       roa_valid_length: null
       seed_asn: null
@@ -241,28 +241,6 @@
       timestamp: 1
       traceback_end: false
       withdraw: false
-    1.2.0.0/16: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 7
-      - 4
-      - 4
-      - 3
-      - 1
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      holes: !!python/tuple []
-      prefix: 1.2.0.0/16
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: null
-      roa_valid_length: null
-      seed_asn: null
-      timestamp: 1
-      traceback_end: false
-      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 7
   customer_cone_size: 2
@@ -300,29 +278,6 @@
       timestamp: 1
       traceback_end: false
       withdraw: false
-    1.2.0.0/16: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 8
-      - 7
-      - 4
-      - 4
-      - 3
-      - 1
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      holes: !!python/tuple []
-      prefix: 1.2.0.0/16
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: null
-      roa_valid_length: null
-      seed_asn: null
-      timestamp: 1
-      traceback_end: false
-      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 8
   customer_cone_size: 0
@@ -347,29 +302,6 @@
       blackhole: false
       holes: !!python/tuple []
       prefix: 1.0.0.0/8
-      preventive: false
-      recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
-      roa_origin: null
-      roa_valid_length: null
-      seed_asn: null
-      timestamp: 1
-      traceback_end: false
-      withdraw: false
-    1.2.0.0/16: !yamlable/ROVPPAnn
-      as_path: !!python/tuple
-      - 9
-      - 7
-      - 4
-      - 4
-      - 3
-      - 1
-      - 666
-      attacker_on_route: false
-      blackhole: true
-      holes: !!python/tuple []
-      prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS

@@ -123,7 +123,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         unprocessed_hole_ann,
-                        from_rel,
+                        unprocessed_hole_ann.recv_relationship,
                         overwrite_default_kwargs={"holes": holes,
                                                   "blackhole": True,
                                                   "traceback_end": True})
@@ -140,9 +140,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             for ann in ann_list:
                 # Get the anns that aren't routed and add them
                 if (not ann.roa_routed
-                        and ann.invalid_by_roa
-                        and not ann.preventive
-                        and not ann.blackhole):
+                        and ann.invalid_by_roa):
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         ann,
@@ -160,7 +158,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
             ann = self._local_rib.get_ann("1.0.0.0/8")
             if ann:
                 bhole = self._copy_and_process(ann,
-                                               from_rel,
+                                               ann.recv_relationship,
                                                overwrite_default_kwargs={
                                                     "prefix": "1.2.0.0/16",
                                                     "holes": [],

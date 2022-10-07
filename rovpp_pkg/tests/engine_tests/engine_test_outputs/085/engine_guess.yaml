@@ -129,8 +129,8 @@
       prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
+        name: PEERS
+        value: 2
       roa_origin: null
       roa_valid_length: null
       seed_asn: null

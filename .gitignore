@@ -7,6 +7,7 @@ rovpp_pkg/tests/engine_tests/engine_test_outputs/aggregated_diagrams.pdf
 *empty_engine_graph.yaml
 *engine_input.yaml
 *engine_output_guess.yaml
+*engine_guess.yaml
 *engine_traceback_guess.yaml
 
 # Byte-compiled / optimized / DLL files

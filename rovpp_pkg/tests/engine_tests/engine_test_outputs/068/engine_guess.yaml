@@ -41,8 +41,8 @@
   asn: 1
   customer_cone_size: 6
   customers: !!python/tuple
-  - 2
   - 3
+  - 2
   - 666
   input_clique: false
   ixp: false
@@ -155,8 +155,8 @@
       prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
+        name: CUSTOMERS
+        value: 3
       roa_origin: 777
       roa_valid_length: true
       seed_asn: null
