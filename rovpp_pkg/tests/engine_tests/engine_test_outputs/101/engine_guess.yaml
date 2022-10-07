@@ -19,6 +19,24 @@
       timestamp: 1
       traceback_end: false
       withdraw: false
+    1.2.0.0/16: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 1
+      - 666
+      attacker_on_route: false
+      blackhole: false
+      holes: !!python/tuple []
+      prefix: 1.2.0.0/16
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: CUSTOMERS
+        value: 3
+      roa_origin: 0
+      roa_valid_length: true
+      seed_asn: null
+      timestamp: 1
+      traceback_end: false
+      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 1
   customer_cone_size: 3
@@ -39,7 +57,25 @@
       - 666
       attacker_on_route: false
       blackhole: false
-      holes: !!python/tuple []
+      holes: !!python/tuple
+      - !yamlable/ROVPPAnn
+        as_path: !!python/tuple
+        - 1
+        - 666
+        attacker_on_route: false
+        blackhole: false
+        holes: !!python/tuple []
+        prefix: 1.2.0.0/16
+        preventive: false
+        recv_relationship: !simulator_codec/Relationships
+          name: CUSTOMERS
+          value: 3
+        roa_origin: 0
+        roa_valid_length: true
+        seed_asn: null
+        timestamp: 1
+        traceback_end: false
+        withdraw: false
       prefix: 1.0.0.0/8
       preventive: false
       recv_relationship: !simulator_codec/Relationships
@@ -54,7 +90,6 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 2
-      - 2
       - 1
       - 666
       attacker_on_route: false
@@ -65,8 +100,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: null
-      roa_valid_length: null
+      roa_origin: 0
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -108,7 +143,6 @@
       as_path: !!python/tuple
       - 3
       - 2
-      - 2
       - 1
       - 666
       attacker_on_route: false
@@ -119,8 +153,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: null
-      roa_valid_length: null
+      roa_origin: 0
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -150,6 +184,23 @@
         value: 4
       roa_origin: null
       roa_valid_length: null
+      seed_asn: 666
+      timestamp: 1
+      traceback_end: false
+      withdraw: false
+    1.2.0.0/16: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 666
+      attacker_on_route: false
+      blackhole: false
+      holes: !!python/tuple []
+      prefix: 1.2.0.0/16
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: ORIGIN
+        value: 4
+      roa_origin: 0
+      roa_valid_length: true
       seed_asn: 666
       timestamp: 1
       traceback_end: false
