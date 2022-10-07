@@ -283,8 +283,8 @@
       prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PEERS
-        value: 2
+        name: CUSTOMERS
+        value: 3
       roa_origin: 777
       roa_valid_length: true
       seed_asn: null

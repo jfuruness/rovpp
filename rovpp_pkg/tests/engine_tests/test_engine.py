@@ -97,10 +97,10 @@ from .engine_test_configs import Config110
 # from .engine_test_configs import Config124
 # from .engine_test_configs import Config125
 # from .engine_test_configs import Config126
-# from .engine_test_configs import Config127
-# from .engine_test_configs import Config128
-# from .engine_test_configs import Config129
-# from .engine_test_configs import Config130
+from .engine_test_configs import Config127
+from .engine_test_configs import Config128
+from .engine_test_configs import Config129
+from .engine_test_configs import Config130
 # from .engine_test_configs import Config131
 # from .engine_test_configs import Config132
 # from .engine_test_configs import Config133
@@ -295,10 +295,10 @@ class TestEngine:
                               # Config124,
                               # Config125,
                               # Config126,
-                              # Config127,
-                              # Config128,
-                              # Config129,
-                              # Config130,
+                              Config127,
+                              Config128,
+                              Config129,
+                              Config130,
                               # Config131,
                               # Config132,
                               # Config133,
