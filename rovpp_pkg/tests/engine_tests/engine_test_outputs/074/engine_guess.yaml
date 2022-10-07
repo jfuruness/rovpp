@@ -51,6 +51,27 @@
       timestamp: 0
       traceback_end: false
       withdraw: false
+    1.2.3.0/24: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 3
+      - 33
+      - 56
+      - 78
+      - 666
+      attacker_on_route: false
+      blackhole: true
+      holes: !!python/tuple []
+      prefix: 1.2.3.0/24
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 777
+      roa_valid_length: false
+      seed_asn: null
+      timestamp: 1
+      traceback_end: false
+      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 3
   customer_cone_size: 3
@@ -61,8 +82,8 @@
   peers: !!python/tuple []
   propagation_rank: 2
   providers: !!python/tuple
-  - 33
   - 1
+  - 33
 6: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -85,12 +106,34 @@
       timestamp: 0
       traceback_end: false
       withdraw: false
+    1.2.3.0/24: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 6
+      - 3
+      - 33
+      - 56
+      - 78
+      - 666
+      attacker_on_route: false
+      blackhole: true
+      holes: !!python/tuple []
+      prefix: 1.2.3.0/24
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 777
+      roa_valid_length: false
+      seed_asn: null
+      timestamp: 1
+      traceback_end: false
+      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 6
   customer_cone_size: 2
   customers: !!python/tuple
-  - 8
   - 7
+  - 8
   input_clique: false
   ixp: false
   peers: !!python/tuple []
@@ -118,6 +161,29 @@
       roa_valid_length: true
       seed_asn: null
       timestamp: 0
+      traceback_end: false
+      withdraw: false
+    1.2.3.0/24: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 7
+      - 6
+      - 3
+      - 33
+      - 56
+      - 78
+      - 666
+      attacker_on_route: false
+      blackhole: true
+      holes: !!python/tuple []
+      prefix: 1.2.3.0/24
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 777
+      roa_valid_length: false
+      seed_asn: null
+      timestamp: 1
       traceback_end: false
       withdraw: false
   _recv_q: !yamlable/RecvQueue {}
@@ -152,6 +218,29 @@
       roa_valid_length: true
       seed_asn: null
       timestamp: 0
+      traceback_end: false
+      withdraw: false
+    1.2.3.0/24: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 8
+      - 6
+      - 3
+      - 33
+      - 56
+      - 78
+      - 666
+      attacker_on_route: false
+      blackhole: true
+      holes: !!python/tuple []
+      prefix: 1.2.3.0/24
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 777
+      roa_valid_length: false
+      seed_asn: null
+      timestamp: 1
       traceback_end: false
       withdraw: false
   _recv_q: !yamlable/RecvQueue {}
@@ -189,7 +278,7 @@
           name: PEERS
           value: 2
         roa_origin: 777
-        roa_valid_length: true
+        roa_valid_length: false
         seed_asn: null
         timestamp: 1
         traceback_end: false
@@ -247,7 +336,7 @@
             name: PEERS
             value: 2
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -266,7 +355,7 @@
             name: PEERS
             value: 2
           roa_origin: 777
-          roa_valid_length: true
+          roa_valid_length: false
           seed_asn: null
           timestamp: 1
           traceback_end: false
@@ -275,10 +364,10 @@
       prefix: 1.2.3.0/24
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PROVIDERS
-        value: 1
+        name: PEERS
+        value: 2
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -328,7 +417,7 @@
         name: PEERS
         value: 2
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -379,7 +468,7 @@
         name: CUSTOMERS
         value: 3
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -429,7 +518,7 @@
         name: ORIGIN
         value: 4
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: 666
       timestamp: 1
       traceback_end: false
@@ -478,7 +567,7 @@
         name: PROVIDERS
         value: 1
       roa_origin: 777
-      roa_valid_length: true
+      roa_valid_length: false
       seed_asn: null
       timestamp: 1
       traceback_end: false
