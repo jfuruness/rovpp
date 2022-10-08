@@ -105,10 +105,10 @@ from .engine_test_configs import Config130
 # from .engine_test_configs import Config132
 # from .engine_test_configs import Config133
 # from .engine_test_configs import Config134
-# from .engine_test_configs import Config135
-# from .engine_test_configs import Config136
-# from .engine_test_configs import Config137
-# from .engine_test_configs import Config138
+from .engine_test_configs import Config135
+from .engine_test_configs import Config136
+from .engine_test_configs import Config137
+from .engine_test_configs import Config138
 # from .engine_test_configs import Config139
 # from .engine_test_configs import Config140
 # from .engine_test_configs import Config141
@@ -300,10 +300,10 @@ class TestEngine:
                               # Config132,
                               # Config133,
                               # Config134,
-                              # Config135,
-                              # Config136,
-                              # Config137,
-                              # Config138,
+                              Config135,
+                              Config136,
+                              Config137,
+                              Config138,
                               # Config139,
                               # Config140,
                               # Config141,
