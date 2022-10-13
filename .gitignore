@@ -10,6 +10,7 @@ rovpp_pkg/tests/engine_tests/engine_test_outputs/aggregated_diagrams.pdf
 *engine_guess.yaml
 *engine_traceback_guess.yaml
 *outcomes_guess.yaml
+*guess.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
