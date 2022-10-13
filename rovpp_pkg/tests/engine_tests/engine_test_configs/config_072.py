@@ -12,13 +12,14 @@ from bgp_simulator_pkg import SubprefixHijack
 from rovpp_pkg import ROVPPAnn
 from rovpp_pkg import ROVPPV1LiteSimpleAS
 
+
 class Config072(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "072"
     desc = "ROV++ v1 lite adopting" \
            "Example where v2 leads to a higher disconnection " \
-           "rate and lower successful connection rate (for non-adopting ASes)." \
+           "rate and lower successful connection rate (for nonadopting ASes)."\
            "When AS 33 adopts v2, it sends a blackhole announcement to " \
            "AS 3, which will be further forwarded to AS 3’s customer" \
            "cone. When AS 33 adopts v1, it only sets up a local " \

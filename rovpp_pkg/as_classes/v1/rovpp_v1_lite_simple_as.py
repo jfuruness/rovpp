@@ -39,8 +39,10 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                               reset_q: bool = True):
         """Processes all incoming announcements"""
 
-        self.temp_holes: Dict[Ann, Tuple[Ann]] = self._get_ann_to_holes_dict(
-            scenario)
+        # Super janky mutability garbage. Should be fixed later.
+        self.temp_holes: Dict[Ann,  # type: ignore
+                              Tuple[Ann]] = self._get_ann_to_holes_dict(
+                                scenario)
         super(ROVPPV1LiteSimpleAS, self).process_incoming_anns(
             from_rel=from_rel,
             propagation_round=propagation_round,

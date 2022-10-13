@@ -29,7 +29,7 @@ class Config070(EngineTestConfig):
            "alternative: 11-12-135-57. This causes disconnection by the " \
            "blackhole that was set up at 33. " \
            "If 33 and 1 adopt v2, then AS 1 will receive the blackhole " \
-           "announcement from 33 and hence prefer the hole-free route via 11 " \
+           "announcement from 33 and hence prefer the hole-free route via 11 "\
            "(which only has announcement 1.2/16), and hence route " \
            "the traffic correctly to the origin. If AS 33 and AS 1 " \
            "use v1 Lite, then " \

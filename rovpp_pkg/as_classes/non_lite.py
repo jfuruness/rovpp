@@ -47,15 +47,19 @@ class NonLite:
                 if new_holes_better is not None:
                     return new_holes_better
                 else:
-                    return BGPSimpleAS._new_ann_better(self,
+                    return bool(BGPSimpleAS._new_ann_better(
+                        self,
                         current_ann,
                         current_processed,
                         default_current_recv_rel,
                         new_ann,
                         new_processed,
-                        default_new_recv_rel)
+                        default_new_recv_rel))
 
-    def _new_validity_better(self, current_ann, new_ann):
+    def _new_validity_better(self,
+                             current_ann,
+                             new_ann
+                             ) -> Optional[bool]:
         """Returns True if new better, False if old better, None if eq"""
 
         if not new_ann.invalid_by_roa and current_ann.invalid_by_roa:
@@ -65,7 +69,10 @@ class NonLite:
         else:
             return None
 
-    def _new_blackhole_state_better(self, current_ann, new_ann):
+    def _new_blackhole_state_better(self,
+                                    current_ann,
+                                    new_ann
+                                    ) -> Optional[bool]:
         """Returns True if new better, False if old better, None if eq"""
 
         if not new_ann.blackhole and current_ann.blackhole:
@@ -82,7 +89,8 @@ class NonLite:
                           current_ann,
                           current_ann_processed,
                           new_ann,
-                          new_ann_processed):
+                          new_ann_processed
+                          ) -> Optional[bool]:
         """Returns new ann has less holes, or None if =="""
 
         # Could do this using int(processed) but so unreadable
@@ -91,13 +99,13 @@ class NonLite:
         if new_ann_processed:
             new_holes = len(new_ann.holes)
         else:
-            new_holes = len(self.temp_holes[new_ann])
+            new_holes = len(self.temp_holes[new_ann])  # type: ignore
 
         # Holes for current announcement
         if current_ann_processed:
             current_holes = len(current_ann.holes)
         else:
-            current_holes = len(self.temp_holes[current_ann])
+            current_holes = len(self.temp_holes[current_ann])  # type: ignore
 
         if new_holes < current_holes:
             return True

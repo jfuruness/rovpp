@@ -6,4 +6,4 @@ class ROVPPV2SimpleAS(NonLite, ROVPPV2LiteSimpleAS):
 
     name = "ROV++V2 Simple"
 
-    __slots__ = tuple()
+    __slots__ = ()

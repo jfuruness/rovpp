@@ -15,7 +15,7 @@ class ROVNoDropPrev(NonLite, BGPAS):
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
-            return BGPAS._valid_ann(self, ann, *args, **kwargs)
+            return bool(BGPAS._valid_ann(self, ann, *args, **kwargs))
 
     def _copy_and_process(self,
                           ann,
@@ -28,7 +28,8 @@ class ROVNoDropPrev(NonLite, BGPAS):
         else:
             overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
 
-        return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
+        return super(ROVPPV1LiteSimpleAS,
+                     self)._copy_and_process(  # type: ignore
             ann,
             recv_relationship,
             overwrite_default_kwargs=overwrite_default_kwargs)
@@ -47,7 +48,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
 
     name = "ROV++V3"
 
-    __slots__ = tuple()
+    __slots__ = ()
 
     def _policy_propagate(self, neighbor, ann, propagate_to, send_rels):
         """Special cases for propagation handled by the V3 policy
@@ -200,7 +201,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
-            return BGPAS._valid_ann(self, ann, *args, **kwargs)
+            return bool(BGPAS._valid_ann(self, ann, *args, **kwargs))
 
     def _copy_and_process(self,
                           ann,

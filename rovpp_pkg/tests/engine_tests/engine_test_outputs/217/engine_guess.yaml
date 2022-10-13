@@ -263,90 +263,12 @@
       - 666
       attacker_on_route: false
       blackhole: true
-      holes:
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: false
-          holes: !!python/tuple []
-          prefix: 1.0.0.0/8
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PEERS
-            value: 2
-          roa_origin: null
-          roa_valid_length: null
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple
-        - !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: true
-          holes: !!python/tuple []
-          prefix: 1.2.0.0/16
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PEERS
-            value: 2
-          roa_origin: 0
-          roa_valid_length: true
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: true
-          holes: !!python/tuple []
-          prefix: 1.2.0.0/16
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PEERS
-            value: 2
-          roa_origin: 0
-          roa_valid_length: true
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple
-        - !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: true
-          holes: !!python/tuple []
-          prefix: 1.2.0.0/16
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PEERS
-            value: 2
-          roa_origin: 0
-          roa_valid_length: true
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
+      holes: []
       prefix: 1.2.0.0/16
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: PEERS
-        value: 2
+        name: PROVIDERS
+        value: 1
       roa_origin: 0
       roa_valid_length: true
       seed_asn: null

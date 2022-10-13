@@ -3,7 +3,7 @@ from ..v2_base import ROVPPV2LiteSimpleAS
 
 class ROVPPV2aLiteSimpleAS(ROVPPV2LiteSimpleAS):
 
-    __slots__ = []
+    __slots__ = ()
 
     name = "ROV++V2a Lite Simple"
 

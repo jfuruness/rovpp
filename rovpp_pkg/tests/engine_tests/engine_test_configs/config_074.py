@@ -19,7 +19,7 @@ class Config074(EngineTestConfig):
     name = "074"
     desc = "ROV++ v2 adopting" \
            "Example where v2 leads to a higher disconnection " \
-           "rate and lower successful connection rate (for non-adopting ASes)." \
+           "rate and lower successful connection rate (for nonadopting ASes)."\
            "When AS 33 adopts v2, it sends a blackhole announcement to " \
            "AS 3, which will be further forwarded to AS 3’s customer" \
            "cone. When AS 33 adopts v1, it only sets up a local " \

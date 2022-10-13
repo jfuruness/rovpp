@@ -5,7 +5,7 @@ from ...v1 import ROVPPV1LiteSimpleAS
 
 class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
 
-    __slots__ = tuple()
+    __slots__ = ()
 
     name = "ROV++V2 Lite Simple"
 
@@ -27,6 +27,6 @@ class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
     def _send_competing_hijack_allowed(self, ann, propagate_to):
         return (ann.recv_relationship in [Relationships.PEERS,
                                           Relationships.PROVIDERS,
-                                          Relationships.ORIGIN,]
+                                          Relationships.ORIGIN]
                 and propagate_to == Relationships.CUSTOMERS
                 and (not ann.roa_valid_length or not ann.roa_routed))

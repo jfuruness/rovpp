@@ -1,11 +1,9 @@
-from bgp_simulator_pkg import Relationships
-
 from ..v2_base import ROVPPV2LiteSimpleAS
 
 
 class ROVPPV2ShortenLiteSimpleAS(ROVPPV2LiteSimpleAS):
 
-    __slots__ = tuple()
+    __slots__ = ()
 
     name = "ROV++V2 Shorten Lite Simple"
 

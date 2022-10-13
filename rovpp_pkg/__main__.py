@@ -20,7 +20,6 @@ from .as_classes import ROVPPV1LiteSimpleAS
 from .as_classes import ROVPPV1SimpleAS
 from .as_classes import ROVPPV2SimpleAS
 from .as_classes import ROVPPV2aSimpleAS
-from .as_classes import ROVPPV2ShortenSimpleAS
 from .as_classes import ROVPPV3AS
 
 from .rovpp_ann import ROVPPAnn
@@ -40,7 +39,6 @@ ROV_NON_LITE_ROVPP = (ROVSimpleAS,
                       ROVPPV1SimpleAS,
                       ROVPPV2SimpleAS,
                       ROVPPV2aSimpleAS,)
-                      #ROVPPV2ShortenSimpleAS)
 
 
 def main():

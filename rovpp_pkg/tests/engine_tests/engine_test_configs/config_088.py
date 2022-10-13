@@ -12,6 +12,7 @@ from bgp_simulator_pkg import NonRoutedPrefixHijack
 from rovpp_pkg import ROVPPAnn
 from rovpp_pkg import ROVPPV1SimpleAS
 
+
 class Config088(EngineTestConfig):
     """Contains config options to run a test"""
 
