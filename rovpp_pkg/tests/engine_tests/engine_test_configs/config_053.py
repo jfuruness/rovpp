@@ -17,10 +17,10 @@ class Config053(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "053"
-    desc = "Prefix hijack on a non-routed prefix. Here adopting AS 2 is " \
-           "adopting ROV++ v2a, and should detect the " \
-           "attack and create a blackhole announcement and send it to its " \
-           "its customer."
+    desc = ("Prefix hijack on a non-routed prefix.\nHere adopting AS 2 is "
+            "adopting ROV++ v2a,\nand should detect the "
+            "attack\nand create a blackhole announcement and send it to its "
+            "its customer.")
     scenario = NonRoutedPrefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                      victim_asns={ASNs.VICTIM.value},
                                      AdoptASCls=ROVPPV2aSimpleAS,

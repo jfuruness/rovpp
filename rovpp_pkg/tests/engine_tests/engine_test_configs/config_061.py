@@ -17,11 +17,11 @@ class Config061(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "061"
-    desc = "This is running as single adopting AS (ROV++ v1 AS 12). " \
-           "This is 22 AS topology " \
-           "with a clique at the top with 1,2,3, and 4. Its about 4 levels " \
-           "tall. The attacker under the same provider as the legitmated " \
-           "origin (i.e. they’re both on the edge right next to each other). "
+    desc = ("This is running as single adopting AS (ROV++ v1 AS 12).\n"
+            "This is 22 AS topology "
+            "with a clique at the top with 1,2,3, and 4.\nIts about 4 levels "
+            "tall.\nThe attacker under the same provider as the legitmated "
+            "origin\n(i.e. they’re both on the edge next to each other). ")
 
     scenario = SuperprefixPrefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                        victim_asns={ASNs.VICTIM.value},

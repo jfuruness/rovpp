@@ -17,10 +17,10 @@ class Config049(EngineTestConfig):
     """Contains config options to run a test"""
 
     name = "049"
-    desc = "Subprefix Hijack that tests blackhole announcements the should " \
-           "be sent, even if hijack comes from a customer with ROV++ v2a " \
-           "This comes with the added check to see if it gets " \
-           "sent to peers."
+    desc = ("Subprefix Hijack that tests blackhole announcements\nshould "
+            "be sent, even if hijack comes from a customer\nwith ROV++ v2a "
+            "\nThis comes with the added check to see if it gets "
+            "sent to peers.")
     scenario = SubprefixHijack(attacker_asns={ASNs.ATTACKER.value},
                                victim_asns={ASNs.VICTIM.value},
                                AdoptASCls=ROVPPV2aSimpleAS,
