@@ -31,6 +31,8 @@ Because of this, so many lines need type ignores.
 (because they have the error of incompatible with supertype, even though type hints are the same!)
 I hope they fix this tool.
 
+Ugh, multiple inheritance also completely breaks. ignoring everything is pointless, so I'm removing this alltogether
+
 ## Usage
 * [rovpp\_pkg](#rovpp_pkg)
 
