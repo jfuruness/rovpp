@@ -265,8 +265,8 @@
       prefix: 1.2.3.0/24
       preventive: false
       recv_relationship: !simulator_codec/Relationships
-        name: CUSTOMERS
-        value: 3
+        name: PROVIDERS
+        value: 1
       roa_origin: 777
       roa_valid_length: false
       seed_asn: null
@@ -360,12 +360,11 @@
     1.2.3.0/24: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 6
-      - 3
-      - 2
+      - 4
       - 1
       - 666
       attacker_on_route: false
-      blackhole: false
+      blackhole: true
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -441,12 +440,11 @@
       - !yamlable/ROVPPAnn
         as_path: !!python/tuple
         - 6
-        - 3
-        - 2
+        - 4
         - 1
         - 666
         attacker_on_route: false
-        blackhole: false
+        blackhole: true
         holes: !!python/tuple []
         prefix: 1.2.3.0/24
         preventive: false
@@ -474,8 +472,7 @@
       as_path: !!python/tuple
       - 8
       - 6
-      - 3
-      - 2
+      - 4
       - 1
       - 666
       attacker_on_route: false
@@ -484,12 +481,11 @@
         ? !yamlable/ROVPPAnn
           as_path: !!python/tuple
           - 6
-          - 3
-          - 2
+          - 4
           - 1
           - 666
           attacker_on_route: false
-          blackhole: false
+          blackhole: true
           holes: !!python/tuple []
           prefix: 1.2.3.0/24
           preventive: false
@@ -528,12 +524,11 @@
         - !yamlable/ROVPPAnn
           as_path: !!python/tuple
           - 6
-          - 3
-          - 2
+          - 4
           - 1
           - 666
           attacker_on_route: false
-          blackhole: false
+          blackhole: true
           holes: !!python/tuple []
           prefix: 1.2.3.0/24
           preventive: false
