@@ -23,6 +23,14 @@ This package simulates ROV++. See paper (TODO: Add link) for further details
 
 TODO
 
+MYPY NOTES: Unfortunately, mypy seems to be completely broken for subclassing when the parent class has functions across multiple files.
+
+Or perhaps it's just broken for subclassing in general.
+Regardless, super dissapointing.
+Because of this, so many lines need type ignores.
+(because they have the error of incompatible with supertype, even though type hints are the same!)
+I hope they fix this tool.
+
 ## Usage
 * [rovpp\_pkg](#rovpp_pkg)
 

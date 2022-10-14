@@ -45,41 +45,45 @@ def main():
 
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
-    sims = [Simulation(scenarios=[SubprefixHijack(AdoptASCls=Cls,
-                                                  AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
-                                  ],
+    sims = [Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
+                                                        AnnCls=ROVPPAnn)
+                                        for Cls in
+                                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                                        ]),
                        output_path=BASE_PATH / "subprefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[NonRoutedSuperprefixHijack(AdoptASCls=Cls,
-                                                             AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP],
+            Simulation(scenarios=tuple(
+                                  [NonRoutedSuperprefixHijack(AdoptASCls=Cls,
+                                                              AnnCls=ROVPPAnn)
+                                   for Cls in ROV_NON_LITE_ROVPP]),
                        output_path=BASE_PATH / "non_routed_superprefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[SuperprefixPrefixHijack(AdoptASCls=Cls,
-                                                          AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP],
+            Simulation(scenarios=tuple([SuperprefixPrefixHijack(AdoptASCls=Cls,
+                                                                AnnCls=ROVPPAnn
+                                                                )
+                                        for Cls in ROV_NON_LITE_ROVPP]),
                        output_path=BASE_PATH / "superprefix_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[PrefixHijack(AdoptASCls=Cls,
-                                               AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP],
+            Simulation(scenarios=tuple([PrefixHijack(AdoptASCls=Cls,
+                                                     AnnCls=ROVPPAnn)
+                                        for Cls in ROV_NON_LITE_ROVPP]),
                        output_path=BASE_PATH / "prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[NonRoutedPrefixHijack(AdoptASCls=Cls,
-                                                        AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP],
+            Simulation(scenarios=tuple([NonRoutedPrefixHijack(AdoptASCls=Cls,
+                                                              AnnCls=ROVPPAnn)
+                                        for Cls in ROV_NON_LITE_ROVPP]),
                        output_path=BASE_PATH / "non_routed_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[NonRoutedSuperprefixHijack(AdoptASCls=Cls,
-                                                             AnnCls=ROVPPAnn)
-                                  for Cls in ROV_NON_LITE_ROVPP],
+            Simulation(scenarios=tuple([NonRoutedSuperprefixHijack(
+                                    AdoptASCls=Cls,
+                                    AnnCls=ROVPPAnn)
+                                  for Cls in ROV_NON_LITE_ROVPP]),
                        output_path=BASE_PATH / "non_routed_superprefix_prefix",
                        **get_default_kwargs()),
-            Simulation(scenarios=[SubprefixHijack(AdoptASCls=Cls,
-                                                  AnnCls=ROVPPAnn)
-                                  for Cls in (ROVPPV1SimpleAS,
-                                              ROVPPV1LiteSimpleAS)],
+            Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
+                                                        AnnCls=ROVPPAnn)
+                                        for Cls in (ROVPPV1SimpleAS,
+                                                    ROVPPV1LiteSimpleAS)]),
                        output_path=BASE_PATH / "lite_vs_non_lite",
                        **get_default_kwargs())]
 

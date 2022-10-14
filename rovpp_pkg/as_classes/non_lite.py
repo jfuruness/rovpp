@@ -10,14 +10,14 @@ class NonLite:
 
     __slots__ = ()
 
-    def _new_ann_better(self,
+    def _new_ann_better(self,  # type: ignore
                         current_ann: Optional[Ann],
                         current_processed: bool,
                         default_current_recv_rel: Relationships,
                         new_ann: Ann,
                         new_processed: Relationships,
                         default_new_recv_rel: Relationships,
-                        ) -> Optional[bool]:
+                        ) -> bool:
         """Must include this here since we blackhole prefixes now
 
         This does the same thing as the original func

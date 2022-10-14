@@ -17,13 +17,13 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         super(ROVPPV1LiteSimpleAS, self).__init__(*args, **kwargs)
         self.temp_holes = dict()
 
-    def _policy_propagate(self, _, ann, *args):
+    def _policy_propagate(self, _, ann, *args) -> bool:
         """Only propagate announcements that aren't blackholes"""
 
         # Policy handled this ann for propagation (and did nothing)
-        return ann.blackhole
+        return bool(ann.blackhole)
 
-    def receive_ann(self, ann: Ann, *args, **kwargs):
+    def receive_ann(self, ann: Ann, *args, **kwargs):  # type: ignore
         """Ensures that announcments are ROV++ and valid"""
 
         if not isinstance(ann, ROVPPAnn):
@@ -31,7 +31,8 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         return super(ROVPPV1LiteSimpleAS, self).receive_ann(
             ann, *args, **kwargs)
 
-    def process_incoming_anns(self,
+    # Mypy errors out when getting subclass of this
+    def process_incoming_anns(self,  # type: ignore
                               *,
                               from_rel: Relationships,
                               propagation_round: int,
@@ -65,12 +66,13 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         # So we must recount the holes of each ann in local RIB
         assert propagation_round == 0, "Must recount holes if you plan on this"
 
-    def _reset_q(self, reset_q: bool):
+    # mypy can't subclass properly
+    def _reset_q(self, reset_q: bool):  # type: ignore
         if reset_q:
             self.temp_holes = dict()
         super(ROVPPV1LiteSimpleAS, self)._reset_q(reset_q)
 
-    def _get_ann_to_holes_dict(self, scenario):
+    def _get_ann_to_holes_dict(self, scenario: "Scenario"):
         """Gets announcements to a typle of Ann holes
 
         Holes are subprefix hijacks

@@ -1,3 +1,4 @@
+from bgp_simulator_pkg import Announcement
 from bgp_simulator_pkg import BGPAS, Prefixes, Relationships, ROVAS
 from bgp_simulator_pkg import Scenario, SubprefixHijack
 
@@ -11,7 +12,12 @@ from .v1 import ROVPPV1LiteSimpleAS
 class ROVNoDropPrev(NonLite, BGPAS):
     name = "ROV that deals with preventives"
 
-    def _valid_ann(self, ann, *args, **kwargs) -> bool:
+    # mypy doesn't understand the subclassing
+    def _valid_ann(self,  # type: ignore
+                   ann: Announcement,
+                   *args,
+                   **kwargs
+                   ) -> bool:
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
@@ -50,7 +56,12 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
 
     __slots__ = ()
 
-    def _policy_propagate(self, neighbor, ann, propagate_to, send_rels):
+    # mypy doesn't understand parent/subclass here
+    def _policy_propagate(self,  # type: ignore
+                          neighbor,
+                          ann: Announcement,
+                          propagate_to,
+                          send_rels):
         """Special cases for propagation handled by the V3 policy
 
         Blackholes propagate normally
@@ -104,7 +115,8 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
 
         return neighbor_info is not None
 
-    def process_incoming_anns(self,
+    # Mypy doesn't understand the subclassing
+    def process_incoming_anns(self,  # type: ignore
                               *,
                               from_rel: Relationships,
                               propagation_round: int,
@@ -138,7 +150,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         # Move holes from temp_holes and resets q
         self._reset_q(reset_q)
 
-    def _reset_q(self, reset_q: bool):
+    def _reset_q(self, reset_q: bool):  # type: ignore
         if reset_q:
             self.temp_holes = dict()
         super(ROVPPV1LiteSimpleAS, self)._reset_q(reset_q)
@@ -189,15 +201,21 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         """Did we recieve a hijack at any point from a peer or provider??"""
 
         for ann_info in self._ribs_in.get_ann_infos(Prefixes.SUBPREFIX.value):
+            assert ann_info.unprocessed_ann is not None, "for mypy"
             if (ann_info.recv_relationship in [Relationships.PEERS,
                                                Relationships.PROVIDERS]
-                and ann_info.unprocessed_ann.invalid_by_roa
-                    and not ann_info.unprocessed_ann.preventive):
+                and ann_info.unprocessed_ann.invalid_by_roa  # type: ignore
+                    and not ann_info.unprocessed_ann.preventive  # type: ignore
+                    ):  # noqa
                 return True
 
         return False
 
-    def _valid_ann(self, ann, *args, **kwargs) -> bool:
+    def _valid_ann(self,  # type: ignore
+                   ann: Announcement,
+                   *args,
+                   **kwargs
+                   ) -> bool:
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
