@@ -127,7 +127,9 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         unprocessed_hole_ann,
-                        unprocessed_hole_ann.recv_relationship,
+                        # Hole anns aren't processed, whereas ann's are,
+                        # so anns have the correct relationship
+                        ann.recv_relationship,
                         overwrite_default_kwargs={"holes": holes,
                                                   "blackhole": True,
                                                   "traceback_end": True})
