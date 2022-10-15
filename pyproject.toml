@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 python_files = ["test*.py"]
 python_classes = ["Test*"]
 python_functions = ["test*"]
-addopts = "--ignore=rovpp_pkg/old -n 8" # --cov=rovpp_pkg
+addopts = "-n 8" # --cov=rovpp_pkg
 markers = [
     "slow",  # All slow tests
     "framework",  # All framework tests
