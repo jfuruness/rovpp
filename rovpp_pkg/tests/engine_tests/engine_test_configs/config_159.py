@@ -8,7 +8,7 @@ from bgp_simulator_pkg import EngineTestConfig
 from bgp_simulator_pkg import BGPSimpleAS
 from bgp_simulator_pkg import ROVSimpleAS
 from bgp_simulator_pkg import ASNs
-from bgp_simulator_pkg import SuperprefixPrefixHijack
+from bgp_simulator_pkg import SubprefixHijack
 
 from rovpp_pkg import ROVPPAnn
 
@@ -18,11 +18,11 @@ class Config159(EngineTestConfig):
 
     name = "159"
     desc = ""
-    scenario = SuperprefixPrefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                                       victim_asns={ASNs.VICTIM.value},
-                                       AdoptASCls=ROVSimpleAS,
-                                       BaseASCls=BGPSimpleAS,
-                                       AnnCls=ROVPPAnn)
+    scenario = SubprefixHijack(attacker_asns={ASNs.ATTACKER.value},
+                               victim_asns={ASNs.VICTIM.value},
+                               AdoptASCls=ROVSimpleAS,
+                               BaseASCls=BGPSimpleAS,
+                               AnnCls=ROVPPAnn)
     graph = graphs.Graph033()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {
         3: ROVSimpleAS,

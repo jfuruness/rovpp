@@ -82,8 +82,8 @@
   peers: !!python/tuple []
   propagation_rank: 2
   providers: !!python/tuple
-  - 1
   - 33
+  - 1
 6: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -132,8 +132,8 @@
   asn: 6
   customer_cone_size: 2
   customers: !!python/tuple
-  - 7
   - 8
+  - 7
   input_clique: false
   ixp: false
   peers: !!python/tuple []
