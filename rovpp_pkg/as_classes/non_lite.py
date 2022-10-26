@@ -39,22 +39,35 @@ class NonLite:
             if new_blackhole_state_better is not None:
                 return new_blackhole_state_better
             else:
-                new_holes_better = self._new_holes_better(
+                # First check if new relationship is better
+                new_rel_better: Optional[bool] = BGPSimpleAS._new_rel_better(
+                    self,
                     current_ann,
                     current_processed,
+                    default_current_recv_rel,
                     new_ann,
-                    new_processed)
-                if new_holes_better is not None:
-                    return new_holes_better
+                    new_processed,
+                    default_new_recv_rel)
+                # If new rel better is True or False, return it
+                if new_rel_better is not None:
+                    return new_rel_better
                 else:
-                    return bool(BGPSimpleAS._new_ann_better(
-                        self,
-                        current_ann,
-                        current_processed,
-                        default_current_recv_rel,
-                        new_ann,
-                        new_processed,
-                        default_new_recv_rel))
+                    new_holes_better = self._new_holes_better(
+                                    current_ann,
+                                    current_processed,
+                                    new_ann,
+                                    new_processed)
+                    if new_holes_better is not None:
+                        return new_holes_better
+                    else:
+                        # Return the outcome of as path and tiebreaks
+                        # mypy doesn't recognize that this is always a bool
+                        return BGPSimpleAS._new_as_path_ties_better(
+                            self,
+                            current_ann,  # type: ignore
+                            current_processed,
+                            new_ann,
+                            new_processed)
 
     def _new_validity_better(self,
                              current_ann,
