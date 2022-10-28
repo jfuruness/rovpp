@@ -350,9 +350,9 @@
   peers: !!python/tuple []
   propagation_rank: 3
   providers: !!python/tuple
-  - 16
   - 10
   - 2
+  - 16
 6: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn

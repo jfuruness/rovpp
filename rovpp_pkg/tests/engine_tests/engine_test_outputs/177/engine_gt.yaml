@@ -212,8 +212,8 @@
   asn: 2
   customer_cone_size: 7
   customers: !!python/tuple
-  - 1
   - 11
+  - 1
   input_clique: false
   ixp: false
   peers: !!python/tuple
@@ -551,8 +551,8 @@
   peers: !!python/tuple []
   propagation_rank: 1
   providers: !!python/tuple
-  - 1
   - 4
+  - 1
   - 15
 6: !yamlable/ROVPPV2SimpleAS
   _local_rib: !yamlable/LocalRIB

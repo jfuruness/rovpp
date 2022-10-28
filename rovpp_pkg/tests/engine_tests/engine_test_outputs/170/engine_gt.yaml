@@ -42,8 +42,8 @@
   asn: 1
   customer_cone_size: 9
   customers: !!python/tuple
-  - 2
   - 4
+  - 2
   - 5
   - 666
   input_clique: false
@@ -292,15 +292,15 @@
   asn: 6
   customer_cone_size: 2
   customers: !!python/tuple
-  - 8
   - 7
+  - 8
   input_clique: false
   ixp: false
   peers: !!python/tuple []
   propagation_rank: 1
   providers: !!python/tuple
-  - 3
   - 4
+  - 3
 7: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -440,8 +440,8 @@
   asn: 9
   customer_cone_size: 7
   customers: !!python/tuple
-  - 10
   - 5
+  - 10
   input_clique: false
   ixp: false
   peers: !!python/tuple []
