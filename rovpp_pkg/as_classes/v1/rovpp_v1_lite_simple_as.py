@@ -123,7 +123,11 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     # If another entry exists, remove it
                     if self._local_rib.get_ann(unprocessed_hole_ann.prefix):
                         # Remove current ann and replace with blackhole
-                        self._local_rib.remove_ann(unprocessed_hole_ann.prefix)
+                        # These lines will only get hit if a subclass accepts
+                        # invalid announcements and considers them valid
+                        # which doesn't make sense, so won't bother testing
+                        self._local_rib.remove_ann(  # pragma: no cover
+                            unprocessed_hole_ann.prefix)  # pragma: no cover
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         unprocessed_hole_ann,
@@ -194,7 +198,9 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         """Deep copies ann and modifies attrs"""
 
         if overwrite_default_kwargs:  # noqa
-            if "holes" not in overwrite_default_kwargs:
+            # This is a no op for us, but for future subclasses it might
+            # encounter this line of code. Omitting coverage to save time
+            if "holes" not in overwrite_default_kwargs:  # pragma: no cover
                 overwrite_default_kwargs["holes"] = self.temp_holes[ann]
         else:
             overwrite_default_kwargs = {"holes": self.temp_holes[ann]}

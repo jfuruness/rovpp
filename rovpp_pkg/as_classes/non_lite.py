@@ -30,14 +30,19 @@ class NonLite:
         # Valid > invalid
         new_validity_better = self._new_validity_better(current_ann,
                                                         new_ann)
+        # This is a no op without specific subclasses, we can ignore
+        # for the purposes of our paper
         if new_validity_better is not None:
-            return new_validity_better
+            return new_validity_better  # pragma: no cover
         else:
             # Not blackhole > blackhole
             new_blackhole_state_better = self._new_blackhole_state_better(
                 current_ann, new_ann)
+            # This is a no unless you create a class that considers
+            # both blackholes and preventives valid, which we do not
+            # So we can ignore for this paper
             if new_blackhole_state_better is not None:
-                return new_blackhole_state_better
+                return new_blackhole_state_better  # pragma: no cover
             else:
                 # First check if new relationship is better
                 new_rel_better: Optional[bool] = BGPSimpleAS._new_rel_better(
@@ -76,9 +81,13 @@ class NonLite:
         """Returns True if new better, False if old better, None if eq"""
 
         if not new_ann.invalid_by_roa and current_ann.invalid_by_roa:
-            return True
+            # This only occurs in subclasses we do not implement
+            # so we will ignore it to save time
+            return True  # pragma: no cover
         elif new_ann.invalid_by_roa and not current_ann.invalid_by_roa:
-            return False
+            # This only occurs in subclasses we do not implement
+            # so we will ignore it to save time
+            return False  # pragma: no cover
         else:
             return None
 
@@ -86,15 +95,21 @@ class NonLite:
                                     current_ann,
                                     new_ann
                                     ) -> Optional[bool]:
-        """Returns True if new better, False if old better, None if eq"""
+        """Returns True if new better, False if old better, None if eq
+
+        This function is basically a no op unless you create a subclass
+        that doesn't drop invalid announcements for some reason and also
+        keeps preventives and blackholes. To save time for this research
+        paper, we omit the coverage
+        """
 
         if not new_ann.blackhole and current_ann.blackhole:
-            return True
+            return True  # pragma: no cover
         elif new_ann.blackhole and not current_ann.blackhole:
-            return False
+            return False  # pragma: no cover
         # Preventives > blackholes
         elif new_ann.preventive and current_ann.blackhole:
-            return True
+            return True  # pragma: no cover
         else:
             return None
 
@@ -110,13 +125,17 @@ class NonLite:
 
         # Holes for new announcement
         if new_ann_processed:
-            new_holes = len(new_ann.holes)
+            # This only occurs in subclasses we do not implement
+            # so we will ignore it to save time
+            new_holes = len(new_ann.holes)  # pragma: no cover
         else:
             new_holes = len(self.temp_holes[new_ann])  # type: ignore
 
         # Holes for current announcement
         if current_ann_processed:
-            current_holes = len(current_ann.holes)
+            # This only occurs in subclasses we do not implement
+            # so we ill ignore it to save time
+            current_holes = len(current_ann.holes)  # pragma: no cover
         else:
             current_holes = len(self.temp_holes[current_ann])  # type: ignore
 
