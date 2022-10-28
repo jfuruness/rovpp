@@ -3,45 +3,12 @@ from bgp_simulator_pkg import BGPAS, Prefixes, Relationships, ROVAS
 from bgp_simulator_pkg import Scenario, SubprefixHijack
 
 from .non_lite import NonLite
+from .v2 import ROVPPV2LiteSimpleAS
 from .v2 import ROVPPV2SimpleAS
 from .v1 import ROVPPV1LiteSimpleAS
 
 
-# Hard coding this because screw it
-# This is not how I normally code I assure you
-class ROVNoDropPrev(NonLite, BGPAS):
-    name = "ROV that deals with preventives"
-
-    # mypy doesn't understand the subclassing
-    def _valid_ann(self,  # type: ignore
-                   ann: Announcement,
-                   *args,
-                   **kwargs
-                   ) -> bool:
-        if ann.invalid_by_roa and not ann.preventive:
-            return False
-        else:
-            return bool(BGPAS._valid_ann(self, ann, *args, **kwargs))
-
-    def _copy_and_process(self,
-                          ann,
-                          recv_relationship,
-                          overwrite_default_kwargs=None):
-        """Deep copies ann and modifies attrs"""
-
-        if overwrite_default_kwargs:
-            overwrite_default_kwargs["holes"] = self.temp_holes[ann]
-        else:
-            overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
-
-        return super(ROVPPV1LiteSimpleAS,
-                     self)._copy_and_process(  # type: ignore
-            ann,
-            recv_relationship,
-            overwrite_default_kwargs=overwrite_default_kwargs)
-
-
-class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
+class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
     """If a customer announces a valid route, don't send preventive
 
         If you send a preventive,
@@ -104,7 +71,12 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
                 #    # On second thought nm, because your sending to customers
                 #    # So if customer sent subprefix,
                 #    # you will not replace it (Gao rexford)
-            return True
+            # You should always be able to send competing hijack for
+            # for preventive, since they should only send to peer/provider
+            # Because of this, this line should never be reached
+            # unless there is a V3 attack, however, since no one should
+            # ever ever deploy v3, we don't need to test for this
+            raise NotImplementedError("Not tested")  # pragma no cover
         else:
             return False
 
@@ -137,8 +109,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
 
         self.temp_holes = self._get_ann_to_holes_dict(scenario)
 
-        ROVNoDropPrev.process_incoming_anns(
-            self,
+        super().process_incoming_anns(
             from_rel=from_rel,
             propagation_round=propagation_round,
             scenario=scenario,
@@ -201,7 +172,7 @@ class ROVPPV3AS(ROVAS, ROVPPV2SimpleAS):
         """Did we recieve a hijack at any point from a peer or provider??"""
 
         for ann_info in self._ribs_in.get_ann_infos(Prefixes.SUBPREFIX.value):
-            assert ann_info.unprocessed_ann is not None, "for mypy"
+            # assert ann_info.unprocessed_ann is not None, "for mypy"
             if (ann_info.recv_relationship in [Relationships.PEERS,
                                                Relationships.PROVIDERS]
                 and ann_info.unprocessed_ann.invalid_by_roa  # type: ignore
