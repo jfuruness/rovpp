@@ -102,6 +102,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         """Manipulates local RIB by adding blackholes and dropping invalid"""
 
         blackholes_to_add = []
+        local_rib_to_remove = list()
         # For each ann in local RIB:
         for _, ann in self._local_rib.prefix_anns():
             # For each hole in ann: (holes are invalid subprefixes)
@@ -126,8 +127,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                         # These lines will only get hit if a subclass accepts
                         # invalid announcements and considers them valid
                         # which doesn't make sense, so won't bother testing
-                        self._local_rib.remove_ann(  # pragma: no cover
-                            unprocessed_hole_ann.prefix)  # pragma: no cover
+                        local_rib_to_remove.append(unprocessed_hole_ann.prefix)
                     # Create the blackhole
                     blackhole = self._copy_and_process(
                         unprocessed_hole_ann,
@@ -139,6 +139,10 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                                                   "traceback_end": True})
 
                     blackholes_to_add.append(blackhole)
+
+        for prefix in local_rib_to_remove:
+            self._local_rib.remove_ann(prefix)  # TODO TEST
+
         # Must also add announcements that never made it into the local rib
         # Because the professors want to blackhole announcements even if ROV
         # Would have otherwise dropped them

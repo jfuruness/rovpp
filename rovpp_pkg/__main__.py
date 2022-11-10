@@ -40,7 +40,7 @@ def get_default_kwargs(quick):  # pragma: no cover
                 "num_trials": 100,
                 "subgraphs": [Cls() for Cls in Subgraph.subclasses
                               if Cls.name],
-                "parse_cpus": cpu_count() // 2}
+                "parse_cpus": cpu_count() - 2}
 
 
 ROV_NON_LITE_ROVPP = (ROVSimpleAS,
@@ -57,6 +57,14 @@ def main(quick=True):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
+                                                        AnnCls=ROVPPAnn,
+                                                        min_rov_confidence=0)
+                                        for Cls in
+                                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                                        ]),
+                       output_path=BASE_PATH / "subprefix",
+                       **get_default_kwargs(quick=quick)),
+            Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
                                                         AnnCls=ROVPPAnn)
                                         for Cls in
                                         ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
@@ -106,5 +114,5 @@ def main(quick=True):  # pragma: no cover
 
 if __name__ == "__main__":
     start = datetime.now()
-    main()
+    main(quick=True)
     print((datetime.now() - start).total_seconds())

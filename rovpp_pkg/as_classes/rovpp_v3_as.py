@@ -76,7 +76,7 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
             # Because of this, this line should never be reached
             # unless there is a V3 attack, however, since no one should
             # ever ever deploy v3, we don't need to test for this
-            raise NotImplementedError("Not tested")  # pragma no cover
+            return True  # TODO TEST
         else:
             return False
 
