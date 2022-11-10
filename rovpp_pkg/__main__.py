@@ -52,7 +52,7 @@ ROV_NON_LITE_ROVPP = (ROVSimpleAS,
 # Ignoring coverage on this func because it would cause every line
 # to be covered, and there is a bare bones system test that just runs
 # through these
-def main(quick=True):  # pragma: no cover
+def main(quick=False):  # pragma: no cover
 
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
@@ -114,5 +114,5 @@ def main(quick=True):  # pragma: no cover
 
 if __name__ == "__main__":
     start = datetime.now()
-    main(quick=True)
+    main(quick=False)
     print((datetime.now() - start).total_seconds())
