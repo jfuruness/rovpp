@@ -62,7 +62,7 @@ def main(quick=False):  # pragma: no cover
                                         for Cls in
                                         ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                                         ]),
-                       output_path=BASE_PATH / "subprefix",
+                       output_path=BASE_PATH / "mixed_deployment",
                        **get_default_kwargs(quick=quick)),
             Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
                                                         AnnCls=ROVPPAnn)
