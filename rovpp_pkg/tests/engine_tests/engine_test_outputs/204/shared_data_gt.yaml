@@ -1,0 +1,14 @@
+all_ATTACKER_SUCCESS: 15
+all_ATTACKER_SUCCESS_perc: 93.75
+all_VICTIM_SUCCESS: 1
+all_VICTIM_SUCCESS_perc: 6.25
+etc_BGP Simple: 9
+etc_BGP Simple_ATTACKER_SUCCESS: 9
+etc_ROV++V2a Simple: 2
+etc_ROV++V2a Simple_ATTACKER_SUCCESS: 2
+set: true
+stubs_or_mh_BGP Simple: 4
+stubs_or_mh_BGP Simple_ATTACKER_SUCCESS: 4
+stubs_or_mh_BGP Simple_ATTACKER_SUCCESS_percent: 100.0
+stubs_or_mh_ROV++V2a Simple: 1
+stubs_or_mh_ROV++V2a Simple_VICTIM_SUCCESS: 1

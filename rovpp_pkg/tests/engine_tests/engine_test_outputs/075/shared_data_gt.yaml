@@ -1,0 +1,16 @@
+all_ATTACKER_SUCCESS: 2
+all_ATTACKER_SUCCESS_perc: 22.22222222222222
+all_DISCONNECTED: 7
+all_DISCONNECTED_perc: 77.77777777777777
+etc_BGP Simple: 2
+etc_BGP Simple_ATTACKER_SUCCESS: 1
+etc_BGP Simple_DISCONNECTED: 1
+etc_ROVSimple: 2
+etc_ROVSimple_DISCONNECTED: 2
+set: true
+stubs_or_mh_BGP Simple: 4
+stubs_or_mh_BGP Simple_ATTACKER_SUCCESS: 1
+stubs_or_mh_BGP Simple_DISCONNECTED: 3
+stubs_or_mh_ROVSimple: 1
+stubs_or_mh_ROVSimple_DISCONNECTED: 1
+stubs_or_mh_ROVSimple_DISCONNECTED_percent: 100.0

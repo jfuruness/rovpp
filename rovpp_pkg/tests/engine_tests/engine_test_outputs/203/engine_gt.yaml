@@ -293,8 +293,8 @@
   asn: 6
   customer_cone_size: 4
   customers: !!python/tuple
-  - 7
   - 777
+  - 7
   input_clique: false
   ixp: false
   peers: !!python/tuple []

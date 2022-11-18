@@ -106,8 +106,8 @@
   ixp: false
   peers: !!python/tuple
   - 1
-  - 4
   - 3
+  - 4
   - 5
   propagation_rank: 3
   providers: !!python/tuple []
@@ -161,9 +161,9 @@
   input_clique: false
   ixp: false
   peers: !!python/tuple
-  - 4
   - 1
   - 2
+  - 4
   propagation_rank: 0
   providers: !!python/tuple []
 4: !yamlable/BGPSimpleAS
@@ -216,9 +216,9 @@
   input_clique: false
   ixp: false
   peers: !!python/tuple
+  - 1
   - 2
   - 3
-  - 1
   propagation_rank: 0
   providers: !!python/tuple []
 5: !yamlable/BGPSimpleAS
@@ -267,8 +267,8 @@
   asn: 5
   customer_cone_size: 12
   customers: !!python/tuple
-  - 6
   - 12
+  - 6
   input_clique: false
   ixp: false
   peers: !!python/tuple
@@ -310,8 +310,8 @@
   - 7
   propagation_rank: 2
   providers: !!python/tuple
-  - 5
   - 2
+  - 5
 7: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -357,8 +357,8 @@
   customer_cone_size: 8
   customers: !!python/tuple
   - 9
-  - 10
   - 666
+  - 10
   input_clique: false
   ixp: false
   peers: !!python/tuple
@@ -394,8 +394,8 @@
   input_clique: false
   ixp: false
   peers: !!python/tuple
-  - 14
   - 9
+  - 14
   propagation_rank: 1
   providers: !!python/tuple
   - 6
@@ -443,9 +443,9 @@
   asn: 9
   customer_cone_size: 4
   customers: !!python/tuple
-  - 19
-  - 18
   - 16
+  - 18
+  - 19
   - 15
   input_clique: false
   ixp: false
@@ -600,9 +600,9 @@
   - 6
   propagation_rank: 2
   providers: !!python/tuple
+  - 2
   - 11
   - 5
-  - 2
 13: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -685,17 +685,17 @@
   asn: 14
   customer_cone_size: 3
   customers: !!python/tuple
-  - 21
-  - 20
   - 19
+  - 20
+  - 21
   input_clique: false
   ixp: false
   peers: !!python/tuple
   - 8
   propagation_rank: 1
   providers: !!python/tuple
-  - 13
   - 12
+  - 13
 15: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -958,8 +958,8 @@
   peers: !!python/tuple []
   propagation_rank: 0
   providers: !!python/tuple
-  - 14
   - 9
+  - 14
 20: !yamlable/BGPSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
