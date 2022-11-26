@@ -7,7 +7,7 @@
 ![Tests](https://github.com/jfuruness/rovpp_pkg/actions/workflows/tests.yml/badge.svg)
 
 # rovpp\_pkg
-This package simulates ROV++. See paper (TODO: Add link) for further details
+This package simulates ROV++. See paper (TODO: Add link) for further details.
 
 * [Description](#package-description)
 * [Usage](#usage)
