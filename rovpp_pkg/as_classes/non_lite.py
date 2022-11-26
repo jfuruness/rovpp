@@ -8,8 +8,6 @@ from bgp_simulator_pkg import Relationships
 class NonLite:
     """Do nothing for new holes better funcs (Lite)"""
 
-    __slots__ = ()
-
     def _new_ann_better(self,  # type: ignore
                         current_ann: Optional[Ann],
                         current_processed: bool,

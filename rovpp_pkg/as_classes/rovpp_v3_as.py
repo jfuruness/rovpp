@@ -21,8 +21,6 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
 
     name = "ROV++V3"
 
-    __slots__ = ()
-
     # mypy doesn't understand parent/subclass here
     def _policy_propagate(self,  # type: ignore
                           neighbor,
