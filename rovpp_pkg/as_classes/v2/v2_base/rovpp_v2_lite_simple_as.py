@@ -5,8 +5,6 @@ from ...v1 import ROVPPV1LiteSimpleAS
 
 class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
 
-    __slots__ = ()
-
     name = "ROV++V2 Lite Simple"
 
     def _policy_propagate(self, neighbor, ann, propagate_to, *args):

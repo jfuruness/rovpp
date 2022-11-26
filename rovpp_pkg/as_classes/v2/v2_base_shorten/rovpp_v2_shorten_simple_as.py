@@ -3,8 +3,6 @@ from ..v2_base import ROVPPV2SimpleAS
 
 class ROVPPV2ShortenSimpleAS(ROVPPV2SimpleAS):
 
-    __slots__ = ()
-
     name = "ROV++V2 Shorten Simple"
 
     def _copy_and_process(self,
