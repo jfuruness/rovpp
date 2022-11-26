@@ -36,7 +36,7 @@ def get_default_kwargs(quick):  # pragma: no cover
                               if Cls.name],
                 "parse_cpus": 1}
     else:  # pragma: no cover
-        return {"percent_adoptions": [0, .5, .1, .2, .3, .4, .6, .8, 1],
+        return {"percent_adoptions": [-1, .5, .1, .2, .3, .4, .6, .8, 101],
                 "num_trials": 100,
                 "subgraphs": [Cls() for Cls in Subgraph.subclasses
                               if Cls.name],
