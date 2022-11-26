@@ -6,13 +6,19 @@ all_VICTIM_SUCCESS: 3
 all_VICTIM_SUCCESS_perc: 25.0
 etc_BGP Simple: 4
 etc_BGP Simple_ATTACKER_SUCCESS: 2
+etc_BGP Simple_ATTACKER_SUCCESS_percent: 50.0
 etc_BGP Simple_DISCONNECTED: 1
 etc_BGP Simple_DISCONNECTED_percent: 25.0
 etc_BGP Simple_VICTIM_SUCCESS: 1
+etc_BGP Simple_VICTIM_SUCCESS_percent: 25.0
 etc_ROV++V2a Simple: 1
 etc_ROV++V2a Simple_DISCONNECTED: 1
+etc_ROV++V2a Simple_DISCONNECTED_percent: 100.0
 set: true
 stubs_or_mh_BGP Simple: 7
 stubs_or_mh_BGP Simple_ATTACKER_SUCCESS: 2
+stubs_or_mh_BGP Simple_ATTACKER_SUCCESS_percent: 28.571428571428573
 stubs_or_mh_BGP Simple_DISCONNECTED: 3
+stubs_or_mh_BGP Simple_DISCONNECTED_percent: 42.857142857142854
 stubs_or_mh_BGP Simple_VICTIM_SUCCESS: 2
+stubs_or_mh_BGP Simple_VICTIM_SUCCESS_percent: 28.571428571428573
