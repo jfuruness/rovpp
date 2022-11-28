@@ -5,6 +5,7 @@ from pathlib import Path
 from bgp_simulator_pkg import ROVSimpleAS
 from bgp_simulator_pkg import Simulation
 from bgp_simulator_pkg import Subgraph
+from bgp_simulator_pkg import SpecialPercentAdoptions
 
 # Hijacks
 from bgp_simulator_pkg import SubprefixHijack
@@ -36,8 +37,16 @@ def get_default_kwargs(quick):  # pragma: no cover
                               if Cls.name],
                 "parse_cpus": 1}
     else:  # pragma: no cover
-        return {"percent_adoptions": [-1, .5, .1, .2, .3, .4, .6, .8, 101],
-                "num_trials": 100,
+        return {"percent_adoptions": [SpecialPercentAdoptions.ONLY_ONE,
+                                      .5,
+                                      .1,
+                                      .2,
+                                      .3,
+                                      .4,
+                                      .6,
+                                      .8,
+                                      SpecialPercentAdoptions.ALL_BUT_ONE],
+                "num_trials": 2,
                 "subgraphs": [Cls() for Cls in Subgraph.subclasses
                               if Cls.name],
                 "parse_cpus": cpu_count() - 2}
