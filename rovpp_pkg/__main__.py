@@ -67,19 +67,19 @@ def main(quick=False):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
-                                                        AnnCls=ROVPPAnn)
-                                        for Cls in
-                                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
-                                        ]),
-                       output_path=BASE_PATH / "subprefix",
-                       **get_default_kwargs(quick=quick)),
-            Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
                                                         AnnCls=ROVPPAnn,
                                                         min_rov_confidence=0)
                                         for Cls in
                                         ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                                         ]),
                        output_path=BASE_PATH / "mixed_deployment",
+                       **get_default_kwargs(quick=quick)),
+            Simulation(scenarios=tuple([SubprefixHijack(AdoptASCls=Cls,
+                                                        AnnCls=ROVPPAnn)
+                                        for Cls in
+                                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                                        ]),
+                       output_path=BASE_PATH / "subprefix",
                        **get_default_kwargs(quick=quick)),
             Simulation(scenarios=tuple(
                                   [NonRoutedSuperprefixHijack(AdoptASCls=Cls,
