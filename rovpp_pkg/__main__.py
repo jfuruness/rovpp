@@ -47,7 +47,7 @@ def get_default_kwargs(quick):  # pragma: no cover
                                       .8,
                                       # .99],
                                       SpecialPercentAdoptions.ALL_BUT_ONE],
-                "num_trials": 100,
+                "num_trials": 1500,
                 "subgraphs": [Cls() for Cls in Subgraph.subclasses
                               if Cls.name],
                 "parse_cpus": cpu_count() - 2}
