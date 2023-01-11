@@ -124,5 +124,5 @@ def main(quick=False):  # pragma: no cover
 
 if __name__ == "__main__":
     start = datetime.now()
-    main(quick=False)
+    main(quick=True)
     print((datetime.now() - start).total_seconds())
