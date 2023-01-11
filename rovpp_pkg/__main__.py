@@ -117,7 +117,7 @@ def main(quick=False):  # pragma: no cover
                        output_path=BASE_PATH / "lite_vs_non_lite",
                        **get_default_kwargs(quick=quick))]
 
-    for sim in sims:
+    for sim in sims[:1]:
         start = datetime.now()
         sim.run()
         print(f"{sim.output_path} {(datetime.now() - start).total_seconds()}")
