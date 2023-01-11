@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from datetime import datetime
 from multiprocessing import cpu_count
 from pathlib import Path
@@ -123,6 +124,13 @@ def main(quick=False):  # pragma: no cover
 
 
 if __name__ == "__main__":
+
+    parser = ArgumentParser(description="Runs a simulation")
+    parser.add_argument("--quick",
+                        dest="quick",
+                        default=False,
+                        action="store_true")
+    args = parser.parse_args()
     start = datetime.now()
-    main(quick=True)
+    main(quick=args.quick)
     print((datetime.now() - start).total_seconds())
