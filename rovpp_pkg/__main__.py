@@ -65,7 +65,7 @@ ROV_NON_LITE_ROVPP = (ROVSimpleAS,
 # Ignoring coverage on this func because it would cause every line
 # to be covered, and there is a bare bones system test that just runs
 # through these
-def main(quick=False, trials=1):  # pragma: no cover
+def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
 
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
@@ -119,7 +119,9 @@ def main(quick=False, trials=1):  # pragma: no cover
                        output_path=BASE_PATH / "lite_vs_non_lite",
                        **get_default_kwargs(quick=quick, trials=trials))]
 
-    for sim in sims[:1]:
+    if graph_index is not None:
+        sims = [sims[graph_index]]
+    for sim in sims:
         start = datetime.now()
         sim.run()
         print(f"{sim.output_path} {(datetime.now() - start).total_seconds()}")
@@ -133,7 +135,13 @@ if __name__ == "__main__":
                         default=False,
                         action="store_true")
     parser.add_argument("--trials", type=int, dest="trials", default=1)
+    idx_default = -100
+    parser.add_argument("--graph_index",
+                        type=int,
+                        dest="graph_index",
+                        default=idx_default)
     args = parser.parse_args()
+    graph_index = None if args.graph_index == idx_default else args.graph_index
     start = datetime.now()
-    main(quick=args.quick, trials=args.trials)
+    main(quick=args.quick, trials=args.trials, graph_index=graph_index)
     print((datetime.now() - start).total_seconds())
