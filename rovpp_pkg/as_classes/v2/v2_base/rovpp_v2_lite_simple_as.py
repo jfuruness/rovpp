@@ -4,7 +4,6 @@ from ...v1 import ROVPPV1LiteSimpleAS
 
 
 class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
-
     name = "ROV++V2 Lite Simple"
 
     def _policy_propagate(self, neighbor, ann, propagate_to, *args):
@@ -23,8 +22,9 @@ class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
             return False
 
     def _send_competing_hijack_allowed(self, ann, propagate_to):
-        return (ann.recv_relationship in [Relationships.PEERS,
-                                          Relationships.PROVIDERS,
-                                          Relationships.ORIGIN]
-                and propagate_to == Relationships.CUSTOMERS
-                and (not ann.roa_valid_length or not ann.roa_routed))
+        return (
+            ann.recv_relationship
+            in [Relationships.PEERS, Relationships.PROVIDERS, Relationships.ORIGIN]
+            and propagate_to == Relationships.CUSTOMERS
+            and (not ann.roa_valid_length or not ann.roa_routed)
+        )

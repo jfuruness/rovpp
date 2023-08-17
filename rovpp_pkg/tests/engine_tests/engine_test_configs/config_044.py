@@ -18,11 +18,13 @@ class Config044(EngineTestConfig):
 
     name = "044"
     desc = "Subprefix Hijack from fig 4 in paper with ROV++ v2"
-    scenario = SubprefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                               victim_asns={ASNs.VICTIM.value},
-                               AdoptASCls=ROVPPV2SimpleAS,
-                               BaseASCls=BGPSimpleAS,
-                               AnnCls=ROVPPAnn)
+    scenario = SubprefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVPPV2SimpleAS,
+        BaseASCls=BGPSimpleAS,
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph005()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {5: ROVPPV2SimpleAS}
     propagation_rounds = 1

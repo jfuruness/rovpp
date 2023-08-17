@@ -8,14 +8,15 @@ from bgp_simulator_pkg import Relationships
 class NonLite:
     """Do nothing for new holes better funcs (Lite)"""
 
-    def _new_ann_better(self,  # type: ignore
-                        current_ann: Optional[Ann],
-                        current_processed: bool,
-                        default_current_recv_rel: Relationships,
-                        new_ann: Ann,
-                        new_processed: Relationships,
-                        default_new_recv_rel: Relationships,
-                        ) -> bool:
+    def _new_ann_better(
+        self,  # type: ignore
+        current_ann: Optional[Ann],
+        current_processed: bool,
+        default_current_recv_rel: Relationships,
+        new_ann: Ann,
+        new_processed: Relationships,
+        default_new_recv_rel: Relationships,
+    ) -> bool:
         """Must include this here since we blackhole prefixes now
 
         This does the same thing as the original func
@@ -26,8 +27,7 @@ class NonLite:
             assert new_ann is not None
             return True
         # Valid > invalid
-        new_validity_better = self._new_validity_better(current_ann,
-                                                        new_ann)
+        new_validity_better = self._new_validity_better(current_ann, new_ann)
         # This is a no op without specific subclasses, we can ignore
         # for the purposes of our paper
         if new_validity_better is not None:
@@ -35,7 +35,8 @@ class NonLite:
         else:
             # Not blackhole > blackhole
             new_blackhole_state_better = self._new_blackhole_state_better(
-                current_ann, new_ann)
+                current_ann, new_ann
+            )
             # This is a no unless you create a class that considers
             # both blackholes and preventives valid, which we do not
             # So we can ignore for this paper
@@ -50,16 +51,15 @@ class NonLite:
                     default_current_recv_rel,
                     new_ann,
                     new_processed,
-                    default_new_recv_rel)
+                    default_new_recv_rel,
+                )
                 # If new rel better is True or False, return it
                 if new_rel_better is not None:
                     return new_rel_better
                 else:
                     new_holes_better = self._new_holes_better(
-                                    current_ann,
-                                    current_processed,
-                                    new_ann,
-                                    new_processed)
+                        current_ann, current_processed, new_ann, new_processed
+                    )
                     if new_holes_better is not None:
                         return new_holes_better
                     else:
@@ -70,12 +70,10 @@ class NonLite:
                             current_ann,  # type: ignore
                             current_processed,
                             new_ann,
-                            new_processed)
+                            new_processed,
+                        )
 
-    def _new_validity_better(self,
-                             current_ann,
-                             new_ann
-                             ) -> Optional[bool]:
+    def _new_validity_better(self, current_ann, new_ann) -> Optional[bool]:
         """Returns True if new better, False if old better, None if eq"""
 
         if not new_ann.invalid_by_roa and current_ann.invalid_by_roa:
@@ -89,10 +87,7 @@ class NonLite:
         else:
             return None
 
-    def _new_blackhole_state_better(self,
-                                    current_ann,
-                                    new_ann
-                                    ) -> Optional[bool]:
+    def _new_blackhole_state_better(self, current_ann, new_ann) -> Optional[bool]:
         """Returns True if new better, False if old better, None if eq
 
         This function is basically a no op unless you create a subclass
@@ -111,12 +106,9 @@ class NonLite:
         else:
             return None
 
-    def _new_holes_better(self,
-                          current_ann,
-                          current_ann_processed,
-                          new_ann,
-                          new_ann_processed
-                          ) -> Optional[bool]:
+    def _new_holes_better(
+        self, current_ann, current_ann_processed, new_ann, new_ann_processed
+    ) -> Optional[bool]:
         """Returns new ann has less holes, or None if =="""
 
         # Could do this using int(processed) but so unreadable

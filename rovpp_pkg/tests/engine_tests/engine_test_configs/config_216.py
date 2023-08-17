@@ -23,9 +23,12 @@ class Config216(EngineTestConfig):
         victim_asns={ASNs.VICTIM.value},
         AdoptASCls=ROVPPV1SimpleAS,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn)
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph048()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {3: ROVPPV1SimpleAS,
-                                                    4: ROVPPV1SimpleAS,
-                                                    6: ROVPPV1SimpleAS}
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {
+        3: ROVPPV1SimpleAS,
+        4: ROVPPV1SimpleAS,
+        6: ROVPPV1SimpleAS,
+    }
     propagation_rounds = 1

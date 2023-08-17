@@ -18,13 +18,17 @@ class Config128(EngineTestConfig):
 
     name = "128"
     desc = "Superprefix+Prefix Attack on Prefix with v1"
-    scenario = SuperprefixPrefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                                       victim_asns={ASNs.VICTIM.value},
-                                       AdoptASCls=ROVPPV1SimpleAS,
-                                       BaseASCls=BGPSimpleAS,
-                                       AnnCls=ROVPPAnn)
+    scenario = SuperprefixPrefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVPPV1SimpleAS,
+        BaseASCls=BGPSimpleAS,
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph012()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {2: ROVPPV1SimpleAS,
-                                                    4: ROVPPV1SimpleAS,
-                                                    11: ROVPPV1SimpleAS}
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {
+        2: ROVPPV1SimpleAS,
+        4: ROVPPV1SimpleAS,
+        11: ROVPPV1SimpleAS,
+    }
     propagation_rounds = 1

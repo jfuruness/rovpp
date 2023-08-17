@@ -11,22 +11,20 @@ from .v1 import ROVPPV1LiteSimpleAS
 class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
     """If a customer announces a valid route, don't send preventive
 
-        If you send a preventive,
-                must add attacker on route flag to the valid route
-            If later the attack is withdrawn, must withdraw this preventive
-        Only send preventives to customers
-        Anns with attacker on route flag are
-            not allowed to be chosen as safe routes
+    If you send a preventive,
+            must add attacker on route flag to the valid route
+        If later the attack is withdrawn, must withdraw this preventive
+    Only send preventives to customers
+    Anns with attacker on route flag are
+        not allowed to be chosen as safe routes
     """
 
     name = "ROV++V3"
 
     # mypy doesn't understand parent/subclass here
-    def _policy_propagate(self,  # type: ignore
-                          neighbor,
-                          ann: Announcement,
-                          propagate_to,
-                          send_rels):
+    def _policy_propagate(
+        self, neighbor, ann: Announcement, propagate_to, send_rels  # type: ignore
+    ):
         """Special cases for propagation handled by the V3 policy
 
         Blackholes propagate normally
@@ -39,11 +37,9 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
             # For now do V1
             # return True
             # Is this calling the proper func??
-            return ROVPPV2SimpleAS._policy_propagate(self,
-                                                     neighbor,
-                                                     ann,
-                                                     propagate_to,
-                                                     send_rels)
+            return ROVPPV2SimpleAS._policy_propagate(
+                self, neighbor, ann, propagate_to, send_rels
+            )
         # NOTE that preventive is the subprefix.
         #    The valid route isn't considered preventive
         elif ann.preventive:
@@ -57,8 +53,7 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
                 # imo these two if statements
                 # make this policy almost never occur
                 safe_route_prefix = Prefixes.PREFIX.value
-                if not self._neighbor_sent_valid_ann(neighbor,
-                                                     safe_route_prefix):
+                if not self._neighbor_sent_valid_ann(neighbor, safe_route_prefix):
                     return False
                     # self._process_outgoing_ann(neighbor,
                     #                           ann,
@@ -81,23 +76,28 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
     # Ann here is the subprefix since it is a preventive
     def _neighbor_sent_valid_ann(self, neighbor, safe_route_prefix):
         neighbor_info = self._ribs_in.get_unprocessed_ann_recv_rel(
-            neighbor.asn, safe_route_prefix)
+            neighbor.asn, safe_route_prefix
+        )
 
         return neighbor_info is not None
 
     # Mypy doesn't understand the subclassing
-    def process_incoming_anns(self,  # type: ignore
-                              *,
-                              from_rel: Relationships,
-                              propagation_round: int,
-                              scenario: "Scenario",
-                              reset_q: bool = True):
+    def process_incoming_anns(
+        self,  # type: ignore
+        *,
+        from_rel: Relationships,
+        propagation_round: int,
+        scenario: "Scenario",
+        reset_q: bool = True
+    ):
         """Process all announcements that were incoming from a specific rel"""
 
-        err = ("This entire policy hardcoded for a victim prefix "
-               "and attacker subprefix"
-               " Not going to make this dynamic "
-               "because this is a useless policy")
+        err = (
+            "This entire policy hardcoded for a victim prefix "
+            "and attacker subprefix"
+            " Not going to make this dynamic "
+            "because this is a useless policy"
+        )
         assert isinstance(scenario, SubprefixHijack), err
 
         # Holes are invalid subprefixes from the same neighbor
@@ -111,7 +111,8 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
             from_rel=from_rel,
             propagation_round=propagation_round,
             scenario=scenario,
-            reset_q=False)
+            reset_q=False,
+        )
         self._get_and_assign_preventives(self.temp_holes, from_rel)
 
         self._add_blackholes(self.temp_holes, from_rel, scenario)
@@ -143,8 +144,9 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
 
         # Attacker is on the route
         if victim_ann is not None and len(victim_ann.holes) > 0:
-            self._local_rib.add_ann(victim_ann.copy(
-                overwrite_default_kwargs={"attacker_on_route": True}))
+            self._local_rib.add_ann(
+                victim_ann.copy(overwrite_default_kwargs={"attacker_on_route": True})
+            )
         # Safe route - ths condition plus not the two conditions above
         elif victim_ann is not None and victim_ann.attacker_on_route is False:
             # Must do this here, since we don't want to create
@@ -154,15 +156,17 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
                 # TODO Create the preventive ann and store that in local rib
                 preventive_ann = victim_ann.copy(
                     overwrite_default_kwargs={
-                        'prefix': Prefixes.SUBPREFIX.value,
-                        'roa_valid_length': False,
-                        'preventive': True,
+                        "prefix": Prefixes.SUBPREFIX.value,
+                        "roa_valid_length": False,
+                        "preventive": True,
                         # This covers the case when victim_ann has no holes
                         # But we are sending a preventivei
                         # ?????????????????????????????????????????????????
                         # Do we need this line?????????????????????????????
-                        'attacker_on_route': True,
-                        'holes': tuple()})
+                        "attacker_on_route": True,
+                        "holes": tuple(),
+                    }
+                )
 
                 self._local_rib.add_ann(preventive_ann)
 
@@ -171,29 +175,23 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
 
         for ann_info in self._ribs_in.get_ann_infos(Prefixes.SUBPREFIX.value):
             # assert ann_info.unprocessed_ann is not None, "for mypy"
-            if (ann_info.recv_relationship in [Relationships.PEERS,
-                                               Relationships.PROVIDERS]
+            if (
+                ann_info.recv_relationship
+                in [Relationships.PEERS, Relationships.PROVIDERS]
                 and ann_info.unprocessed_ann.invalid_by_roa  # type: ignore
-                    and not ann_info.unprocessed_ann.preventive  # type: ignore
-                    ):  # noqa
+                and not ann_info.unprocessed_ann.preventive  # type: ignore
+            ):  # noqa
                 return True
 
         return False
 
-    def _valid_ann(self,  # type: ignore
-                   ann: Announcement,
-                   *args,
-                   **kwargs
-                   ) -> bool:
+    def _valid_ann(self, ann: Announcement, *args, **kwargs) -> bool:  # type: ignore
         if ann.invalid_by_roa and not ann.preventive:
             return False
         else:
             return bool(BGPAS._valid_ann(self, ann, *args, **kwargs))
 
-    def _copy_and_process(self,
-                          ann,
-                          recv_relationship,
-                          overwrite_default_kwargs=None):
+    def _copy_and_process(self, ann, recv_relationship, overwrite_default_kwargs=None):
         """Deep copies ann and modifies attrs"""
 
         if overwrite_default_kwargs:
@@ -202,6 +200,5 @@ class ROVPPV3AS(NonLite, ROVAS, ROVPPV2LiteSimpleAS):
             overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
 
         return super(ROVPPV1LiteSimpleAS, self)._copy_and_process(
-            ann,
-            recv_relationship,
-            overwrite_default_kwargs=overwrite_default_kwargs)
+            ann, recv_relationship, overwrite_default_kwargs=overwrite_default_kwargs
+        )

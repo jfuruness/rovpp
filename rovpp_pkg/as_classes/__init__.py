@@ -17,5 +17,5 @@ __all__ = [
     "ROVPPV2aSimpleAS",
     "ROVPPV2ShortenSimpleAS",
     "ROVPPV2ShortenLiteSimpleAS",
-    "ROVPPV3AS"
+    "ROVPPV3AS",
 ]

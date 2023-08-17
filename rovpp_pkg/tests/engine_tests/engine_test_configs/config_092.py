@@ -19,11 +19,13 @@ class Config092(EngineTestConfig):
     name = "092"
     desc = "Superprefix Attack on NonRouted Prefix with v1"
 
-    scenario = NonRoutedSuperprefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                                          victim_asns={ASNs.VICTIM.value},
-                                          AdoptASCls=ROVPPV1SimpleAS,
-                                          BaseASCls=BGPSimpleAS,
-                                          AnnCls=ROVPPAnn)
+    scenario = NonRoutedSuperprefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVPPV1SimpleAS,
+        BaseASCls=BGPSimpleAS,
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph049()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {4: ROVPPV1SimpleAS}
     propagation_rounds = 1

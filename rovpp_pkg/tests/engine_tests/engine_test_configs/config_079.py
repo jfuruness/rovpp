@@ -19,11 +19,13 @@ class Config079(EngineTestConfig):
     name = "079"
     desc = "NonRouted Prefix Hijack with ROV"
 
-    scenario = NonRoutedPrefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                                     victim_asns={ASNs.VICTIM.value},
-                                     AdoptASCls=ROVSimpleAS,
-                                     BaseASCls=BGPSimpleAS,
-                                     AnnCls=ROVPPAnn)
+    scenario = NonRoutedPrefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVSimpleAS,
+        BaseASCls=BGPSimpleAS,
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph049()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {4: ROVSimpleAS}
     propagation_rounds = 1

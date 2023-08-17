@@ -23,7 +23,8 @@ class Config101(EngineTestConfig):
         victim_asns={ASNs.VICTIM.value},
         AdoptASCls=ROVPPV2SimpleAS,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn)
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph006()
     non_default_as_cls_dict: Dict[int, Type[AS]] = {2: ROVPPV2SimpleAS}
     propagation_rounds = 1

@@ -18,13 +18,13 @@ class Config190(EngineTestConfig):
 
     name = "190"
     desc = "Subprefix Hijack Attack with v2a"
-    scenario = SubprefixHijack(attacker_asns={ASNs.ATTACKER.value},
-                               victim_asns={ASNs.VICTIM.value},
-                               AdoptASCls=ROVPPV2aSimpleAS,
-                               BaseASCls=BGPSimpleAS,
-                               AnnCls=ROVPPAnn)
+    scenario = SubprefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVPPV2aSimpleAS,
+        BaseASCls=BGPSimpleAS,
+        AnnCls=ROVPPAnn,
+    )
     graph = graphs.Graph014()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {
-        6: ROVPPV2aSimpleAS
-    }
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {6: ROVPPV2aSimpleAS}
     propagation_rounds = 1
