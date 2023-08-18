@@ -43,7 +43,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
     else:  # pragma: no cover
         return {
             "percent_adoptions": (
-                .01,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
+                0.01,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
                 0.5,
                 0.1,
                 0.2,
@@ -52,7 +52,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.6,
                 0.8,
                 # .99],
-                .99  # SpecialPercentAdoptions.ALL_BUT_ONE,
+                0.99,  # SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
             "parse_cpus": cpu_count() - 2,
@@ -92,9 +92,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
             scenario_configs=tuple(
                 [
                     ScenarioConfig(
-                        ScenarioCls=SubprefixHijack,
-                        AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        ScenarioCls=SubprefixHijack, AdoptASCls=Cls, AnnCls=ROVPPAnn
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
@@ -108,7 +106,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=NonRoutedSuperprefixHijack,
                         AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
@@ -122,7 +120,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=SuperprefixPrefixHijack,
                         AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
@@ -134,9 +132,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
             scenario_configs=tuple(
                 [
                     ScenarioConfig(
-                        ScenarioCls=PrefixHijack,
-                        AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        ScenarioCls=PrefixHijack, AdoptASCls=Cls, AnnCls=ROVPPAnn
                     )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
@@ -150,7 +146,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=NonRoutedPrefixHijack,
                         AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
@@ -164,7 +160,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=NonRoutedSuperprefixPrefixHijack,
                         AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
@@ -178,7 +174,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=NonRoutedSuperprefixPrefixHijack,
                         AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in (ROVPPV1SimpleAS, ROVPPV1LiteSimpleAS)
                 ]
