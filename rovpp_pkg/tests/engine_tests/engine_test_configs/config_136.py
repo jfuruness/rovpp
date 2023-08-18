@@ -2,12 +2,12 @@ from typing import Dict, Type
 
 from caida_collector_pkg import AS
 
-from bgp_simulator_pkg import graphs
-from bgp_simulator_pkg import EngineTestConfig
+from bgpy import graphs
+from bgpy import EngineTestConfig
 
-from bgp_simulator_pkg import BGPSimpleAS
-from bgp_simulator_pkg import ASNs
-from bgp_simulator_pkg import SuperprefixPrefixHijack
+from bgpy import BGPSimpleAS
+from bgpy import ASNs
+from bgpy import SuperprefixPrefixHijack
 
 from rovpp_pkg import ROVPPAnn
 from rovpp_pkg import ROVPPV1SimpleAS

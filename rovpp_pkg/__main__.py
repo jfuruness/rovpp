@@ -3,17 +3,18 @@ from datetime import datetime
 from multiprocessing import cpu_count
 from pathlib import Path
 
-from bgp_simulator_pkg import ROVSimpleAS
-from bgp_simulator_pkg import Simulation
-from bgp_simulator_pkg import Subgraph
-from bgp_simulator_pkg import SpecialPercentAdoptions
+from bgpy import ROVSimpleAS
+from bgpy import Simulation
+from bgpy import SpecialPercentAdoptions  # noqa
+from bgpy import ScenarioConfig
 
 # Hijacks
-from bgp_simulator_pkg import SubprefixHijack
-from bgp_simulator_pkg import NonRoutedSuperprefixHijack
-from bgp_simulator_pkg import SuperprefixPrefixHijack
-from bgp_simulator_pkg import PrefixHijack
-from bgp_simulator_pkg import NonRoutedPrefixHijack
+from bgpy import SubprefixHijack
+from bgpy import NonRoutedSuperprefixHijack
+from bgpy import NonRoutedSuperprefixPrefixHijack
+from bgpy import SuperprefixPrefixHijack
+from bgpy import PrefixHijack
+from bgpy import NonRoutedPrefixHijack
 
 # LITE
 from .as_classes import ROVPPV1LiteSimpleAS
@@ -35,15 +36,14 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
         trials = 1 if quick else 1500
     if quick:
         return {
-            "percent_adoptions": [0.5],
+            "percent_adoptions": (0.5,),
             "num_trials": trials,
-            "subgraphs": [Cls() for Cls in Subgraph.subclasses if Cls.name],
             "parse_cpus": 1,
         }
     else:  # pragma: no cover
         return {
-            "percent_adoptions": [
-                SpecialPercentAdoptions.ONLY_ONE,  # .01,
+            "percent_adoptions": (
+                .01,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
                 0.5,
                 0.1,
                 0.2,
@@ -52,10 +52,9 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.6,
                 0.8,
                 # .99],
-                SpecialPercentAdoptions.ALL_BUT_ONE,
-            ],
+                .99  # SpecialPercentAdoptions.ALL_BUT_ONE,
+            ),
             "num_trials": trials,
-            "subgraphs": [Cls() for Cls in Subgraph.subclasses if Cls.name],
             "parse_cpus": cpu_count() - 2,
         }
 
@@ -76,85 +75,115 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
 
     sims = [
         Simulation(
-            scenarios=tuple(
+            scenarios_configs=tuple(
                 [
-                    SubprefixHijack(
-                        AdoptASCls=Cls, AnnCls=ROVPPAnn, min_rov_confidence=0
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
-            output_path=BASE_PATH / "mixed_deployment",
+            output_dir=BASE_PATH / "mixed_deployment",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    SubprefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
-            output_path=BASE_PATH / "subprefix",
+            output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    NonRoutedSuperprefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=NonRoutedSuperprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
             ),
-            output_path=BASE_PATH / "non_routed_superprefix",
+            output_dir=BASE_PATH / "non_routed_superprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    SuperprefixPrefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=SuperprefixPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
             ),
-            output_path=BASE_PATH / "superprefix_prefix",
+            output_dir=BASE_PATH / "superprefix_prefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    PrefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=PrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
             ),
-            output_path=BASE_PATH / "prefix",
+            output_dir=BASE_PATH / "prefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    NonRoutedPrefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=NonRoutedPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
             ),
-            output_path=BASE_PATH / "non_routed_prefix",
+            output_dir=BASE_PATH / "non_routed_prefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    NonRoutedSuperprefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=NonRoutedSuperprefixPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in ROV_NON_LITE_ROVPP
                 ]
             ),
-            output_path=BASE_PATH / "non_routed_superprefix_prefix",
+            output_dir=BASE_PATH / "non_routed_superprefix_prefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
-            scenarios=tuple(
+            scenario_configs=tuple(
                 [
-                    SubprefixHijack(AdoptASCls=Cls, AnnCls=ROVPPAnn)
+                    ScenarioConfig(
+                        ScenarioCls=NonRoutedSuperprefixPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn
+                    )
                     for Cls in (ROVPPV1SimpleAS, ROVPPV1LiteSimpleAS)
                 ]
             ),
-            output_path=BASE_PATH / "lite_vs_non_lite",
+            output_dir=BASE_PATH / "lite_vs_non_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
     ]
@@ -164,7 +193,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
     for sim in sims:
         start = datetime.now()
         sim.run()
-        print(f"{sim.output_path} {(datetime.now() - start).total_seconds()}")
+        print(f"{sim.output_dir} {(datetime.now() - start).total_seconds()}")
 
 
 if __name__ == "__main__":

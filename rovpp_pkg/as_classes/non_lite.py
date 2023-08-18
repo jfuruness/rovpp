@@ -1,8 +1,8 @@
 from typing import Optional
 
-from bgp_simulator_pkg import Announcement as Ann
-from bgp_simulator_pkg import BGPSimpleAS
-from bgp_simulator_pkg import Relationships
+from bgpy import Announcement as Ann
+from bgpy import BGPSimpleAS
+from bgpy import Relationships
 
 
 class NonLite:

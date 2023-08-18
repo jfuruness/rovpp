@@ -1,6 +1,6 @@
-from bgp_simulator_pkg import Announcement
-from bgp_simulator_pkg import BGPAS, Prefixes, Relationships, ROVAS
-from bgp_simulator_pkg import Scenario, SubprefixHijack
+from bgpy import Announcement
+from bgpy import BGPAS, Prefixes, Relationships, ROVAS
+from bgpy import Scenario, SubprefixHijack
 
 from .non_lite import NonLite
 from .v2 import ROVPPV2LiteSimpleAS

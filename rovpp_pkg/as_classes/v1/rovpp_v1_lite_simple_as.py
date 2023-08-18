@@ -1,10 +1,10 @@
 from typing import Dict, Tuple
 
-from bgp_simulator_pkg.simulation_engine.announcement import Announcement as Ann  # noqa
-from bgp_simulator_pkg import ROVSimpleAS
-from bgp_simulator_pkg import Relationships
-from bgp_simulator_pkg import Scenario
-from bgp_simulator_pkg import NonRoutedSuperprefixHijack
+from bgpy.simulation_engine.announcement import Announcement as Ann  # noqa
+from bgpy import ROVSimpleAS
+from bgpy import Relationships
+from bgpy import Scenario
+from bgpy import NonRoutedSuperprefixHijack
 
 from ...rovpp_ann import ROVPPAnn
 

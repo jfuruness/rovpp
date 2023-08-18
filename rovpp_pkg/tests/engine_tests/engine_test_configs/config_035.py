@@ -2,11 +2,11 @@ from typing import Dict, Type
 
 from caida_collector_pkg import AS
 
-from bgp_simulator_pkg import graphs
-from bgp_simulator_pkg import EngineTestConfig
-from bgp_simulator_pkg import BGPSimpleAS, ROVSimpleAS
-from bgp_simulator_pkg import ASNs
-from bgp_simulator_pkg import SubprefixHijack
+from bgpy import graphs
+from bgpy import EngineTestConfig
+from bgpy import BGPSimpleAS, ROVSimpleAS
+from bgpy import ASNs
+from bgpy import SubprefixHijack
 
 
 class Config035(EngineTestConfig):
