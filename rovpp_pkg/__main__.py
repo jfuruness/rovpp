@@ -16,6 +16,9 @@ from bgpy import SuperprefixPrefixHijack
 from bgpy import PrefixHijack
 from bgpy import NonRoutedPrefixHijack
 
+# Mixed deployment
+from bgpy import get_real_world_rov_asn_cls_dict
+
 # LITE
 from .as_classes import ROVPPV1LiteSimpleAS
 
@@ -70,17 +73,20 @@ ROV_NON_LITE_ROVPP = (
 # Ignoring coverage on this func because it would cause every line
 # to be covered, and there is a bare bones system test that just runs
 # through these
-def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
+def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [
         Simulation(
-            scenarios_configs=tuple(
+            scenario_configs=tuple(
                 [
                     ScenarioConfig(
                         ScenarioCls=SubprefixHijack,
                         AdoptASCls=Cls,
                         AnnCls=ROVPPAnn,
+                        hardcoded_asn_cls_dict=get_real_world_rov_asn_cls_dict(
+                            min_rov_confidence=0
+                        )
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
@@ -187,6 +193,7 @@ def main(quick=False, trials=1, graph_index=None):  # pragma: no cover
     if graph_index is not None:
         sims = [sims[graph_index]]
     for sim in sims:
+        print("starting sims")
         start = datetime.now()
         sim.run()
         print(f"{sim.output_dir} {(datetime.now() - start).total_seconds()}")

@@ -1,9 +1,12 @@
 from dataclasses import dataclass
 from typing import Tuple
 
+from yamlable import yaml_info
+
 from bgpy import Announcement
 
 
+@yaml_info(yaml_tag="ROVPPAnn")
 @dataclass(slots=True, frozen=True)
 class ROVPPAnn(Announcement):
     holes: Tuple[str] = ()
