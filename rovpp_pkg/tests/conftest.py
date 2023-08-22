@@ -3,10 +3,21 @@ import subprocess
 
 import pytest
 
+from bgpy.caida_collector import CaidaCollector
 from bgpy import DiagramAggregator
 
 
 DIAGRAM_PATH = Path(__file__).parent / "engine_tests" / "engine_test_outputs"
+
+
+# https://github.com/pytest-dev/pytest-xdist/issues/783
+def pytest_configure(config):
+    """Caches the caida collector before parallelization"""
+
+    # Prevent workers from running the same code
+    if not hasattr(config, "workerinput"):
+        # Caches CAIDA downloaded file only once before tests run
+        CaidaCollector().run(tsv_path=None)
 
 
 def pytest_sessionfinish(session, exitstatus):

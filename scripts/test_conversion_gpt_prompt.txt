@@ -1,0 +1,89 @@
+I am refactoring code from an old Python format to a new Python format. Here is an example:
+
+New format:
+
+```python
+# New format
+
+from frozendict import frozendict
+from bgpy.tests.engine_tests.graphs import graph_001
+from bgpy.tests.engine_tests.utils import EngineTestConfig
+
+from bgpy.simulation_engine import BGPSimpleAS, ROVSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
+
+
+config_035 = EngineTestConfig(
+    name="035",
+    desc="Subprefix Hijack from fig 2 in paper with ROV adopting.",
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SubprefixHijack,
+        BaseASCls=BGPSimpleAS,
+        AdoptASCls=ROVSimpleAS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({3: ROVSimpleAS, 4: ROVSimpleAS})
+    ),
+    graph=graph_001,
+)
+```
+
+Old format:
+
+```python
+# Old format
+
+from typing import Dict, Type
+
+from caida_collector_pkg import AS
+
+from bgpy import graphs
+from bgpy import EngineTestConfig
+from bgpy import BGPSimpleAS, ROVSimpleAS
+from bgpy import ASNs
+from bgpy import SubprefixHijack
+
+
+class Config035(EngineTestConfig):
+    """Contains config options to run a test"""
+
+    name = "035"
+    desc = "Subprefix Hijack from fig 2 in paper with ROV adopting."
+    scenario = SubprefixHijack(
+        attacker_asns={ASNs.ATTACKER.value},
+        victim_asns={ASNs.VICTIM.value},
+        AdoptASCls=ROVSimpleAS,
+        BaseASCls=BGPSimpleAS,
+    )
+    graph = graphs.Graph003()
+    non_default_as_cls_dict: Dict[int, Type[AS]] = {3: ROVSimpleAS, 4: ROVSimpleAS}
+    propagation_rounds = 1
+```
+
+I am going to give you more code that is in the old format, and I would like you to convert it to the new format.
+
+the graph should be imported like this, as I provided in the example:
+
+```python
+from bgpy.tests.engine_tests.graphs import graph_003
+```
+
+If there is a line such as:
+
+```from bgpy import EngineTestConfig, BGPSimpleAS, ROVSimpleAS, ASNs, SubprefixHijack```
+
+Should be broken up into
+
+```
+from bgpy.tests.engine_tests.utils import EngineTestConfig
+
+from bgpy.simulation_engine import BGPSimpleAS, ROVSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
+
+```
+
+Additionally, can you please have a newline between the frozendict import and the bgpy import, as well as a newline between the bgpy imports and the rovpp_pkg imports?
+
+please also remove the unessecary typing and caida_collector_pkg imports if they exist
