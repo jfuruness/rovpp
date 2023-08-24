@@ -18,11 +18,9 @@ config_043 = EngineTestConfig(
         AnnCls=ROVPPAnn,
         override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
         override_victim_asns=frozenset({ASNs.VICTIM.value}),
-        override_non_default_asn_cls_dict=frozendict({
-            4: ROVPPV2aSimpleAS,
-            7: ROVSimpleAS,
-            8: ROVPPV2aSimpleAS
-        })
+        override_non_default_asn_cls_dict=frozendict(
+            {4: ROVPPV2aSimpleAS, 7: ROVSimpleAS, 8: ROVPPV2aSimpleAS}
+        ),
     ),
     graph=graph_004,
 )

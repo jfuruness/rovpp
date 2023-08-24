@@ -86,7 +86,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                         AnnCls=ROVPPAnn,
                         hardcoded_asn_cls_dict=get_real_world_rov_asn_cls_dict(
                             min_rov_confidence=0
-                        )
+                        ),
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
