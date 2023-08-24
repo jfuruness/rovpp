@@ -1,24 +1,19 @@
-from typing import Dict, Type
+from frozendict import frozendict
 
-from caida_collector_pkg import AS
+from bgpy.tests.engine_tests.graphs import graph_038
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import SubprefixHijack
-
-from rovpp_pkg import ROVPPAnn
-from rovpp_pkg import ROVPPV1SimpleAS
+from rovpp_pkg import ROVPPAnn, ROVPPV1SimpleAS
 
 
-class Config070(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "070"
-    desc = (
-        "ROV++ v1 lite adopting\n"
+config_070 = EngineTestConfig(
+    name="070",
+    desc=(
+        "ROV++ v1 adopting\n"
         "Example where v1 leads a higher disconnection rate\nand "
         "lower successful connection rate\nthan v2 (for non-adopting "
         "ASes).\nAS 57 is the legit origin (of 1.2/16),\n666 "
@@ -36,18 +31,18 @@ class Config070(EngineTestConfig):
         "use v1 Lite,\nthen "
         "AS 1 will still use the path via AS 33,\nand hence will "
         "have the same results as those when the policy is v1."
-    )
-
-    scenario = SubprefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVPPV1SimpleAS,
+    ),
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SubprefixHijack,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph038()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {
-        1: ROVPPV1SimpleAS,
-        33: ROVPPV1SimpleAS,
-    }
-    propagation_rounds = 1
+        AdoptASCls=ROVPPV1SimpleAS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({
+            1: ROVPPV1SimpleAS,
+            33: ROVPPV1SimpleAS,
+        }),
+        AnnCls=ROVPPAnn
+    ),
+    graph=graph_038,
+)

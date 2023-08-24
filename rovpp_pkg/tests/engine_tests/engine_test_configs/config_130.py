@@ -1,34 +1,25 @@
-from typing import Dict, Type
+from frozendict import frozendict
+from bgpy.tests.engine_tests.graphs import graph_012
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from caida_collector_pkg import AS
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SuperprefixPrefixHijack
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from rovpp_pkg import ROVPPAnn, ROVPPV2aSimpleAS
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import SuperprefixPrefixHijack
-
-from rovpp_pkg import ROVPPAnn
-from rovpp_pkg import ROVPPV2aSimpleAS
-
-
-class Config130(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "130"
-    desc = "Superprefix+Prefix Attack on Prefix with v2a"
-    scenario = SuperprefixPrefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVPPV2aSimpleAS,
+config_130 = EngineTestConfig(
+    name="130",
+    desc="Superprefix+Prefix Attack on Prefix with v2a",
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SuperprefixPrefixHijack,
         BaseASCls=BGPSimpleAS,
+        AdoptASCls=ROVPPV2aSimpleAS,
         AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph012()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {
-        2: ROVPPV2aSimpleAS,
-        4: ROVPPV2aSimpleAS,
-        11: ROVPPV2aSimpleAS,
-    }
-    propagation_rounds = 1
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({2: ROVPPV2aSimpleAS, 4: ROVPPV2aSimpleAS, 11: ROVPPV2aSimpleAS})
+    ),
+    graph=graph_012,
+    propagation_rounds=1
+)

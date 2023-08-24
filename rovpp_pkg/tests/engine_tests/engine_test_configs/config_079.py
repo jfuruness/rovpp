@@ -1,31 +1,28 @@
-from typing import Dict, Type
+from frozendict import frozendict
 
-from caida_collector_pkg import AS
+from bgpy.tests.engine_tests.graphs import graph_049
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, NonRoutedPrefixHijack
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import NonRoutedPrefixHijack
-from bgpy import ROVSimpleAS
-
-from rovpp_pkg import ROVPPAnn
+from rovpp_pkg import ROVPPAnn, ROVSimpleAS
 
 
-class Config079(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "079"
-    desc = "NonRouted Prefix Hijack with ROV"
-
-    scenario = NonRoutedPrefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVSimpleAS,
+config_079 = EngineTestConfig(
+    name="079",
+    desc="NonRouted Prefix Hijack with ROV",
+    scenario_config=ScenarioConfig(
+        ScenarioCls=NonRoutedPrefixHijack,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph049()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {4: ROVSimpleAS}
-    propagation_rounds = 1
+        AdoptASCls=ROVSimpleAS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({
+            4: ROVSimpleAS,
+        }),
+        AnnCls=ROVPPAnn
+    ),
+    graph=graph_049,
+)

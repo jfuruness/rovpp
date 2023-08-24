@@ -3,8 +3,6 @@ I am refactoring code from an old Python format to a new Python format. Here is 
 New format:
 
 ```python
-# New format
-
 from frozendict import frozendict
 from bgpy.tests.engine_tests.graphs import graph_001
 from bgpy.tests.engine_tests.utils import EngineTestConfig
@@ -87,3 +85,5 @@ from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 Additionally, can you please have a newline between the frozendict import and the bgpy import, as well as a newline between the bgpy imports and the rovpp_pkg imports?
 
 please also remove the unessecary typing and caida_collector_pkg imports if they exist
+
+Please also make sure that there is an empty line between the frozendict imports and the next import, and please make sure that there are two newlines after the import statements

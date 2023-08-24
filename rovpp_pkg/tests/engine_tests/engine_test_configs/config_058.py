@@ -1,23 +1,18 @@
-from typing import Dict, Type
+from frozendict import frozendict
 
-from caida_collector_pkg import AS
+from bgpy.tests.engine_tests.graphs import graph_022
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import SubprefixHijack
-
-from rovpp_pkg import ROVPPAnn
-from rovpp_pkg import ROVPPV2SimpleAS
+from rovpp_pkg import ROVPPAnn, ROVPPV2SimpleAS
 
 
-class Config058(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "058"
-    desc = (
+config_058 = EngineTestConfig(
+    name="058",
+    desc=(
         "This is a v2 test.\nA suggested test for v2 versus v2a. "
         "v2a leads to additional "
         "benefits over v2.\nWhen AS 4 uses v2, AS 7 and its customer cone "
@@ -26,15 +21,15 @@ class Config058(EngineTestConfig):
         "case, AS 7 will choose the blackhole announcement,\nand hence "
         "AS 7 and its customer cone\nwill be will be disconnected "
         "instead of hijacked."
-    )
-
-    scenario = SubprefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVPPV2SimpleAS,
+    ),
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SubprefixHijack,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph022()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {4: ROVPPV2SimpleAS}
-    propagation_rounds = 1
+        AdoptASCls=ROVPPV2SimpleAS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({4: ROVPPV2SimpleAS}),
+        AnnCls=ROVPPAnn
+    ),
+    graph=graph_022,
+)

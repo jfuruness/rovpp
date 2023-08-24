@@ -1,23 +1,18 @@
-from typing import Dict, Type
+from frozendict import frozendict
 
-from caida_collector_pkg import AS
+from bgpy.tests.engine_tests.graphs import graph_039
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import SubprefixHijack
-
-from rovpp_pkg import ROVPPAnn
-from rovpp_pkg import ROVPPV1SimpleAS
+from rovpp_pkg import ROVPPAnn, ROVPPV1SimpleAS
 
 
-class Config073(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "073"
-    desc = (
+config_073 = EngineTestConfig(
+    name="073",
+    desc=(
         "ROV++ v1 adopting\n"
         "Example where v2 leads to a higher disconnection "
         "rate\nand lower successful connection rate\n"
@@ -34,15 +29,15 @@ class Config073(EngineTestConfig):
         "In the figure,\nwhether AS 5 adopts ROV++ or not doesn't matter\n"
         "since the hijack announcement will not be sent out by "
         "AS 5 to AS 1 anyway\n(due to valley-free routing)."
-    )
-
-    scenario = SubprefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVPPV1SimpleAS,
+    ),
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SubprefixHijack,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph039()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {33: ROVPPV1SimpleAS}
-    propagation_rounds = 1
+        AdoptASCls=ROVPPV1SimpleAS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({33: ROVPPV1SimpleAS}),
+        AnnCls=ROVPPAnn
+    ),
+    graph=graph_039,
+)

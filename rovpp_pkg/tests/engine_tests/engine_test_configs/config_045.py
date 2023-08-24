@@ -1,36 +1,32 @@
-from typing import Dict, Type
+from frozendict import frozendict
 
-from caida_collector_pkg import AS
+from bgpy.tests.engine_tests.graphs import graph_005
+from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy import graphs
-from bgpy import EngineTestConfig
+from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.enums import ASNs
+from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
-from bgpy import BGPSimpleAS
-from bgpy import ASNs
-from bgpy import SubprefixHijack
-
-from rovpp_pkg import ROVPPV3AS
-from rovpp_pkg import ROVPPAnn
+from rovpp_pkg import ROVPPV3AS, ROVPPAnn
 
 
-class Config045(EngineTestConfig):
-    """Contains config options to run a test"""
-
-    name = "045"
-    desc = "Subprefix Hijack to test ROV++ v3."
-    scenario = SubprefixHijack(
-        attacker_asns={ASNs.ATTACKER.value},
-        victim_asns={ASNs.VICTIM.value},
-        AdoptASCls=ROVPPV3AS,
+config_045 = EngineTestConfig(
+    name="045",
+    desc="Subprefix Hijack to test ROV++ v3.",
+    scenario_config=ScenarioConfig(
+        ScenarioCls=SubprefixHijack,
         BaseASCls=BGPSimpleAS,
-        AnnCls=ROVPPAnn,
-    )
-    graph = graphs.Graph005()
-    non_default_as_cls_dict: Dict[int, Type[AS]] = {
-        5: ROVPPV3AS,
-        8: ROVPPV3AS,
-        10: ROVPPV3AS,
-        15: ROVPPV3AS,
-        18: ROVPPV3AS,
-    }
-    propagation_rounds = 1
+        AdoptASCls=ROVPPV3AS,
+        override_attacker_asns=frozenset({ASNs.ATTACKER.value}),
+        override_victim_asns=frozenset({ASNs.VICTIM.value}),
+        override_non_default_asn_cls_dict=frozendict({
+            5: ROVPPV3AS,
+            8: ROVPPV3AS,
+            10: ROVPPV3AS,
+            15: ROVPPV3AS,
+            18: ROVPPV3AS,
+        }),
+        AnnCls=ROVPPAnn
+    ),
+    graph=graph_005,
+)
