@@ -10,9 +10,11 @@ from rovpp_pkg import ROVPPV2aSimpleAS, ROVPPAnn
 
 config_043 = EngineTestConfig(
     name="043",
-    desc=("Subprefix Hijack from fig 3a in paper with ROV++ v2a "
-          "adopting at AS 4 and 8, and ROV at 7. ASes 4, 8, "
-          "and 7 should be disconnected"),
+    desc=(
+        "Subprefix Hijack from fig 3a in paper with ROV++ v2a "
+        "adopting at AS 4 and 8, and ROV at 7. ASes 4, 8, "
+        "and 7 should be disconnected"
+    ),
     scenario_config=ScenarioConfig(
         ScenarioCls=SubprefixHijack,
         BaseASCls=BGPSimpleAS,
