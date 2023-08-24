@@ -8,7 +8,7 @@ from bgpy.enums import ASNs
 from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
 from rovpp_pkg import ROVPPAnn
-from bgpy.tests.bgpy_tests.base_classes import ROVPPV1SimpleAS
+from rovpp_pkg import ROVPPV1SimpleAS
 
 config_180 = EngineTestConfig(
     name="180",

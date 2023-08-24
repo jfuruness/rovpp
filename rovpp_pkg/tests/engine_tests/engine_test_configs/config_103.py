@@ -3,12 +3,11 @@ from frozendict import frozendict
 from bgpy.tests.engine_tests.graphs import graph_051
 from bgpy.tests.engine_tests.utils import EngineTestConfig
 
-from bgpy.simulation_engine import BGPSimpleAS
+from bgpy.simulation_engine import BGPSimpleAS, ROVSimpleAS
 from bgpy.enums import ASNs
 from bgpy.simulation_framework import ScenarioConfig, NonRoutedSuperprefixPrefixHijack
 
 from rovpp_pkg import ROVPPAnn
-from rovpp_pkg import ROVSimpleAS
 
 
 config_103 = EngineTestConfig(

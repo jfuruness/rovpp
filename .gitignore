@@ -1,3 +1,7 @@
+# FRom new BGPy
+*metrics_guess.csv
+*metrics_guess.pickle
+
 # Test generates these automatically
 rovpp_pkg/tests/engine_tests/engine_test_outputs/aggregated_diagrams.pdf
 *.pdf
