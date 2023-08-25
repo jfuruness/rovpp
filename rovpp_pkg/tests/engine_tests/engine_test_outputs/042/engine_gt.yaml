@@ -8,6 +8,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -26,6 +27,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -42,8 +44,8 @@
   asn: 1
   customer_cone_size: 9
   customers: !!python/tuple
-  - 2
   - 4
+  - 2
   - 5
   - 666
   input_clique: false
@@ -61,6 +63,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -80,6 +83,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -114,6 +118,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -134,6 +139,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -167,13 +173,14 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple
-      - !yamlable/ROVPPAnn
-        as_path: !!python/tuple
+      - as_path: !!python/tuple
         - 1
         - 666
         attacker_on_route: false
         blackhole: false
+        communities: !!python/tuple []
         holes: !!python/tuple []
         prefix: 1.2.3.0/24
         preventive: false
@@ -204,64 +211,8 @@
       - 666
       attacker_on_route: false
       blackhole: true
-      holes:
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: false
-          holes: !!python/tuple []
-          prefix: 1.2.3.0/24
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: CUSTOMERS
-            value: 3
-          roa_origin: 777
-          roa_valid_length: false
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple []
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 1
-          - 5
-          - 777
-          attacker_on_route: false
-          blackhole: false
-          holes: !!python/tuple []
-          prefix: 1.2.0.0/16
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: CUSTOMERS
-            value: 3
-          roa_origin: 777
-          roa_valid_length: true
-          seed_asn: null
-          timestamp: 0
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple
-        - !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: false
-          holes: !!python/tuple []
-          prefix: 1.2.3.0/24
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: CUSTOMERS
-            value: 3
-          roa_origin: 777
-          roa_valid_length: false
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
+      communities: !!python/tuple []
+      holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
       recv_relationship: !simulator_codec/Relationships
@@ -292,6 +243,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -311,6 +263,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -345,6 +298,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -365,6 +319,7 @@
       - 666
       attacker_on_route: false
       blackhole: true
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -381,15 +336,15 @@
   asn: 6
   customer_cone_size: 2
   customers: !!python/tuple
-  - 8
   - 7
+  - 8
   input_clique: false
   ixp: false
   peers: !!python/tuple []
   propagation_rank: 1
   providers: !!python/tuple
-  - 3
   - 4
+  - 3
 7: !yamlable/ROVSimpleAS
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
@@ -402,6 +357,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -436,15 +392,16 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple
-      - !yamlable/ROVPPAnn
-        as_path: !!python/tuple
+      - as_path: !!python/tuple
         - 6
         - 4
         - 1
         - 666
         attacker_on_route: false
         blackhole: true
+        communities: !!python/tuple []
         holes: !!python/tuple []
         prefix: 1.2.3.0/24
         preventive: false
@@ -477,70 +434,8 @@
       - 666
       attacker_on_route: false
       blackhole: true
-      holes:
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 6
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: true
-          holes: !!python/tuple []
-          prefix: 1.2.3.0/24
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PROVIDERS
-            value: 1
-          roa_origin: 777
-          roa_valid_length: false
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple []
-        ? !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 6
-          - 4
-          - 1
-          - 5
-          - 777
-          attacker_on_route: false
-          blackhole: false
-          holes: !!python/tuple []
-          prefix: 1.2.0.0/16
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PROVIDERS
-            value: 1
-          roa_origin: 777
-          roa_valid_length: true
-          seed_asn: null
-          timestamp: 0
-          traceback_end: false
-          withdraw: false
-        : !!python/tuple
-        - !yamlable/ROVPPAnn
-          as_path: !!python/tuple
-          - 6
-          - 4
-          - 1
-          - 666
-          attacker_on_route: false
-          blackhole: true
-          holes: !!python/tuple []
-          prefix: 1.2.3.0/24
-          preventive: false
-          recv_relationship: !simulator_codec/Relationships
-            name: PROVIDERS
-            value: 1
-          roa_origin: 777
-          roa_valid_length: false
-          seed_asn: null
-          timestamp: 1
-          traceback_end: false
-          withdraw: false
+      communities: !!python/tuple []
+      holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
       recv_relationship: !simulator_codec/Relationships
@@ -572,6 +467,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -589,6 +485,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false
@@ -618,6 +515,7 @@
       - 777
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -638,6 +536,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.3.0/24
       preventive: false

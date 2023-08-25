@@ -1,5 +1,7 @@
 from typing import Dict, Tuple
 
+from frozendict import frozendict
+
 from bgpy.simulation_engine.announcement import Announcement as Ann  # noqa
 from bgpy import ROVSimpleAS
 from bgpy import Relationships
@@ -14,7 +16,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
 
     def __init__(self, *args, **kwargs):
         super(ROVPPV1LiteSimpleAS, self).__init__(*args, **kwargs)
-        self.temp_holes = dict()
+        self.temp_holes = frozendict()
 
     def _policy_propagate(self, _, ann, *args) -> bool:
         """Only propagate announcements that aren't blackholes"""
@@ -100,7 +102,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     ):
                         ann_holes.append(same_prefix_ann)
                 holes[ann] = tuple(ann_holes)
-        return holes
+        return frozendict(holes)
 
     def _add_blackholes(self, holes, from_rel, scenario):
         """Manipulates local RIB by adding blackholes and dropping invalid"""
@@ -141,7 +143,14 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                         # so anns have the correct relationship
                         ann.recv_relationship,
                         overwrite_default_kwargs={
-                            "holes": holes,
+                            # Aug 24 2023 just changed this from holes
+                            # (which is a dict of ann: holes)
+                            # To only the holes that are relevant for the ann
+                            # (which is holes[ann])
+                            # If this causes an error, just set it to (),
+                            # Since for this paper and these specific simulations,
+                            # the holes in blackholes don't matter at all
+                            "holes": holes[unprocessed_hole_ann],
                             "blackhole": True,
                             "traceback_end": True,
                         },
@@ -168,7 +177,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                         ann,
                         from_rel,
                         overwrite_default_kwargs={
-                            "holes": [],
+                            "holes": (),
                             "blackhole": True,
                             "traceback_end": True,
                         },
@@ -187,7 +196,7 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
                     ann.recv_relationship,
                     overwrite_default_kwargs={
                         "prefix": "1.2.0.0/16",
-                        "holes": [],
+                        "holes": (),
                         "blackhole": True,
                         "traceback_end": True,
                     },

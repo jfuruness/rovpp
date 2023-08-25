@@ -7,6 +7,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.0.0.0/8
       preventive: false
@@ -25,6 +26,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
@@ -41,8 +43,8 @@
   asn: 1
   customer_cone_size: 3
   customers: !!python/tuple
-  - 666
   - 2
+  - 666
   input_clique: false
   ixp: false
   peers: !!python/tuple []
@@ -57,6 +59,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.0.0.0/8
       preventive: false
@@ -90,6 +93,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.0.0.0/8
       preventive: false
@@ -119,6 +123,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.0.0.0/8
       preventive: false
@@ -136,6 +141,7 @@
       - 666
       attacker_on_route: false
       blackhole: false
+      communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
       preventive: false
