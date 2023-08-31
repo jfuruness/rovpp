@@ -28,6 +28,8 @@ class ROVPPAnn(Announcement):
 
         dct = asdict(self)
         return frozendict(dct)
+
+
 @yaml_info(yaml_tag="ROVPPAnn")
 @dataclass(slots=True, frozen=True)
 class ROVPPAnn2(Announcement):
@@ -46,6 +48,23 @@ class ROVPPAnn2(Announcement):
         dct = asdict(self)
         return frozendict(dct)
 
-a = ROVPPAnn(prefix="1", as_path=(1,), timestamp=0, seed_asn=0, roa_valid_length=True, roa_origin=0, recv_relationship=None)
-b = ROVPPAnn(prefix="1", as_path=(1,), timestamp=0, seed_asn=0, roa_valid_length=True, roa_origin=0, recv_relationship=None)
+
+a = ROVPPAnn(
+    prefix="1",
+    as_path=(1,),
+    timestamp=0,
+    seed_asn=0,
+    roa_valid_length=True,
+    roa_origin=0,
+    recv_relationship=None,
+)
+b = ROVPPAnn(
+    prefix="1",
+    as_path=(1,),
+    timestamp=0,
+    seed_asn=0,
+    roa_valid_length=True,
+    roa_origin=0,
+    recv_relationship=None,
+)
 assert hash(a) == hash(b)
