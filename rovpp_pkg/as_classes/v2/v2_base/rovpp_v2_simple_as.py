@@ -3,4 +3,4 @@ from ...non_lite import NonLite
 
 
 class ROVPPV2SimpleAS(NonLite, ROVPPV2LiteSimpleAS):
-    name = "ROV++V2 Simple"
+    name = "ROV++V2_conference Simple"

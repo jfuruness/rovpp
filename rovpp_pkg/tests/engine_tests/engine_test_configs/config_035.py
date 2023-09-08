@@ -7,7 +7,7 @@ from bgpy.enums import ASNs
 from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 
 config_035 = EngineTestConfig(
-    name="035",
+    name="rovpp_035",
     desc="Subprefix Hijack from fig 2 in paper with ROV adopting.",
     scenario_config=ScenarioConfig(
         ScenarioCls=SubprefixHijack,

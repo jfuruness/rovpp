@@ -26,6 +26,8 @@ from .as_classes import ROVPPV1LiteSimpleAS
 from .as_classes import ROVPPV1SimpleAS
 from .as_classes import ROVPPV2SimpleAS
 from .as_classes import ROVPPV2aSimpleAS
+from .as_classes import ROVPPV2ShortenSimpleAS
+from .as_classes import ROVPPV2JournalSimpleAS
 from .as_classes import ROVPPV3AS
 
 from .rovpp_ann import ROVPPAnn
@@ -47,7 +49,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
         return {
             "percent_adoptions": (
                 0.01,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
-                0.5,
+                # 0.5,
                 0.1,
                 0.2,
                 0.3,
@@ -65,8 +67,8 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
 ROV_NON_LITE_ROVPP = (
     ROVSimpleAS,
     ROVPPV1SimpleAS,
-    ROVPPV2SimpleAS,
-    ROVPPV2aSimpleAS,
+    ROVPPV2JournalSimpleAS,
+    # ROVPPV2aSimpleAS,
 )
 
 
@@ -77,6 +79,28 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [
+        # This graph takes about 10m with 100 trials
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=NonRoutedPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
+                    )
+                    for Cls in (
+                        ROVPPV2SimpleAS,
+                        ROVPPV2aSimpleAS,
+                        ROVPPV2ShortenSimpleAS,
+                        ROVPPV2JournalSimpleAS,
+                    )
+                ]
+            ),
+            output_dir=BASE_PATH / "v2_variants",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
+
+        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -188,6 +212,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "lite_vs_non_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """
     ]
 
     if graph_index is not None:

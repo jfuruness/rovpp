@@ -6,6 +6,8 @@ from .v2 import ROVPPV2aLiteSimpleAS
 from .v2 import ROVPPV2aSimpleAS
 from .v2 import ROVPPV2ShortenSimpleAS
 from .v2 import ROVPPV2ShortenLiteSimpleAS
+from .v2 import ROVPPV2JournalSimpleAS
+from .v2 import ROVPPV2JournalLiteSimpleAS
 from .rovpp_v3_as import ROVPPV3AS
 
 __all__ = [
@@ -17,5 +19,7 @@ __all__ = [
     "ROVPPV2aSimpleAS",
     "ROVPPV2ShortenSimpleAS",
     "ROVPPV2ShortenLiteSimpleAS",
+    "ROVPPV2JournalSimpleAS",
+    "ROVPPV2JournalLiteSimpleAS",
     "ROVPPV3AS",
 ]

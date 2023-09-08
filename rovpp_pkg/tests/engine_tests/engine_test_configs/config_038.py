@@ -9,7 +9,7 @@ from bgpy.simulation_framework import ScenarioConfig, SubprefixHijack
 from rovpp_pkg import ROVPPV1LiteSimpleAS, ROVPPAnn
 
 config_038 = EngineTestConfig(
-    name="038",
+    name="rovpp_038",
     desc=(
         "Subprefix Hijack from fig 3a in paper with ROV++ v1 adopting at AS 4, "
         "and ROV at 7 and 8."

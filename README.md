@@ -2,7 +2,8 @@
 ![Tests](https://github.com/jfuruness/rovpp_pkg/actions/workflows/tests.yml/badge.svg)
 
 # rovpp\_pkg
-This package simulates ROV++. See paper (TODO: Add link) for further details.
+
+This package simulates ROV++. See ROV++ paper for further details. This package also currently extends BGPy (See CSET2023 BGPy paper for further details)
 
 * [Description](#package-description)
 * [Usage](#usage)
@@ -16,24 +17,29 @@ This package simulates ROV++. See paper (TODO: Add link) for further details.
 
 ## Package Description
 
-TODO
+This package simulates ROV++. See ROV++ paper for further details. This package also currently extends BGPy (See CSET2023 BGPy paper for further details)
 
-MYPY NOTES: Unfortunately, mypy seems to be completely broken for subclassing when the parent class has functions across multiple files.
+Everything described in the ROV++ paper has been implemented in the ROV++ package as an extension of BGPy.
 
-Or perhaps it's just broken for subclassing in general.
-Regardless, super dissapointing.
-Because of this, so many lines need type ignores.
-(because they have the error of incompatible with supertype, even though type hints are the same!)
-I hope they fix this tool.
+In the as_classes folder you can see all of the various routing policies described in the paper.
 
-Ugh, multiple inheritance also completely breaks. ignoring everything is pointless, so I'm removing this alltogether
+rovpp_ann contains the ROV++ announcements used
+
+In the tests directory, it contains the hundreds of system tests used to ensure that ROV++ is functioning properly.
+
+In dunder main, it contains the code to create the graphs that were ultimately used in the final paper and can be used to reproduce results.
 
 ## Usage
 * [rovpp\_pkg](#rovpp_pkg)
 
 Note: the simulator takes about 1-2GB per core. Make sure you don't run out of RAM!
 
-TODO
+To reproduce the results in the paper, simply install the package in a pypy environment.
+Then, simply type pypy3 -m rovpp_pkg
+
+This will run the script used to generate all of the graphs used within the paper
+
+Note: This takes a long time. We ran this on an AWS machine that has 128 cores, if you want to generate all of these graphs on a laptop it will take a day or two.
 
 ## Installation
 * [rovpp\_pkg](#rovpp_pkg)
@@ -72,9 +78,8 @@ To test the package after installation:
 
 ```
 cd rovpp_pkg
-pytest rovpp_pkg
-flake8 rovpp_pkg
-mypy rovpp_pkg
+pytest rovpp_pkg --view
+ruff rovpp_pkg
 ```
 
 If you want to run it across multiple environments, and have python 3.9 installed:
@@ -97,11 +102,6 @@ tox
 8. Ensure github actions are passing tests
 9. Email me at jfuruness@gmail.com
 
-## History
-* [rovpp\_pkg](#rovpp_pkg)
-
-* 0.1.0 First working version
-
 ## Credits
 * [rovpp\_pkg](#rovpp_pkg)
 
@@ -116,3 +116,16 @@ BSD License (see license file)
 * [rovpp\_pkg](#rovpp_pkg)
 
 See Jira
+
+# Design Decisions
+
+MYPY NOTES: Unfortunately, mypy seems to be completely broken for subclassing when the parent class has functions across multiple files.
+
+Or perhaps it's just broken for subclassing in general.
+Regardless, super dissapointing.
+Because of this, so many lines need type ignores.
+(because they have the error of incompatible with supertype, even though type hints are the same!)
+I hope they fix this tool.
+
+Ugh, multiple inheritance also completely breaks. ignoring everything is pointless, so I'm removing this alltogether
+

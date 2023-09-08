@@ -4,7 +4,7 @@ from ...v1 import ROVPPV1LiteSimpleAS
 
 
 class ROVPPV2LiteSimpleAS(ROVPPV1LiteSimpleAS):
-    name = "ROV++V2 Lite Simple"
+    name = "ROV++V2_conference Lite Simple"
 
     def _policy_propagate(self, neighbor, ann, propagate_to, *args):
         """Deals with blackhole propagation

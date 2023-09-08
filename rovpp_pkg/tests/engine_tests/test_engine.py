@@ -4,6 +4,7 @@ import pytest
 
 from bgpy import EngineTester
 from bgpy import EngineTestConfig
+from bgpy import engine_test_configs as bgpy_engine_test_configs
 
 from .engine_test_configs import engine_test_configs
 
@@ -15,7 +16,7 @@ class TestEngine:
     See README for in depth details
     """
 
-    @pytest.mark.parametrize("conf", engine_test_configs)
+    @pytest.mark.parametrize("conf", bgpy_engine_test_configs + engine_test_configs)
     def test_engine(self, conf: EngineTestConfig, overwrite: bool):
         """Performs a system test on the engine
 
