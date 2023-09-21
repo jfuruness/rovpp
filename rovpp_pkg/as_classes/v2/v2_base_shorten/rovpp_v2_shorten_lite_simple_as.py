@@ -12,8 +12,10 @@ class ROVPPV2ShortenLiteSimpleAS(ROVPPV2LiteSimpleAS):
         else:
             overwrite_default_kwargs = {"holes": self.temp_holes[ann]}
         if ann.invalid_by_roa and not ann.preventive:
-            overwrite_default_kwargs["as_path"] = tuple([ann.as_path[-1]])
+            # tuple([ann.as_path[-1]])
+            overwrite_default_kwargs["as_path"] = tuple([self.asn])
+            overwrite_default_kwargs["blackhole"] = True
 
-        return super(ROVPPV2ShortenLiteSimpleAS, self)._copy_and_process(
+        return super(ROVPPV2LiteSimpleAS, self)._copy_and_process(
             ann, recv_relationship, overwrite_default_kwargs=overwrite_default_kwargs
         )

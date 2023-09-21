@@ -99,8 +99,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "v2_variants",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-
-        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -202,7 +200,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             scenario_configs=tuple(
                 [
                     ScenarioConfig(
-                        ScenarioCls=NonRoutedSuperprefixPrefixHijack,
+                        ScenarioCls=SubprefixHijack,
                         AdoptASCls=Cls,
                         AnnCls=ROVPPAnn,
                     )
@@ -212,7 +210,20 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "lite_vs_non_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
+                    )
+                    for Cls in (ROVSimpleAS,)
+                ]
+            ),
+            output_dir=BASE_PATH / "ctrl_vs_data_plane",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
     ]
 
     if graph_index is not None:

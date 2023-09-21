@@ -17,5 +17,4 @@ __all__ = [
     "ROVPPV2ShortenSimpleAS",
     "ROVPPV2JournalLiteSimpleAS",
     "ROVPPV2JournalSimpleAS",
-
 ]

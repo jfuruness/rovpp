@@ -35,7 +35,7 @@
   _local_rib: !yamlable/LocalRIB
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
-      - 3
+      - 2
       attacker_on_route: false
       blackhole: true
       communities: !!python/tuple []
@@ -148,7 +148,7 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 777
-      - 3
+      - 2
       attacker_on_route: false
       blackhole: true
       communities: !!python/tuple []
