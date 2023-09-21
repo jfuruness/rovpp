@@ -72,6 +72,21 @@ ROV_NON_LITE_ROVPP = (
 )
 
 
+class V1Multi1(ROVPPV1SimpleAS):
+    name = "ROV++V1 1 Attacker"
+
+
+class V1Multi10(ROVPPV1SimpleAS):
+    name = "ROV++V1 10 Attackers"
+
+
+class V1Multi100(ROVPPV1SimpleAS):
+    name = "ROV++V1 100 Attackers"
+
+
+MULTI_ATK_AS_CLASSES = (V1Multi1, V1Multi10, V1Multi100)
+
+
 # Ignoring coverage on this func because it would cause every line
 # to be covered, and there is a bare bones system test that just runs
 # through these
@@ -128,6 +143,23 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=ASCls,
+                        AnnCls=ROVPPAnn,
+                        num_attackers=num_attackers
+                    )
+                    for (ASCls, num_attackers)
+                    in zip(MULTI_ATK_AS_CLASSES, (1, 10, 100))
+                ]
+            ),
+            output_dir=BASE_PATH / "subprefix_multi_atk",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
+
         Simulation(
             scenario_configs=tuple(
                 [
