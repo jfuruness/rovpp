@@ -33,28 +33,30 @@ class CtrlVsDataGraph:
         # List of (metric_key, adopting)
         graph_infos = list(product(get_all_metric_keys(), [True, False]))
 
-        relevant_rows = list()
-        for metric_key, adopting in graph_infos:
-            for row in self.graph_rows:
-                # Get all the rows that correspond to that type of graph
-                BaseASCls = row["data_key"].scenario_config.BaseASCls
-                AdoptASCls = row["data_key"].scenario_config.AdoptASCls
-                if (
-                    # row["metric_key"].plane == metric_key.plane and
-                    row["metric_key"].plane == Plane.DATA and
-                    # row["metric_key"].as_group == metric_key.as_group
-                    row["metric_key"].as_group == ASGroups.ALL
-                    # and row["metric_key"].outcome == metric_key.outcome
-                    and row["metric_key"].outcome == Outcomes.ATTACKER_SUCCESS
-                    and (
-                        (row["metric_key"].ASCls == BaseASCls and not adopting)
-                        or (row["metric_key"].ASCls == AdoptASCls and adopting)
-                    )
-                ):
-                    relevant_rows.append((row, adopting))
-        self._generate_graph(metric_key, relevant_rows, adopting=adopting)
 
-    def _generate_graph(self, metric_key: MetricKey, _relevant_rows, adopting) -> None:
+        for outcome in list(Outcomes):
+            relevant_rows = list()
+            for metric_key, adopting in graph_infos:
+                for row in self.graph_rows:
+                    # Get all the rows that correspond to that type of graph
+                    BaseASCls = row["data_key"].scenario_config.BaseASCls
+                    AdoptASCls = row["data_key"].scenario_config.AdoptASCls
+                    if (
+                        # row["metric_key"].plane == metric_key.plane and
+                        row["metric_key"].plane == Plane.DATA and
+                        # row["metric_key"].as_group == metric_key.as_group
+                        row["metric_key"].as_group == ASGroups.ALL
+                        # and row["metric_key"].outcome == metric_key.outcome
+                        and row["metric_key"].outcome == outcome
+                        and (
+                            (row["metric_key"].ASCls == BaseASCls and not adopting)
+                            or (row["metric_key"].ASCls == AdoptASCls and adopting)
+                        )
+                    ):
+                        relevant_rows.append((row, adopting))
+            self._generate_graph(metric_key, relevant_rows, outcome)
+
+    def _generate_graph(self, metric_key: MetricKey, _relevant_rows, outcome) -> None:
         """Writes a graph to the graph dir"""
 
         # Row is:
@@ -75,7 +77,8 @@ class CtrlVsDataGraph:
 
         if not relevant_rows:
             return
-        graph_name = "lite_vs_non_lite.png"
+        graph_name = f"lite_vs_non_lite_{outcome.name}.png"
+
         #    f"{relevant_rows[0]['data_key'].scenario_config.ScenarioCls.__name__}"
         #    f"/{metric_key.as_group.value}_adopting_is_{adopting}"
         #    f"/{metric_key.outcome.name}"
@@ -95,6 +98,7 @@ class CtrlVsDataGraph:
         plt.xlim(0, 100)
         plt.ylim(0, 100)
 
+
         def get_percent_adopt(graph_row) -> float:
             """Extractions percent adoption for sort comparison
 
@@ -104,6 +108,7 @@ class CtrlVsDataGraph:
             percent_adopt = graph_row["data_key"].percent_adopt
             assert isinstance(percent_adopt, (float, SpecialPercentAdoptions))
             return float(percent_adopt)
+
 
         # Add the data from the lines
         for key, graph_rows in as_cls_rows_dict.items():
@@ -115,7 +120,7 @@ class CtrlVsDataGraph:
                 label=key,
             )
         # Set labels
-        ax.set_ylabel("PERCENT HIJACKED")
+        ax.set_ylabel(f"PERCENT {outcome.name}")
         ax.set_xlabel("Percent Adoption")
 
         # This is to avoid warnings
@@ -124,6 +129,7 @@ class CtrlVsDataGraph:
         plt.tight_layout()
         plt.rcParams.update({"font.size": 14, "lines.markersize": 10})
         (self.graph_dir / graph_name).parent.mkdir(parents=True, exist_ok=True)
+        input(graph_name)
         plt.savefig(self.graph_dir / graph_name)
         # https://stackoverflow.com/a/33343289/8903959
         plt.close(fig)

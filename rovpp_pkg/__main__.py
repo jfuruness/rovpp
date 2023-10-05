@@ -144,6 +144,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """,
         Simulation(
             scenario_configs=tuple(
                 [
@@ -160,7 +161,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "subprefix_multi_atk",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-
+        """
         Simulation(
             scenario_configs=tuple(
                 [
