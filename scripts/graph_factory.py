@@ -9,8 +9,10 @@ import matplotlib.pyplot as plt  # type: ignore
 from bgpy.simulation_framework.metric_tracker.metric_key import MetricKey
 from bgpy.simulation_framework.utils import get_all_metric_keys
 
-from bgpy.enums import SpecialPercentAdoptions
+from bgpy.enums import SpecialPercentAdoptions, Outcomes, ASGroups, Plane
 
+
+# NOTE: The raw data has only ROV adopting for subprefix hijack
 
 class CtrlVsDataGraph:
     """Automates graphing of default graphs"""
@@ -39,18 +41,20 @@ class CtrlVsDataGraph:
                 AdoptASCls = row["data_key"].scenario_config.AdoptASCls
                 if (
                     # row["metric_key"].plane == metric_key.plane and
-                    row["metric_key"].as_group == metric_key.as_group
-                    and row["metric_key"].outcome == metric_key.outcome
+                    # row["metric_key"].as_group == metric_key.as_group
+                    row["metric_key"].as_group == ASGroups.ALL
+                    # and row["metric_key"].outcome == metric_key.outcome
+                    and row["metric_key"].outcome == Outcomes.ATTACKER_SUCCESS
                     and (
                         (row["metric_key"].ASCls == BaseASCls and not adopting)
                         or (row["metric_key"].ASCls == AdoptASCls and adopting)
                     )
                 ):
-                    relevant_rows.append(row)
+                    relevant_rows.append((row, adopting))
         input("Check the rows first")
         self._generate_graph(metric_key, relevant_rows, adopting=adopting)
 
-    def _generate_graph(self, metric_key: MetricKey, relevant_rows, adopting) -> None:
+    def _generate_graph(self, metric_key: MetricKey, _relevant_rows, adopting) -> None:
         """Writes a graph to the graph dir"""
 
         # Row is:
@@ -66,18 +70,24 @@ class CtrlVsDataGraph:
         # Value: float
         # Yerr: yerr
 
+        # Janky I know
+        relevant_rows = [x[0] for x in _relevant_rows]
+
         if not relevant_rows:
             return
         input("Come up with the appropriate graph name")
-        graph_name = (
-            f"{relevant_rows[0]['data_key'].scenario_config.ScenarioCls.__name__}"
-            f"/{metric_key.as_group.value}_adopting_is_{adopting}"
-            f"/{metric_key.outcome.name}"
-            f"_{metric_key.plane.value}.png"
-        ).replace(" ", "")
+        graph_name = "ctrl_vs_data_plane.png"
+        #    f"{relevant_rows[0]['data_key'].scenario_config.ScenarioCls.__name__}"
+        #    f"/{metric_key.as_group.value}_adopting_is_{adopting}"
+        #    f"/{metric_key.outcome.name}"
+        #    f"_{metric_key.plane.value}.png"
+        #).replace(" ", "")
         as_cls_rows_dict = defaultdict(list)
-        for row in relevant_rows:
-            as_cls_rows_dict[row["data_key"].scenario_config.AdoptASCls].append(row)
+        for row, adopting in _relevant_rows:
+            adopt_str = "adopting" if adopting else "non_adopting"
+            plane_str = "ctrl" if row["metric_key"].plane == Plane.CTRL else "data"
+            key = f"ROV_{adopt_str}_{plane_str}"
+            as_cls_rows_dict[key].append(row)
 
         matplotlib.use("Agg")
         fig, ax = plt.subplots()
@@ -97,16 +107,16 @@ class CtrlVsDataGraph:
             return float(percent_adopt)
 
         # Add the data from the lines
-        for as_cls, graph_rows in as_cls_rows_dict.items():
+        for key, graph_rows in as_cls_rows_dict.items():
             graph_rows_sorted = list(sorted(graph_rows, key=get_percent_adopt))
             ax.errorbar(
                 [float(x["data_key"].percent_adopt) * 100 for x in graph_rows_sorted],
                 [x["value"] for x in graph_rows_sorted],
                 yerr=[x["yerr"] for x in graph_rows_sorted],
-                label=as_cls.name,
+                label=key,
             )
         # Set labels
-        ax.set_ylabel(f"PERCENT {metric_key.outcome.name}".replace("_", " "))
+        ax.set_ylabel("PERCENT HIJACKED")
         ax.set_xlabel("Percent Adoption")
 
         # This is to avoid warnings
