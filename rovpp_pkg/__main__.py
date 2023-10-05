@@ -94,6 +94,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [
+        """
         # This graph takes about 10m with 100 trials
         Simulation(
             scenario_configs=tuple(
@@ -228,6 +229,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "non_routed_superprefix_prefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """,
         Simulation(
             scenario_configs=tuple(
                 [
@@ -261,6 +263,8 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     if graph_index is not None:
         sims = [sims[graph_index]]
     for sim in sims:
+        if isinstance(sim, str):
+            continue
         print("starting sims")
         start = datetime.now()
         sim.run()
