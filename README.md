@@ -1,5 +1,5 @@
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
-![Tests](https://github.com/jfuruness/rovpp_pkg/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/jfuruness/rovpp/actions/workflows/tests.yml/badge.svg)
 
 # rovpp\_pkg
 
@@ -30,19 +30,19 @@ In the tests directory, it contains the hundreds of system tests used to ensure 
 In dunder main, it contains the code to create the graphs that were ultimately used in the final paper and can be used to reproduce results.
 
 ## Usage
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 Note: the simulator takes about 1-2GB per core. Make sure you don't run out of RAM!
 
 To reproduce the results in the paper, simply install the package in a pypy environment.
-Then, simply type pypy3 -m rovpp_pkg
+Then, simply type pypy3 -m rovpp
 
 This will run the script used to generate all of the graphs used within the paper
 
 Note: This takes a long time. We ran this on an AWS machine that has 128 cores, if you want to generate all of these graphs on a laptop it will take a day or two.
 
 ## Installation
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 Install python and pip if you have not already. Then run:
 
@@ -57,15 +57,15 @@ pip install numpy --config-settings=setup-args="-Dallow-noblas=true"
 For production:
 
 ```bash
-pip3 install git@github.com:jfuruness/rovpp_pkg.git
+pip3 install git@github.com:jfuruness/rovpp.git
 ```
 
 This will install the package and all of it's python dependencies.
 
 If you want to install the project for development:
 ```bash
-git clone https://github.com/jfuruness/rovpp_pkg.git
-cd rovpp_pkg
+git clone https://github.com/jfuruness/rovpp.git
+cd rovpp
 pip3 install -e .[test]
 ```
 
@@ -73,26 +73,26 @@ To test the development package: [Testing](#testing)
 
 
 ## Testing
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 To test the package after installation:
 
 ```
-cd rovpp_pkg
-pytest rovpp_pkg --view
-ruff rovpp_pkg
+cd rovpp
+pytest rovpp --view
+ruff rovpp
 ```
 
 If you want to run it across multiple environments, and have python 3.9 installed:
 
 ```
-cd rovpp_pkg
+cd rovpp
 tox
 ```
 
 
 ## Development/Contributing
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -104,17 +104,17 @@ tox
 9. Email me at jfuruness@gmail.com
 
 ## Credits
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 Thanks to the SIDR team for their vast amount of help with this work. Namely Dr. Herzberg, Dr. Wang, Cameron Morris, and Reynaldo Morillo
 
 ## License
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 BSD License (see license file)
 
 ## TODO
-* [rovpp\_pkg](#rovpp_pkg)
+* [rovpp\_pkg](#rovpp)
 
 See Jira
 

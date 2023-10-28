@@ -1,4 +1,4 @@
 include README.md
 include LICENSE
-include rovpp_pkg/py.typed
+include rovpp/py.typed
 include tox.ini

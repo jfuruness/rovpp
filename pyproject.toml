@@ -18,7 +18,7 @@ filterwarnings = [
 ]
 
 [tool.mypy]
-mypy_path = "rovpp_pkg"
+mypy_path = "rovpp"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true

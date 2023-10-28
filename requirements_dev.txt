@@ -1,4 +1,4 @@
-git+https://github.com/jfuruness/bgpy.git
+bgpy_pkg
 pytest==7.1.2
 PyYAML==6.0
 tqdm==4.64.0
