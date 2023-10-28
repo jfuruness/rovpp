@@ -94,7 +94,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
 
     sims = [
-        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -107,7 +106,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-
         Simulation(
             scenario_configs=tuple(
                 [
@@ -115,16 +113,16 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                         ScenarioCls=SubprefixHijack,
                         AdoptASCls=ASCls,
                         AnnCls=ROVPPAnn,
-                        num_attackers=num_attackers
+                        num_attackers=num_attackers,
                     )
-                    for (ASCls, num_attackers)
-                    in zip(MULTI_ATK_AS_CLASSES, (1, 10, 100))
+                    for (ASCls, num_attackers) in zip(
+                        MULTI_ATK_AS_CLASSES, (1, 10, 100)
+                    )
                 ]
             ),
             output_dir=BASE_PATH / "subprefix_multi_atk",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """,
         Simulation(
             scenario_configs=tuple(
                 [
@@ -144,7 +142,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "v2_variants",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -162,7 +159,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "mixed_deployment",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-
         Simulation(
             scenario_configs=tuple(
                 [
@@ -259,7 +255,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "ctrl_vs_data_plane",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """,
     ]
 
     if graph_index is not None:
