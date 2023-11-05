@@ -3,6 +3,7 @@ from datetime import datetime
 from multiprocessing import cpu_count
 from pathlib import Path
 
+from bgpy import BGPSimpleAS
 from bgpy import ROVSimpleAS
 from bgpy import Simulation
 from bgpy import SpecialPercentAdoptions  # noqa
@@ -267,6 +268,10 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
         sim.run(
             graph_factory_kwargs={
                 "label_replacement_dict": {
+                    # BGPy
+                    BGPSimpleAS.name: "BGP",
+                    ROVSimpleAS.name: "ROV",
+                    # ROV++
                     ROVPPV1LiteSimpleAS.name: "ROV++V1 Lite",
                     # NON LITE.name: "",
                     ROVPPV1SimpleAS.name: "ROV++V1",
