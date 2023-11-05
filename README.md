@@ -10,7 +10,6 @@ This package simulates ROV++. See ROV++ paper for further details. This package 
 * [Installation](#installation)
 * [Testing](#testing)
 * [Development/Contributing](#developmentcontributing)
-* [History](#history)
 * [Credits](#credits)
 * [Licence](#license)
 * [TODO](#todo)

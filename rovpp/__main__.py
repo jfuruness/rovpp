@@ -264,14 +264,33 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             continue
         print("starting sims")
         start = datetime.now()
-        sim.run()
+        sim.run(
+            graph_factory_kwargs={
+                "label_replacement_dict": {
+                    ROVPPV1LiteSimpleAS.name: "ROV++V1 Lite",
+                    # NON LITE.name: "",
+                    ROVPPV1SimpleAS.name: "ROV++V1",
+                    ROVPPV2SimpleAS.name: "ROV++V2 No Customers",
+                    ROVPPV2aSimpleAS.name: "ROV++V2 Aggressive",
+                    ROVPPV2ShortenSimpleAS.name: "ROV++V2 Shorten",
+                    ROVPPV2JournalSimpleAS.name: "ROV++V2",
+                    ROVPPV3AS.name: "ROV++V3",
+                },
+                "y_axis_label_replacement_dict": {
+                    "PERCENT ATTACKER SUCCESS": "Data Plane % Hijacked",
+                    "PERCENT VICTIM SUCCESS": "Data Plane % Successfully Connected",
+                    "PERCENT DISCONNECTED": "Data Plane % Disconnected",
+                },
+                "x_axis_label_replacement_dict": {},
+            }
+        )
         print(f"{sim.output_dir} {(datetime.now() - start).total_seconds()}")
 
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Runs a simulation")
     parser.add_argument("--quick", dest="quick", default=False, action="store_true")
-    parser.add_argument("--trials", type=int, dest="trials", default=1)
+    parser.add_argument("--trials", type=int, dest="trials", default=1000)
     idx_default = -100
     parser.add_argument(
         "--graph_index", type=int, dest="graph_index", default=idx_default
