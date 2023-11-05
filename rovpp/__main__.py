@@ -49,7 +49,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
     else:  # pragma: no cover
         return {
             "percent_adoptions": (
-                0.01,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
+                0.001,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
                 # 0.5,
                 0.1,
                 0.2,
@@ -58,7 +58,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.6,
                 0.8,
                 # .99],
-                0.99,  # SpecialPercentAdoptions.ALL_BUT_ONE,
+                0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
             "parse_cpus": cpu_count() - 2,
