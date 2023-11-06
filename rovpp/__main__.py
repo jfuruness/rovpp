@@ -61,7 +61,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
-            "parse_cpus": cpu_count() - 2,
+            "parse_cpus": cpu_count(),
         }
 
 
