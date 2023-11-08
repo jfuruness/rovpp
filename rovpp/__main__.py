@@ -1,7 +1,8 @@
 from argparse import ArgumentParser
 from datetime import datetime
-from multiprocessing import cpu_count
+from multiprocessing import Process, cpu_count
 from pathlib import Path
+import time
 
 from bgpy import BGPSimpleAS
 from bgpy import ROVSimpleAS
@@ -88,6 +89,44 @@ class V1Multi100(ROVPPV1SimpleAS):
 
 
 MULTI_ATK_AS_CLASSES = (V1Multi1, V1Multi10, V1Multi100)
+
+
+def run_simulation(sim,):
+    """See BGPy FAQ
+
+    Long story short Each sim leaks memory due to some weird PyPy garbage collection
+    that doesn't occur in Python. Running sims one after the other (for now)
+    requires this. In the future we'll move to Rust, which has proper memory
+    management.
+    """
+
+    print("Starting simulation in a new process")
+    start = time.perf_counter()
+    sim.run(
+        graph_factory_kwargs={
+            "label_replacement_dict": {
+                # BGPy
+                BGPSimpleAS.name: "BGP",
+                ROVSimpleAS.name: "ROV",
+                # ROV++
+                ROVPPV1LiteSimpleAS.name: "ROV++V1 Lite",
+                # NON LITE.name: "",
+                ROVPPV1SimpleAS.name: "ROV++V1",
+                ROVPPV2SimpleAS.name: "ROV++V2 No Customers",
+                ROVPPV2aSimpleAS.name: "ROV++V2 Aggressive",
+                ROVPPV2ShortenSimpleAS.name: "ROV++V2 Shorten",
+                ROVPPV2JournalSimpleAS.name: "ROV++V2",
+                ROVPPV3AS.name: "ROV++V3",
+            },
+            "y_axis_label_replacement_dict": {
+                "PERCENT ATTACKER SUCCESS": "Data Plane % Hijacked",
+                "PERCENT VICTIM SUCCESS": "Data Plane % Successfully Connected",
+                "PERCENT DISCONNECTED": "Data Plane % Disconnected",
+            },
+            "x_axis_label_replacement_dict": {},
+        }
+    )
+    print(f"{sim.output_dir} {(time.perf_counter() - start)}")
 
 
 # Ignoring coverage on this func because it would cause every line
@@ -261,36 +300,17 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
 
     if graph_index is not None:
         sims = [sims[graph_index]]
+
     for sim in sims:
         if isinstance(sim, str):
             continue
-        print("starting sims")
-        start = datetime.now()
-        sim.run(
-            graph_factory_kwargs={
-                "label_replacement_dict": {
-                    # BGPy
-                    BGPSimpleAS.name: "BGP",
-                    ROVSimpleAS.name: "ROV",
-                    # ROV++
-                    ROVPPV1LiteSimpleAS.name: "ROV++V1 Lite",
-                    # NON LITE.name: "",
-                    ROVPPV1SimpleAS.name: "ROV++V1",
-                    ROVPPV2SimpleAS.name: "ROV++V2 No Customers",
-                    ROVPPV2aSimpleAS.name: "ROV++V2 Aggressive",
-                    ROVPPV2ShortenSimpleAS.name: "ROV++V2 Shorten",
-                    ROVPPV2JournalSimpleAS.name: "ROV++V2",
-                    ROVPPV3AS.name: "ROV++V3",
-                },
-                "y_axis_label_replacement_dict": {
-                    "PERCENT ATTACKER SUCCESS": "Data Plane % Hijacked",
-                    "PERCENT VICTIM SUCCESS": "Data Plane % Successfully Connected",
-                    "PERCENT DISCONNECTED": "Data Plane % Disconnected",
-                },
-                "x_axis_label_replacement_dict": {},
-            }
-        )
-        print(f"{sim.output_dir} {(datetime.now() - start).total_seconds()}")
+        else:
+            print("Spawning a sim process")
+            # Create a Process for each simulation (see run_simulation for details)
+            p = Process(target=run_simulation, args=(sim,))
+            p.start()
+            # Run one at a time due to resource constraints
+            p.join()
 
 
 if __name__ == "__main__":
@@ -303,6 +323,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     graph_index = None if args.graph_index == idx_default else args.graph_index
-    start = datetime.now()
+    start = time.perf_counter()
     main(quick=args.quick, trials=args.trials, graph_index=graph_index)
-    print((datetime.now() - start).total_seconds())
+    print((time.perf_counter() - start))
