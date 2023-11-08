@@ -39,7 +39,7 @@ BASE_PATH = Path("~/Desktop/graphs/").expanduser()
 
 def get_default_kwargs(quick, trials=None):  # pragma: no cover
     if not trials:
-        trials = 1 if quick else 1500
+        trials = 1 if quick else 1000
     if quick:
         return {
             "percent_adoptions": (0.5,),
@@ -62,6 +62,8 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
             ),
             "num_trials": trials,
             "parse_cpus": cpu_count(),
+            "caida_run_kwargs": {"dl_time": datetime(2023, 10, 5)},
+            "python_hash_seed": 0,
         }
 
 
@@ -93,7 +95,6 @@ MULTI_ATK_AS_CLASSES = (V1Multi1, V1Multi10, V1Multi100)
 # through these
 def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
-
     sims = [
         Simulation(
             scenario_configs=tuple(

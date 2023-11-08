@@ -5,6 +5,10 @@
 
 This package simulates ROV++. See ROV++ paper for further details. This package also currently extends BGPy (See CSET2023 BGPy paper for further details)
 
+# Support for this repo
+
+This repo is no longer being maintained and merely serves as an easy way to reproduce the results for the ROV++ Journal paper. By the start of 2024, these policies will be moved into BGPy beta branch until that is ready for a release (bgpy_pkg), where they will continue to be maintained (along with their system tests).
+
 * [Description](#package-description)
 * [Usage](#usage)
 * [Installation](#installation)
@@ -34,16 +38,22 @@ In dunder main, it contains the code to create the graphs that were ultimately u
 Note: the simulator takes about 1-2GB per core. Make sure you don't run out of RAM!
 
 To reproduce the results in the paper, simply install the package in a pypy environment.
-Then, simply type pypy3 -m rovpp
+Afterwards, set the PYTHONHASHSEED in the environment to 0
+Then, simply type pypy3 -O -m rovpp
 
 This will run the script used to generate all of the graphs used within the paper
 
-Note: This takes a long time. We ran this on an AWS machine that has 128 cores, if you want to generate all of these graphs on a laptop it will take a day or two.
+Note: This takes a long time. We ran this on an AWS machine that has 128 cores, which took about 2hrs, if you want to generate all of these graphs on a laptop it will take about a day or two (assuming it is a strong laptop).
 
 ## Installation
 * [rovpp\_pkg](#rovpp)
 
-Install python and pip if you have not already. Then run:
+Install python and pip if you have not already.
+
+NOTE: If you're shooting for an exact reproduction of the paper, then
+this must be run in a PyPy3.10 env, with the PYTHONHASHSEED set to 0
+
+Then run:
 
 ```bash
 # Needed for graphviz and Pillow
@@ -56,7 +66,7 @@ pip install numpy --config-settings=setup-args="-Dallow-noblas=true"
 For production:
 
 ```bash
-pip3 install git@github.com:jfuruness/rovpp.git
+pip3 install rovpp
 ```
 
 This will install the package and all of it's python dependencies.
@@ -80,6 +90,7 @@ To test the package after installation:
 cd rovpp
 pytest rovpp --view
 ruff rovpp
+black rovpp
 ```
 
 If you want to run it across multiple environments, and have python 3.9 installed:
