@@ -63,7 +63,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
-            "parse_cpus": cpu_count()-2,
+            "parse_cpus": cpu_count() - 2,
             "caida_run_kwargs": {"dl_time": datetime(2023, 10, 5)},
             "python_hash_seed": 0,
         }
@@ -100,8 +100,9 @@ class V1WV1SimpleAS(ROVPPV1SimpleAS):
     name = "ROV++V1 (V1 mixed)"
 
 
-
-def run_simulation(sim,):
+def run_simulation(
+    sim,
+):
     """See BGPy FAQ
 
     Long story short Each sim leaks memory due to some weird PyPy garbage collection
@@ -205,17 +206,21 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                         ),
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
-                ] + [
+                ]
+                + [
                     ScenarioConfig(
                         ScenarioCls=SubprefixHijack,
                         AdoptASCls=V1WV1SimpleAS,
                         AnnCls=ROVPPAnn,
-                        hardcoded_asn_cls_dict=frozendict({
-                            asn: MixedV1SimpleAS for asn in
-                            get_real_world_rov_asn_cls_dict(min_rov_confidence=0)
-                        })
+                        hardcoded_asn_cls_dict=frozendict(
+                            {
+                                asn: MixedV1SimpleAS
+                                for asn in get_real_world_rov_asn_cls_dict(
+                                    min_rov_confidence=0
+                                )
+                            }
+                        ),
                     ),
-
                 ]
             ),
             output_dir=BASE_PATH / "mixed_deployment_rov",
