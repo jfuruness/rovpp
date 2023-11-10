@@ -187,6 +187,8 @@ from .config_217 import config_217
 from .config_218 import config_218
 from .config_219 import config_219
 from .config_220 import config_220
+from .config_221_goal_1 import config_221
+from .config_222_goal_1 import config_222
 
 
 __all__ = [
@@ -376,6 +378,8 @@ __all__ = [
     "config_218",
     "config_219",
     "config_220",
+    "config_221",
+    "config_222",
 ]
 
 engine_test_configs = [
@@ -565,4 +569,6 @@ engine_test_configs = [
     config_218,
     config_219,
     config_220,
+    config_221,
+    config_222,
 ]
