@@ -90,6 +90,9 @@ class V1Multi100(ROVPPV1SimpleAS):
 
 MULTI_ATK_AS_CLASSES = (V1Multi1, V1Multi10, V1Multi100)
 
+class MixedV1SimpleAS(ROVPPV1SimpleAS)
+    name = "Real World ROV nodes deploying V1 Simple"
+
 
 def run_simulation(sim,):
     """See BGPy FAQ
@@ -197,7 +200,25 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
-            output_dir=BASE_PATH / "mixed_deployment",
+            output_dir=BASE_PATH / "mixed_deployment_rov",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
+                        hardcoded_asn_cls_dict={
+                            asn: MixedV1SimpleAS for asn in
+                            get_real_world_rov_asn_cls_dict(min_rov_confidence=0),
+                        }
+                    )
+                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                ]
+            ),
+            output_dir=BASE_PATH / "mixed_deployment_v1_as_rov",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
@@ -222,7 +243,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                         AdoptASCls=Cls,
                         AnnCls=ROVPPAnn,
                     )
-                    for Cls in ROV_NON_LITE_ROVPP
+                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
             output_dir=BASE_PATH / "superprefix_prefix",

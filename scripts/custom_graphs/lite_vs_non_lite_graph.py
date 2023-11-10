@@ -134,7 +134,7 @@ class CtrlVsDataGraph:
         # https://stackoverflow.com/a/33343289/8903959
         plt.close(fig)
 
-pickle_path = Path("~/Desktop/graphs/lite_vs_non_lite/data.pickle").expanduser()
+pickle_path = Path("~/graphs/lite_vs_non_lite/data.pickle").expanduser()
 graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
 CtrlVsDataGraph(
     pickle_path=pickle_path,

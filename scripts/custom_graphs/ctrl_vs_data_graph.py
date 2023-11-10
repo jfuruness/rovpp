@@ -116,7 +116,7 @@ class CtrlVsDataGraph:
                 label=key,
             )
         # Set labels
-        ax.set_ylabel("PERCENT HIJACKED")
+        ax.set_ylabel("% Hijacked")
         ax.set_xlabel("Percent Adoption")
 
         # This is to avoid warnings
@@ -129,7 +129,7 @@ class CtrlVsDataGraph:
         # https://stackoverflow.com/a/33343289/8903959
         plt.close(fig)
 
-pickle_path = Path("~/Desktop/graphs/ctrl_vs_data_plane/data.pickle").expanduser()
+pickle_path = Path("~/graphs/ctrl_vs_data_plane/data.pickle").expanduser()
 graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
 CtrlVsDataGraph(
     pickle_path=pickle_path,
