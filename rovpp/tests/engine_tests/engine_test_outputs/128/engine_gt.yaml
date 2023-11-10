@@ -25,6 +25,30 @@
       timestamp: 1
       traceback_end: false
       withdraw: false
+    1.2.0.0/16: !yamlable/ROVPPAnn
+      as_path: !!python/tuple
+      - 1
+      - 2
+      - 3
+      - 7
+      - 8
+      - 9
+      - 777
+      attacker_on_route: false
+      blackhole: false
+      communities: !!python/tuple []
+      holes: !!python/tuple []
+      prefix: 1.2.0.0/16
+      preventive: false
+      recv_relationship: !simulator_codec/Relationships
+        name: PROVIDERS
+        value: 1
+      roa_origin: 777
+      roa_valid_length: true
+      seed_asn: null
+      timestamp: 0
+      traceback_end: false
+      withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 1
   customer_cone_size: 0
@@ -63,14 +87,13 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 2
-      - 2
       - 3
-      - 4
-      - 5
-      - 6
-      - 666
+      - 7
+      - 8
+      - 9
+      - 777
       attacker_on_route: false
-      blackhole: true
+      blackhole: false
       communities: !!python/tuple []
       holes: !!python/tuple []
       prefix: 1.2.0.0/16
@@ -78,11 +101,11 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: null
-      roa_valid_length: null
+      roa_origin: 777
+      roa_valid_length: true
       seed_asn: null
-      timestamp: 1
-      traceback_end: true
+      timestamp: 0
+      traceback_end: false
       withdraw: false
   _recv_q: !yamlable/RecvQueue {}
   asn: 2
@@ -199,7 +222,6 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 4
-      - 4
       - 5
       - 6
       - 666
@@ -212,8 +234,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PEERS
         value: 2
-      roa_origin: null
-      roa_valid_length: null
+      roa_origin: 777
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -600,7 +622,6 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 11
-      - 11
       - 10
       - 5
       - 6
@@ -614,8 +635,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: CUSTOMERS
         value: 3
-      roa_origin: null
-      roa_valid_length: null
+      roa_origin: 777
+      roa_valid_length: true
       seed_asn: null
       timestamp: 1
       traceback_end: true
