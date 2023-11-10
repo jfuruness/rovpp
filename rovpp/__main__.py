@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 from datetime import datetime
+from frozendict import frozendict
 from multiprocessing import Process, cpu_count
 from pathlib import Path
 import time
@@ -62,7 +63,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
-            "parse_cpus": cpu_count(),
+            "parse_cpus": cpu_count()-2,
             "caida_run_kwargs": {"dl_time": datetime(2023, 10, 5)},
             "python_hash_seed": 0,
         }
@@ -90,8 +91,14 @@ class V1Multi100(ROVPPV1SimpleAS):
 
 MULTI_ATK_AS_CLASSES = (V1Multi1, V1Multi10, V1Multi100)
 
-class MixedV1SimpleAS(ROVPPV1SimpleAS)
+
+class MixedV1SimpleAS(ROVPPV1SimpleAS):
     name = "Real World ROV nodes deploying V1 Simple"
+
+
+class V1WV1SimpleAS(ROVPPV1SimpleAS):
+    name = "ROV++V1 (V1 mixed)"
+
 
 
 def run_simulation(sim,):
@@ -103,7 +110,7 @@ def run_simulation(sim,):
     management.
     """
 
-    print("Starting simulation in a new process")
+    print("Starting simulation")
     start = time.perf_counter()
     sim.run(
         graph_factory_kwargs={
@@ -198,27 +205,20 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                         ),
                     )
                     for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                ] + [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=V1WV1SimpleAS,
+                        AnnCls=ROVPPAnn,
+                        hardcoded_asn_cls_dict=frozendict({
+                            asn: MixedV1SimpleAS for asn in
+                            get_real_world_rov_asn_cls_dict(min_rov_confidence=0)
+                        })
+                    ),
+
                 ]
             ),
             output_dir=BASE_PATH / "mixed_deployment_rov",
-            **get_default_kwargs(quick=quick, trials=trials),
-        ),
-        Simulation(
-            scenario_configs=tuple(
-                [
-                    ScenarioConfig(
-                        ScenarioCls=SubprefixHijack,
-                        AdoptASCls=Cls,
-                        AnnCls=ROVPPAnn,
-                        hardcoded_asn_cls_dict={
-                            asn: MixedV1SimpleAS for asn in
-                            get_real_world_rov_asn_cls_dict(min_rov_confidence=0),
-                        }
-                    )
-                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
-                ]
-            ),
-            output_dir=BASE_PATH / "mixed_deployment_v1_as_rov",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
         Simulation(
@@ -320,13 +320,15 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     ]
 
     if graph_index is not None:
-        sims = [sims[graph_index]]
+        print(f"Running a sim for {sims[graph_index].output_dir.name}")
+        run_simulation(sims[graph_index])
+        return
 
     for sim in sims:
         if isinstance(sim, str):
             continue
         else:
-            print("Spawning a sim process")
+            print("Spawning a sim process for {sim.output_dir.name}")
             # Create a Process for each simulation (see run_simulation for details)
             p = Process(target=run_simulation, args=(sim,))
             p.start()
