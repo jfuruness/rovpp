@@ -24,13 +24,13 @@ counter_ex_graph = GraphInfo(
             CPLink(provider_asn=2, customer_asn=ASNs.ATTACKER.value),
             CPLink(provider_asn=3, customer_asn=ASNs.VICTIM.value),
             CPLink(provider_asn=4, customer_asn=1),
+            CPLink(provider_asn=5, customer_asn=4),
             CPLink(provider_asn=5, customer_asn=2),
         ]
     ),
     diagram_ranks=[
-        [ASNs.ATTACKER.value, ASNs.VICTIM.value],
-        [1, 2, 3],
-        [4],
+        [1, ASNs.ATTACKER.value, ASNs.VICTIM.value],
+        [4, 2, 3],
         [5],
     ],
 )

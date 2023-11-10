@@ -6,7 +6,10 @@ from bgpy.simulation_engine.announcement import Announcement as Ann  # noqa
 from bgpy import ROVSimpleAS
 from bgpy import Relationships
 from bgpy import Scenario
-from bgpy import NonRoutedSuperprefixHijack
+from bgpy import (
+    NonRoutedSuperprefixHijack,
+    NonRoutedSuperprefixPrefixHijack,
+)
 
 from ...rovpp_ann import ROVPPAnn
 
@@ -188,7 +191,11 @@ class ROVPPV1LiteSimpleAS(ROVSimpleAS):
         # Hardcoded to blackhole superprefixes that we know exist
         # Professors wanted this change after we finished,
         # not worth the time to add correctly and they okayed this
-        if isinstance(scenario, NonRoutedSuperprefixHijack):
+        non_routed_superprefix_hijacks = (
+            NonRoutedSuperprefixHijack,
+            NonRoutedSuperprefixPrefixHijack,
+        )
+        if isinstance(scenario, non_routed_superprefix_hijacks):
             ann = self._local_rib.get_ann("1.0.0.0/8")
             if ann:
                 bhole = self._copy_and_process(

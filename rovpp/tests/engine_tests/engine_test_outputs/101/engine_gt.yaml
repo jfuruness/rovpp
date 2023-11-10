@@ -93,6 +93,7 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 2
+      - 2
       - 1
       - 666
       attacker_on_route: false
@@ -104,8 +105,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -148,6 +149,7 @@
       as_path: !!python/tuple
       - 3
       - 2
+      - 2
       - 1
       - 666
       attacker_on_route: false
@@ -159,8 +161,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: false

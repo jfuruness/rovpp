@@ -204,6 +204,7 @@
     1.2.0.0/16: !yamlable/ROVPPAnn
       as_path: !!python/tuple
       - 4
+      - 4
       - 3
       - 1
       - 666
@@ -216,8 +217,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: CUSTOMERS
         value: 3
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: true
@@ -373,6 +374,7 @@
       as_path: !!python/tuple
       - 7
       - 4
+      - 4
       - 3
       - 1
       - 666
@@ -385,8 +387,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -434,6 +436,7 @@
       - 8
       - 7
       - 4
+      - 4
       - 3
       - 1
       - 666
@@ -446,8 +449,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: false
@@ -492,6 +495,7 @@
       - 9
       - 7
       - 4
+      - 4
       - 3
       - 1
       - 666
@@ -504,8 +508,8 @@
       recv_relationship: !simulator_codec/Relationships
         name: PROVIDERS
         value: 1
-      roa_origin: 0
-      roa_valid_length: true
+      roa_origin: null
+      roa_valid_length: null
       seed_asn: null
       timestamp: 1
       traceback_end: false
