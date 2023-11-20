@@ -1,4 +1,5 @@
 from collections import defaultdict
+from functools import cached_property
 from itertools import product
 from pathlib import Path
 import pickle
@@ -111,13 +112,15 @@ class CtrlVsDataGraph:
 
 
         # Add the data from the lines
-        for key, graph_rows in as_cls_rows_dict.items():
+        for i, (key, graph_rows) in enumerate(as_cls_rows_dict.items()):
             graph_rows_sorted = list(sorted(graph_rows, key=get_percent_adopt))
             ax.errorbar(
                 [float(x["data_key"].percent_adopt) * 100 for x in graph_rows_sorted],
                 [x["value"] for x in graph_rows_sorted],
                 yerr=[x["yerr"] for x in graph_rows_sorted],
                 label=key,
+                ls=self.line_styles[i],
+                marker=self.markers[i],
             )
         # Set labels
         ax.set_ylabel(f"PERCENT {outcome.name}")
@@ -133,6 +136,22 @@ class CtrlVsDataGraph:
         plt.savefig(self.graph_dir / graph_name)
         # https://stackoverflow.com/a/33343289/8903959
         plt.close(fig)
+
+    @cached_property
+    def markers(self) -> tuple[str, ...]:
+        # Leaving this as a list here for mypy
+        markers = [".", "1", "*", "x", "d", "2", "3", "4"]
+        markers += markers.copy()[0:-2:2]
+        markers += markers.copy()[::-1]
+        return tuple(markers)
+
+    @cached_property
+    def line_styles(self) -> tuple[str, ...]:
+        # Leaving this as a list here for mypy
+        styles = ["-", "--", "-.", ":", "solid", "dotted", "dashdot", "dashed"]
+        styles += styles.copy()[::-1]
+        styles += styles.copy()[0:-2:2]
+        return tuple(styles)
 
 pickle_path = Path("~/graphs/lite_vs_non_lite/data.pickle").expanduser()
 graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()

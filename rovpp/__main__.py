@@ -51,7 +51,8 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
     else:  # pragma: no cover
         return {
             "percent_adoptions": (
-                0.001,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
+                SpecialPercentAdoptions.ONLY_ONE,
+                # 0.001,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
                 # 0.5,
                 0.1,
                 0.2,
@@ -60,7 +61,8 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
                 0.6,
                 0.8,
                 # .99],
-                0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
+                # 0.998,  # SpecialPercentAdoptions.ALL_BUT_ONE,
+                SpecialPercentAdoptions.ALL_BUT_ONE,
             ),
             "num_trials": trials,
             "parse_cpus": cpu_count() - 2,
@@ -322,6 +324,72 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "ctrl_vs_data_plane",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        # NOTE: We make a lot of claims in the paper that LITE=NON_LITE,
+        # these are just to confirm this phenomena
+        # We only need this for routed, since for non routed it doesn't
+        # matter, and subprefix is already covered in lite vs non lite graph
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
+                        hardcoded_asn_cls_dict=get_real_world_rov_asn_cls_dict(
+                            min_rov_confidence=0
+                        ),
+                    )
+                    for Cls in (
+                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,) + (ROVPPV1LiteSimpleAS,)
+                    )
+                ]
+                + [
+                    ScenarioConfig(
+                        ScenarioCls=SubprefixHijack,
+                        AdoptASCls=V1WV1SimpleAS,
+                        AnnCls=ROVPPAnn,
+                        hardcoded_asn_cls_dict=frozendict(
+                            {
+                                asn: MixedV1SimpleAS
+                                for asn in get_real_world_rov_asn_cls_dict(
+                                    min_rov_confidence=0
+                                )
+                            }
+                        ),
+                    ),
+                ]
+            ),
+            output_dir=BASE_PATH / "mixed_deployment_rov_including_lite",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=SuperprefixPrefixHijack,
+                        AdoptASCls=Cls,
+                        AnnCls=ROVPPAnn,
+                    )
+                    for Cls in (
+                        ROV_NON_LITE_ROVPP + (ROVPPV3AS,) + (ROVPPV1LiteSimpleAS,)
+                    )
+                ]
+            ),
+            output_dir=BASE_PATH / "superprefix_prefix_including_lite",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
+        Simulation(
+            scenario_configs=tuple(
+                [
+                    ScenarioConfig(
+                        ScenarioCls=PrefixHijack, AdoptASCls=Cls, AnnCls=ROVPPAnn
+                    )
+                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV1LiteSimpleAS,)
+                ]
+            ),
+            output_dir=BASE_PATH / "prefix_including_lite",
+            **get_default_kwargs(quick=quick, trials=trials),
+        ),
     ]
 
     if graph_index is not None:
@@ -333,7 +401,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
         if isinstance(sim, str):
             continue
         else:
-            print("Spawning a sim process for {sim.output_dir.name}")
+            print(f"Spawning a sim process for {sim.output_dir.name}")
             # Create a Process for each simulation (see run_simulation for details)
             p = Process(target=run_simulation, args=(sim,))
             p.start()
