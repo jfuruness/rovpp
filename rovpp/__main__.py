@@ -46,7 +46,7 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
         trials = 1 if quick else 1500
     if quick:
         return {
-            "percent_adoptions": (0.5,),
+            "percent_adoptions": (.5,),  # (SpecialPercentAdoptions.ONLY_ONE,),
             "num_trials": trials,
             "parse_cpus": 1,
         }
@@ -156,13 +156,12 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=SubprefixHijack, AdoptASCls=Cls, AnnCls=ROVPPAnn
                     )
-                    for Cls in (ROVSimpleAS,)# for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -393,7 +392,6 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "prefix_including_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        """
     ]
 
     if graph_index is not None:
