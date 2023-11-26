@@ -15,7 +15,8 @@ from bgpy.enums import SpecialPercentAdoptions, Outcomes, ASGroups, Plane
 
 # NOTE: The raw data has only ROV adopting for subprefix hijack
 
-class CtrlVsDataGraph:
+
+class LiteGraph:
     """Automates graphing of default graphs"""
 
     def __init__(self, pickle_path: Path, graph_dir: Path) -> None:
@@ -34,7 +35,6 @@ class CtrlVsDataGraph:
         # List of (metric_key, adopting)
         graph_infos = list(product(get_all_metric_keys(), [True, False]))
 
-
         for outcome in list(Outcomes):
             relevant_rows = list()
             for metric_key, adopting in graph_infos:
@@ -44,7 +44,8 @@ class CtrlVsDataGraph:
                     AdoptASCls = row["data_key"].scenario_config.AdoptASCls
                     if (
                         # row["metric_key"].plane == metric_key.plane and
-                        row["metric_key"].plane == Plane.DATA and
+                        row["metric_key"].plane == Plane.DATA
+                        and
                         # row["metric_key"].as_group == metric_key.as_group
                         row["metric_key"].as_group == ASGroups.ALL
                         # and row["metric_key"].outcome == metric_key.outcome
@@ -84,7 +85,7 @@ class CtrlVsDataGraph:
         #    f"/{metric_key.as_group.value}_adopting_is_{adopting}"
         #    f"/{metric_key.outcome.name}"
         #    f"_{metric_key.plane.value}.png"
-        #).replace(" ", "")
+        # ).replace(" ", "")
         as_cls_rows_dict = defaultdict(list)
         for row, adopting in _relevant_rows:
             adopt_str = "adopting" if adopting else "non_adopting"
@@ -99,7 +100,6 @@ class CtrlVsDataGraph:
         plt.xlim(0, 100)
         plt.ylim(0, 100)
 
-
         def get_percent_adopt(graph_row) -> float:
             """Extractions percent adoption for sort comparison
 
@@ -109,7 +109,6 @@ class CtrlVsDataGraph:
             percent_adopt = graph_row["data_key"].percent_adopt
             assert isinstance(percent_adopt, (float, SpecialPercentAdoptions))
             return float(percent_adopt)
-
 
         # Add the data from the lines
         for i, (key, graph_rows) in enumerate(as_cls_rows_dict.items()):
@@ -153,9 +152,11 @@ class CtrlVsDataGraph:
         styles += styles.copy()[0:-2:2]
         return tuple(styles)
 
-pickle_path = Path("~/graphs/lite_vs_non_lite/data.pickle").expanduser()
-graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
-CtrlVsDataGraph(
-    pickle_path=pickle_path,
-    graph_dir=graph_dir,
-).generate_graphs()
+
+if __name__ == "__main__":
+    pickle_path = Path("~/graphs/lite_vs_non_lite/data.pickle").expanduser()
+    graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
+    LiteGraph(
+        pickle_path=pickle_path,
+        graph_dir=graph_dir,
+    ).generate_graphs()

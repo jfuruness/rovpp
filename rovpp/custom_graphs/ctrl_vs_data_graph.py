@@ -15,6 +15,7 @@ from bgpy.enums import SpecialPercentAdoptions, Outcomes, ASGroups, Plane
 
 # NOTE: The raw data has only ROV adopting for subprefix hijack
 
+
 class CtrlVsDataGraph:
     """Automates graphing of default graphs"""
 
@@ -82,7 +83,7 @@ class CtrlVsDataGraph:
         #    f"/{metric_key.as_group.value}_adopting_is_{adopting}"
         #    f"/{metric_key.outcome.name}"
         #    f"_{metric_key.plane.value}.png"
-        #).replace(" ", "")
+        # ).replace(" ", "")
         as_cls_rows_dict = defaultdict(list)
         for row, adopting in _relevant_rows:
             adopt_str = "adopting" if adopting else "non_adopting"
@@ -148,9 +149,11 @@ class CtrlVsDataGraph:
         styles += styles.copy()[0:-2:2]
         return tuple(styles)
 
-pickle_path = Path("~/graphs/ctrl_vs_data_plane/data.pickle").expanduser()
-graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
-CtrlVsDataGraph(
-    pickle_path=pickle_path,
-    graph_dir=graph_dir,
-).generate_graphs()
+
+if __name__ == "__main__":
+    pickle_path = Path("~/graphs/ctrl_vs_data_plane/data.pickle").expanduser()
+    graph_dir = Path("~/Desktop/custom_rovpp_graphs").expanduser()
+    CtrlVsDataGraph(
+        pickle_path=pickle_path,
+        graph_dir=graph_dir,
+    ).generate_graphs()

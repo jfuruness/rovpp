@@ -33,6 +33,8 @@ from .as_classes import ROVPPV2ShortenSimpleAS
 from .as_classes import ROVPPV2JournalSimpleAS
 from .as_classes import ROVPPV3AS
 
+from .custom_graphs import CtrlVsDataGraph, LiteGraph
+
 from .rovpp_ann import ROVPPAnn
 
 
@@ -41,7 +43,7 @@ BASE_PATH = Path("~/Desktop/graphs/").expanduser()
 
 def get_default_kwargs(quick, trials=None):  # pragma: no cover
     if not trials:
-        trials = 1 if quick else 1000
+        trials = 1 if quick else 1500
     if quick:
         return {
             "percent_adoptions": (0.5,),
@@ -408,11 +410,26 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             # Run one at a time due to resource constraints
             p.join()
 
+    print("Generating custom graphs")
+    # Also generate the custom graphs
+    pickle_path = BASE_PATH / "ctrl_vs_data_plane/data.pickle"
+    graph_dir = BASE_PATH / "custom_rovpp_graphs"
+    CtrlVsDataGraph(
+        pickle_path=pickle_path,
+        graph_dir=graph_dir,
+    ).generate_graphs()
+
+    pickle_path = BASE_PATH / "lite_vs_non_lite/data.pickle"
+    LiteGraph(
+        pickle_path=pickle_path,
+        graph_dir=graph_dir,
+    ).generate_graphs()
+
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Runs a simulation")
     parser.add_argument("--quick", dest="quick", default=False, action="store_true")
-    parser.add_argument("--trials", type=int, dest="trials", default=1000)
+    parser.add_argument("--trials", type=int, dest="trials", default=1500)
     idx_default = -100
     parser.add_argument(
         "--graph_index", type=int, dest="graph_index", default=idx_default
