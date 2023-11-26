@@ -53,7 +53,6 @@ class CtrlVsDataGraph:
                     )
                 ):
                     relevant_rows.append((row, adopting))
-        input("Check the rows first")
         self._generate_graph(metric_key, relevant_rows, adopting=adopting)
 
     def _generate_graph(self, metric_key: MetricKey, _relevant_rows, adopting) -> None:
@@ -77,7 +76,6 @@ class CtrlVsDataGraph:
 
         if not relevant_rows:
             return
-        input("Come up with the appropriate graph name")
         graph_name = "ctrl_vs_data_plane.png"
         #    f"{relevant_rows[0]['data_key'].scenario_config.ScenarioCls.__name__}"
         #    f"/{metric_key.as_group.value}_adopting_is_{adopting}"

@@ -117,7 +117,9 @@ class LiteGraph:
                 [float(x["data_key"].percent_adopt) * 100 for x in graph_rows_sorted],
                 [x["value"] for x in graph_rows_sorted],
                 yerr=[x["yerr"] for x in graph_rows_sorted],
-                label=key,
+                label=key.replace("Simple", "")
+                .replace("_adopting", "")
+                .replace("_non", ""),
                 ls=self.line_styles[i],
                 marker=self.markers[i],
             )
@@ -131,7 +133,6 @@ class LiteGraph:
         plt.tight_layout()
         plt.rcParams.update({"font.size": 14, "lines.markersize": 10})
         (self.graph_dir / graph_name).parent.mkdir(parents=True, exist_ok=True)
-        input(graph_name)
         plt.savefig(self.graph_dir / graph_name)
         # https://stackoverflow.com/a/33343289/8903959
         plt.close(fig)
