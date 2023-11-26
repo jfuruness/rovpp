@@ -53,9 +53,22 @@ def get_default_kwargs(quick, trials=None):  # pragma: no cover
     else:  # pragma: no cover
         return {
             "percent_adoptions": (
-                SpecialPercentAdoptions.ONLY_ONE,
-                # 0.001,  # SpecialPercentAdoptions.ONLY_ONE,  # .01,
-                # 0.5,
+                # When you adopt just 1 AS, the results become skewed for all ASes
+                # This is because input clique the majority of the time will get
+                # a hidden hijack, and about 20% of the time etc ASes recieve
+                # a hidden hijack. Only stubs and multihomed ASes almost never
+                # get hijacked.
+                # When you adopt only 1 AS in each category, then
+                # that's say 5% of input clique ASes, .1% of etc ASes, and
+                # .001% of stubs/multihomed ASes
+                # This significantly skews results towards input clique
+                # since it is represented at 5000x the rate of stubs/multihomed
+                # And this is only for point number 0, making the graphs look
+                # incredibly strange for this singular data point
+                # To fix this, we merely adopt at a low percentage
+                # Were results will be less skewed towards the input clique
+                # SpecialPercentAdoptions.ONLY_ONE,
+                0.001,
                 0.1,
                 0.2,
                 0.3,
