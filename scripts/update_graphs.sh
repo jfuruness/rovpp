@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Variables
-SOURCE_DIR="/home/anon/graphs" # Replace with the actual source directory path
+# NOTE: can't have all graphs in overleaf. It rejects it. Only have necessary paper graphs
+SOURCE_DIR="/home/anon/paper_graphs" # Replace with the actual source directory path
+
+./trim_graphs.py
 
 OVERLEAF_REPO="https://git.overleaf.com/63f8de10d38edcb6d76211ec"
 CLONE_DIR="/tmp/rovpp_journal_clone" # Temporary clone directory name
