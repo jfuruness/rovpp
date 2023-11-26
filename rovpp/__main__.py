@@ -156,12 +156,13 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
                     ScenarioConfig(
                         ScenarioCls=SubprefixHijack, AdoptASCls=Cls, AnnCls=ROVPPAnn
                     )
-                    for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
+                    for Cls in (ROVSimpleAS,)# for Cls in ROV_NON_LITE_ROVPP + (ROVPPV3AS,)
                 ]
             ),
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -392,6 +393,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "prefix_including_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """
     ]
 
     if graph_index is not None:
