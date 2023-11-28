@@ -5,6 +5,7 @@ from multiprocessing import Process, cpu_count
 from pathlib import Path
 import time
 
+from bgpy import RealROVSimpleAS
 from bgpy import BGPSimpleAS
 from bgpy import ROVSimpleAS
 from bgpy import Simulation
@@ -20,7 +21,7 @@ from bgpy import PrefixHijack
 from bgpy import NonRoutedPrefixHijack
 
 # Mixed deployment
-from bgpy import get_real_world_rov_asn_cls_dict
+# from bgpy import get_real_world_rov_asn_cls_dict
 
 # LITE
 from .as_classes import ROVPPV1LiteSimpleAS
@@ -39,6 +40,12 @@ from .rovpp_ann import ROVPPAnn
 
 
 BASE_PATH = Path("~/Desktop/graphs/").expanduser()
+
+
+def get_real_world_rov_asn_cls_dict(*args, **kwargs):
+    import json
+    with (Path().home() / "Desktop" / "rov_info.json").open() as f:
+        return frozendict({asn: RealROVSimpleAS for asn in json.load(f)})
 
 
 def get_default_kwargs(quick, trials=None):  # pragma: no cover
@@ -163,6 +170,7 @@ def run_simulation(
 def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
     # assert isinstance(input("Turn asserts off for speed?"), str)
     sims = [
+        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -175,23 +183,25 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "subprefix",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
-        Simulation(
-            scenario_configs=tuple(
-                [
-                    ScenarioConfig(
-                        ScenarioCls=SubprefixHijack,
-                        AdoptASCls=ASCls,
-                        AnnCls=ROVPPAnn,
-                        num_attackers=num_attackers,
-                    )
-                    for (ASCls, num_attackers) in zip(
-                        MULTI_ATK_AS_CLASSES, (1, 10, 100)
-                    )
-                ]
-            ),
-            output_dir=BASE_PATH / "subprefix_multi_atk",
-            **get_default_kwargs(quick=quick, trials=trials),
-        ),
+        """,
+        # Simulation(
+        #     scenario_configs=tuple(
+        #         [
+        #             ScenarioConfig(
+        #                 ScenarioCls=SubprefixHijack,
+        #                 AdoptASCls=ASCls,
+        #                 AnnCls=ROVPPAnn,
+        #                 num_attackers=num_attackers,
+        #             )
+        #             for (ASCls, num_attackers) in zip(
+        #                 MULTI_ATK_AS_CLASSES, (1, 10, 100)
+        #             )
+        #         ]
+        #     ),
+        #     output_dir=BASE_PATH / "subprefix_multi_atk",
+        #     **get_default_kwargs(quick=quick, trials=trials),
+        # ),
+        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -211,6 +221,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "v2_variants",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """,
         Simulation(
             scenario_configs=tuple(
                 [
@@ -243,6 +254,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "mixed_deployment_rov",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """
         Simulation(
             scenario_configs=tuple(
                 [
@@ -405,6 +417,7 @@ def main(quick=True, trials=1, graph_index=None):  # pragma: no cover
             output_dir=BASE_PATH / "prefix_including_lite",
             **get_default_kwargs(quick=quick, trials=trials),
         ),
+        """
     ]
 
     if graph_index is not None:
